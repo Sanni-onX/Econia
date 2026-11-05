@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-11-05T16:14:02.738Z",
+  "token": {
+    "spec": "ft-1.0.0",
+    "name": "Econia Test ECO",
+    "symbol": "ECO",
+    "icon": null,
+    "reference": null,
+    "reference_hash": null,
+    "decimals": 3
+  },
+  "totalSupply": "1000000000",
+  "custody": "505892000",
+  "accounted": "505892000",
+  "custodyBalanced": true,
+  "lastBatch": 51,
+  "nftSupply": "79",
+  "miraTreasury": "25092",
+  "miraSponsorship": "100000",
+  "sponsorshipHash": "9SfLM5sCN2J8LM9otEVooWsCEJcxy5crSvy61bGfvLig",
+  "marketplaceHash": "AMwSgpGopqwEg6AQqZWmKvsDQ5QATnh6grCfFiPSr8h2",
+  "marketplaceOwner": "econia-59d0188be1.testnet",
+  "marketplaceIdentityPreserved": true
+}

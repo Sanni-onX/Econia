@@ -1,0 +1,31 @@
+{
+  "network": "testnet",
+  "transactions": [
+    {
+      "label": "Finite faucet claim: 250 existing ECO",
+      "hash": "HvjGbN5uDWu533mfpv8bnP2VkBhMBzmgSobw5UkEBHWJ",
+      "explorer": "https://testnet.nearblocks.io/txns/HvjGbN5uDWu533mfpv8bnP2VkBhMBzmgSobw5UkEBHWJ"
+    },
+    {
+      "label": "Escrow 10 ECO offer",
+      "hash": "2MmH4VVX3ocXPyiCaAph2E3HXvFp3Pu2t1PeLmiDb71B",
+      "explorer": "https://testnet.nearblocks.io/txns/2MmH4VVX3ocXPyiCaAph2E3HXvFp3Pu2t1PeLmiDb71B"
+    },
+    {
+      "label": "Cancel offer and release escrow credit",
+      "hash": "BLX7J1ihSVFg4XYwQffwHLyTWwDqd3PosFh8wK9UwXcd",
+      "explorer": "https://testnet.nearblocks.io/txns/BLX7J1ihSVFg4XYwQffwHLyTWwDqd3PosFh8wK9UwXcd"
+    },
+    {
+      "label": "Withdraw released 10 ECO to wallet",
+      "hash": "E8HCaXaPXm98VqNLrPEU6kKNiuwsWeDSr9kC1c7zDyqc",
+      "explorer": "https://testnet.nearblocks.io/txns/E8HCaXaPXm98VqNLrPEU6kKNiuwsWeDSr9kC1c7zDyqc"
+    }
+  ],
+  "faucetPreservedSupply": true,
+  "walletBefore": "493858000",
+  "offered": true,
+  "walletAfter": "493858000",
+  "roundTripBalanced": true,
+  "verifiedAt": "2026-11-05T16:16:23.166Z"
+}

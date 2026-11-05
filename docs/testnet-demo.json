@@ -1,0 +1,24 @@
+{
+  "network": "testnet",
+  "owner": "econia-59d0188be1.testnet",
+  "transactions": [
+    {
+      "label": "Sponsor Mira with 100 actual test ECO",
+      "hash": "9SfLM5sCN2J8LM9otEVooWsCEJcxy5crSvy61bGfvLig",
+      "explorer": "https://testnet.nearblocks.io/txns/9SfLM5sCN2J8LM9otEVooWsCEJcxy5crSvy61bGfvLig"
+    }
+  ],
+  "sponsorshipHash": "9SfLM5sCN2J8LM9otEVooWsCEJcxy5crSvy61bGfvLig",
+  "cycle": 10,
+  "mira": {
+    "cash": 35388,
+    "sponsorship": 100000,
+    "netWorth": 136474
+  },
+  "business": {
+    "owner": "person_199",
+    "entity": "business_13",
+    "bps": 10000
+  },
+  "verifiedAt": "2026-11-05T15:51:50.048Z"
+}

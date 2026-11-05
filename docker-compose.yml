@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: econia
+      POSTGRES_USER: econia
+      POSTGRES_PASSWORD: local_econia_only
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["econia_pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U econia"]
+      interval: 5s
+      retries: 10
+volumes:
+  econia_pg:

@@ -1,0 +1,131 @@
+{
+  "network": "testnet",
+  "entityId": "person_104",
+  "before": {
+    "id": "person_104",
+    "name": "Sana #104",
+    "type": "PERSON",
+    "owner": "eco.econia-59d0188be1.testnet",
+    "generation": 0,
+    "createdCycle": 0,
+    "capabilities": [
+      "HOLD_FUNDS",
+      "OWN",
+      "TRADE",
+      "WORK",
+      "CREATE_BUSINESS",
+      "INVEST"
+    ],
+    "cash": 37544,
+    "genesisCapital": 379000,
+    "inventory": {
+      "BREAD": 1
+    },
+    "equipment": [],
+    "skills": {
+      "cooking": 77,
+      "farming": 71,
+      "trading": 56,
+      "negotiation": 49,
+      "management": 35,
+      "transport": 56.220000000000034
+    },
+    "traits": {
+      "ambition": 86,
+      "patience": 50,
+      "frugality": 50,
+      "adaptability": 60,
+      "riskTolerance": 50
+    },
+    "policy": {
+      "risk": "MEDIUM",
+      "growth": "BALANCED",
+      "reserve": 12000,
+      "debtCeiling": 0,
+      "mayCreate": true,
+      "mayInvest": false,
+      "majorAssetSale": "OWNER_APPROVAL"
+    },
+    "sponsorship": 0,
+    "revenue": 16500,
+    "expenses": 29956,
+    "debt": 0,
+    "reputation": 50.10999999999998,
+    "interactions": 10,
+    "status": "ACTIVE",
+    "district": "Commons",
+    "goal": "Build a profitable food company.",
+    "provider": "rules",
+    "role": "Food artisan",
+    "netWorth": 307058,
+    "generatedWealth": -71942,
+    "capitalEfficiency": null,
+    "sponsorDependence": 0
+  },
+  "hash": "AMwSgpGopqwEg6AQqZWmKvsDQ5QATnh6grCfFiPSr8h2",
+  "explorer": "https://testnet.nearblocks.io/txns/AMwSgpGopqwEg6AQqZWmKvsDQ5QATnh6grCfFiPSr8h2",
+  "after": {
+    "id": "person_104",
+    "name": "Sana #104",
+    "type": "PERSON",
+    "owner": "econia-59d0188be1.testnet",
+    "generation": 0,
+    "createdCycle": 0,
+    "capabilities": [
+      "HOLD_FUNDS",
+      "OWN",
+      "TRADE",
+      "WORK",
+      "CREATE_BUSINESS",
+      "INVEST"
+    ],
+    "cash": 37544,
+    "genesisCapital": 379000,
+    "inventory": {
+      "BREAD": 1
+    },
+    "equipment": [],
+    "skills": {
+      "cooking": 77,
+      "farming": 71,
+      "trading": 56,
+      "negotiation": 49,
+      "management": 35,
+      "transport": 56.220000000000034
+    },
+    "traits": {
+      "ambition": 86,
+      "patience": 50,
+      "frugality": 50,
+      "adaptability": 60,
+      "riskTolerance": 50
+    },
+    "policy": {
+      "risk": "MEDIUM",
+      "growth": "BALANCED",
+      "reserve": 12000,
+      "debtCeiling": 0,
+      "mayCreate": true,
+      "mayInvest": false,
+      "majorAssetSale": "OWNER_APPROVAL"
+    },
+    "sponsorship": 0,
+    "revenue": 16500,
+    "expenses": 29956,
+    "debt": 0,
+    "reputation": 50.10999999999998,
+    "interactions": 10,
+    "status": "ACTIVE",
+    "district": "Commons",
+    "goal": "Build a profitable food company.",
+    "provider": "rules",
+    "role": "Food artisan",
+    "netWorth": 307058,
+    "generatedWealth": -71942,
+    "capitalEfficiency": null,
+    "sponsorDependence": 0
+  },
+  "ownerVerified": true,
+  "identityPreserved": true,
+  "verifiedAt": "2026-11-05T16:02:40.640Z"
+}

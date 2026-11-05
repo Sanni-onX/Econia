@@ -1,0 +1,10 @@
+{
+  "goods": {"GRAIN":{"name":"Grain","price":1500},"FLOUR":{"name":"Flour","price":2600},"BREAD":{"name":"Bread","price":3200},"ENERGY":{"name":"Energy","price":900}},
+  "recipes": {
+    "FARMING":{"inputs":{"ENERGY":1},"outputs":{"GRAIN":8},"equipment":"FARM_EQUIPMENT","skill":"farming","threshold":20,"capacity":3},
+    "MILLING":{"inputs":{"GRAIN":3,"ENERGY":1},"outputs":{"FLOUR":4},"equipment":"MILL","skill":"trading","threshold":20,"capacity":3},
+    "FOOD":{"inputs":{"FLOUR":2,"ENERGY":1},"outputs":{"BREAD":4},"equipment":"OVEN","skill":"cooking","threshold":30,"capacity":3},
+    "TRANSPORT":{"inputs":{},"outputs":{"ENERGY":5},"equipment":"VEHICLE","skill":"transport","threshold":20,"capacity":2}
+  },
+  "events":{"DROUGHT":{"good":"GRAIN","factor":0.6,"duration":20},"TRANSPORT_DISRUPTION":{"good":"ENERGY","factor":0.5,"duration":12},"BUMPER_HARVEST":{"good":"GRAIN","factor":1.4,"duration":16},"DEMAND_SURGE":{"good":"BREAD","factor":1.4,"duration":16},"ENERGY_SHORTAGE":{"good":"ENERGY","factor":0.5,"duration":15}}
+}

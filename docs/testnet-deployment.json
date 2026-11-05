@@ -1,0 +1,168 @@
+{
+  "network": "testnet",
+  "owner": "econia-59d0188be1.testnet",
+  "eco": "eco.econia-59d0188be1.testnet",
+  "world": "world.econia-59d0188be1.testnet",
+  "transactions": [
+    {
+      "label": "Create eco.econia-59d0188be1.testnet",
+      "hash": "FtSysPpPst3eiWB8xv8LWGhmVK56T8ZSCiTk3bEU2yMR",
+      "explorer": "https://testnet.nearblocks.io/txns/FtSysPpPst3eiWB8xv8LWGhmVK56T8ZSCiTk3bEU2yMR"
+    },
+    {
+      "label": "Create world.econia-59d0188be1.testnet",
+      "hash": "9kXxZbjTWfQWvoYyCQRBK9AnqJVZ3XNXiwwr3yVXiY1J",
+      "explorer": "https://testnet.nearblocks.io/txns/9kXxZbjTWfQWvoYyCQRBK9AnqJVZ3XNXiwwr3yVXiY1J"
+    },
+    {
+      "label": "Fund contract storage eco.econia-59d0188be1.testnet",
+      "hash": "DUwbRkq2g3cckY2B2KC33hhVqenMvb18WuUMX4aCR8ZP",
+      "explorer": "https://testnet.nearblocks.io/txns/DUwbRkq2g3cckY2B2KC33hhVqenMvb18WuUMX4aCR8ZP"
+    },
+    {
+      "label": "Deploy econia_eco.wasm",
+      "hash": "4VN1Bc5pieGqtqG23PajjdAwB1irDNTz9pDyy8Q3z1FA",
+      "explorer": "https://testnet.nearblocks.io/txns/4VN1Bc5pieGqtqG23PajjdAwB1irDNTz9pDyy8Q3z1FA"
+    },
+    {
+      "label": "Deploy econia_world.wasm",
+      "hash": "7649dvKbkioMMLtem8D2HnKYzWMdo7GECuEAELG398NG",
+      "explorer": "https://testnet.nearblocks.io/txns/7649dvKbkioMMLtem8D2HnKYzWMdo7GECuEAELG398NG"
+    },
+    {
+      "label": "Register owner in world",
+      "hash": "9pUoWQxLiUV9G5PbH6X8EL6gLFaqd1RZGM7oZzcWWHAm",
+      "explorer": "https://testnet.nearblocks.io/txns/9pUoWQxLiUV9G5PbH6X8EL6gLFaqd1RZGM7oZzcWWHAm"
+    },
+    {
+      "label": "Fund contract storage eco.econia-59d0188be1.testnet",
+      "hash": "EaaiDenHUEmtzVL1JxUhpVAGqtm7mA5uvUoqAPfQwjJZ",
+      "explorer": "https://testnet.nearblocks.io/txns/EaaiDenHUEmtzVL1JxUhpVAGqtm7mA5uvUoqAPfQwjJZ"
+    },
+    {
+      "label": "Deploy econia_eco.wasm",
+      "hash": "8nSf2QDC22GYzsBtKxXkKXybHwFkz96szkQZLgQuuKcK",
+      "explorer": "https://testnet.nearblocks.io/txns/8nSf2QDC22GYzsBtKxXkKXybHwFkz96szkQZLgQuuKcK"
+    },
+    {
+      "label": "Deploy econia_world.wasm",
+      "hash": "BNF9BFTcESKWWpeK4JfKmATjiU1ERTxSHskLty8q3sC9",
+      "explorer": "https://testnet.nearblocks.io/txns/BNF9BFTcESKWWpeK4JfKmATjiU1ERTxSHskLty8q3sC9"
+    },
+    {
+      "label": "Mint genesis entities 1–10",
+      "hash": "xtqb6J4jXdphhrdHtHmQ8KW4xZk8tRtJBuaALaxntm8",
+      "explorer": "https://testnet.nearblocks.io/txns/xtqb6J4jXdphhrdHtHmQ8KW4xZk8tRtJBuaALaxntm8"
+    },
+    {
+      "label": "Mint genesis entities 11–20",
+      "hash": "7JZXVkEuPU2vMiJhAtthZXsEEJkVrG81MxRFkJByqDwM",
+      "explorer": "https://testnet.nearblocks.io/txns/7JZXVkEuPU2vMiJhAtthZXsEEJkVrG81MxRFkJByqDwM"
+    },
+    {
+      "label": "Mint genesis entities 21–30",
+      "hash": "ENGjx9124UZq1Uu9soiZiCQ4QxGfN1qisvqTzEpxXqMA",
+      "explorer": "https://testnet.nearblocks.io/txns/ENGjx9124UZq1Uu9soiZiCQ4QxGfN1qisvqTzEpxXqMA"
+    },
+    {
+      "label": "Mint genesis entities 31–40",
+      "hash": "CtPEtLSNHHJSCtAhoWyzsSs3s5NwP3cPZ1kZQGPLD2rZ",
+      "explorer": "https://testnet.nearblocks.io/txns/CtPEtLSNHHJSCtAhoWyzsSs3s5NwP3cPZ1kZQGPLD2rZ"
+    },
+    {
+      "label": "Mint genesis entities 41–50",
+      "hash": "ASua49AKAP7zwHjckWYq6Xhbf6QppdcREFdALvQuRarD",
+      "explorer": "https://testnet.nearblocks.io/txns/ASua49AKAP7zwHjckWYq6Xhbf6QppdcREFdALvQuRarD"
+    },
+    {
+      "label": "Mint genesis entities 51–60",
+      "hash": "2UmCrcjUnbWxK9G7jTFQywV98yLL59uSBoHVg55QfWYk",
+      "explorer": "https://testnet.nearblocks.io/txns/2UmCrcjUnbWxK9G7jTFQywV98yLL59uSBoHVg55QfWYk"
+    },
+    {
+      "label": "Rebalance project deployment gas",
+      "hash": "EJvgXgiggnUuD7F8Wj648b4Pyn9h3YN1t1yVRMQyEEaA",
+      "explorer": "https://testnet.nearblocks.io/txns/EJvgXgiggnUuD7F8Wj648b4Pyn9h3YN1t1yVRMQyEEaA"
+    },
+    {
+      "label": "Mint genesis entities 1–10",
+      "hash": "FgbDxtx1oht7UaGV7YjdQ8kLDucqoRyz371PKf2RqwYA",
+      "explorer": "https://testnet.nearblocks.io/txns/FgbDxtx1oht7UaGV7YjdQ8kLDucqoRyz371PKf2RqwYA"
+    },
+    {
+      "label": "Mint genesis entities 11–18",
+      "hash": "7j57QXtg5MNqN7CdjW6seZ6EBAAxfb28PHsLtXJ2e5qX",
+      "explorer": "https://testnet.nearblocks.io/txns/7j57QXtg5MNqN7CdjW6seZ6EBAAxfb28PHsLtXJ2e5qX"
+    },
+    {
+      "label": "Fund genesis treasuries 1–20",
+      "hash": "F6Fb1FN2T58LYmVnCfQh9F7msUFYcysMVAtqX4hMWmGB",
+      "explorer": "https://testnet.nearblocks.io/txns/F6Fb1FN2T58LYmVnCfQh9F7msUFYcysMVAtqX4hMWmGB"
+    },
+    {
+      "label": "Fund genesis treasuries 21–40",
+      "hash": "Fx7KPD7LLFD7Wg5vFsB1QxL1tYizqREF13es96a8d3fn",
+      "explorer": "https://testnet.nearblocks.io/txns/Fx7KPD7LLFD7Wg5vFsB1QxL1tYizqREF13es96a8d3fn"
+    },
+    {
+      "label": "Fund genesis treasuries 41–60",
+      "hash": "3FN2iijwyVvEPet6vPpwxGdir4qw3aD6amWGnzZNB1Fm",
+      "explorer": "https://testnet.nearblocks.io/txns/3FN2iijwyVvEPet6vPpwxGdir4qw3aD6amWGnzZNB1Fm"
+    },
+    {
+      "label": "Fund genesis treasuries 61–78",
+      "hash": "E7BPgr1ifQLpB7sHZR8xFjFWmbfUgRZ9odNJGivPR4WK",
+      "explorer": "https://testnet.nearblocks.io/txns/E7BPgr1ifQLpB7sHZR8xFjFWmbfUgRZ9odNJGivPR4WK"
+    },
+    {
+      "label": "Register genesis distribution seller",
+      "hash": "DNwuxsGzU2anZFZ5CYNqsDn99WW6mVmMpNtWXbqDmTe7",
+      "explorer": "https://testnet.nearblocks.io/txns/DNwuxsGzU2anZFZ5CYNqsDn99WW6mVmMpNtWXbqDmTe7"
+    },
+    {
+      "label": "Rebalance project deployment gas",
+      "hash": "VBSYA2xDVwWHwPUWmJPvc48iFnAEDmY1X1qAh58f2mq",
+      "explorer": "https://testnet.nearblocks.io/txns/VBSYA2xDVwWHwPUWmJPvc48iFnAEDmY1X1qAh58f2mq"
+    },
+    {
+      "label": "Fund distribution listing gas",
+      "hash": "6Riw4chbHfYNjJgzs7WYnZtMJBzGoyfSmGdVejL2qRjf",
+      "explorer": "https://testnet.nearblocks.io/txns/6Riw4chbHfYNjJgzs7WYnZtMJBzGoyfSmGdVejL2qRjf"
+    },
+    {
+      "label": "List founding Living Assets",
+      "hash": "9RwdBwg3E8gHVhbx94Uv1qM5xJGd2WaoDRd3EcMwc3Qj",
+      "explorer": "https://testnet.nearblocks.io/txns/9RwdBwg3E8gHVhbx94Uv1qM5xJGd2WaoDRd3EcMwc3Qj"
+    },
+    {
+      "label": "Install restricted simulation operator key",
+      "hash": "FnH93a6xnvtq1YzPEx4VchzdGYTFBAnzCjVRNmLpF7Wc",
+      "explorer": "https://testnet.nearblocks.io/txns/FnH93a6xnvtq1YzPEx4VchzdGYTFBAnzCjVRNmLpF7Wc"
+    },
+    {
+      "label": "Deploy econia_eco.wasm",
+      "hash": "5HwE6nnvdtgHPBstHFvxZs1paT8FXhsgyHoSxtV72DBX",
+      "explorer": "https://testnet.nearblocks.io/txns/5HwE6nnvdtgHPBstHFvxZs1paT8FXhsgyHoSxtV72DBX"
+    }
+  ],
+  "econia_eco.wasmDigest": "69bc47b092023c74710bbcbae820b1f592d2dd6c97f3824e6285db9e9ad7eff3",
+  "econia_world.wasmDigest": "dbae31eb380b8e29dfcd1b208fe85e1a4055ee91e8af768c412640454b6cc0ae",
+  "token": {
+    "spec": "ft-1.0.0",
+    "name": "Econia Test ECO",
+    "symbol": "ECO",
+    "icon": null,
+    "reference": null,
+    "reference_hash": null,
+    "decimals": 3
+  },
+  "totalSupply": "1000000000",
+  "verifiedAt": "2026-11-05T16:01:18.956Z",
+  "genesis": {
+    "seed": "econia-genesis-1",
+    "population": 64,
+    "entities": 78,
+    "entityTreasuryTotal": "505661000",
+    "cycle": 0
+  }
+}

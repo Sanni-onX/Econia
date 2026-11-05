@@ -1,0 +1,33 @@
+{
+  "name": "econia",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "start": "node apps/api/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:soak": "node scripts/soak.mjs",
+    "build": "npm run build --workspace apps/web",
+    "db:migrate": "node packages/database/migrate.mjs",
+    "start:testnet": "node --env-file-if-exists=.env scripts/start-testnet.mjs",
+    "contracts:test": "cargo test --manifest-path packages/contracts/Cargo.toml --locked",
+    "contracts:build": "cargo build --manifest-path packages/contracts/Cargo.toml --target wasm32-unknown-unknown --release --locked",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "verify:testnet": "node scripts/verify-testnet.mjs"
+  },
+  "dependencies": {
+    "near-api-js": "7.2.0",
+    "near-seed-phrase": "^0.2.1",
+    "pg": "^8.16.3"
+  },
+  "engines": {
+    "node": ">=22.13.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1"
+  }
+}
