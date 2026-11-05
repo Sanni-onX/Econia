@@ -1,3 +1,4 @@
+import { CityExperience } from "./CityExperience.jsx";
 import React, { useState, useEffect, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.css";
@@ -722,6 +723,13 @@ function Explorer({ w, onEntity, businesses = false, portfolio = false }) {
               {e.role || e.industry} <span>·</span> {e.district}
             </p>
             <div className="card-goal">“{e.goal}”</div>
+            <p className="listing-life">
+              {w.decisions.filter((d) => d.entityId === e.id).at(-1)?.reason ||
+                "An economic life is taking shape."}
+            </p>
+            <button className="world-link" onClick={() => onEntity(e.id)}>
+              Explore their life, connections & history ↗
+            </button>
             <div className="card-stat-row">
               <span>
                 Economic NAV
@@ -1247,7 +1255,10 @@ function Markets({ w }) {
               </div>
               <h2>{g.toLowerCase()}</h2>
               <div className="good-price">
-                {format(p, 2)} <small>u / item</small>
+                {format(p, 2)}{" "}
+                <small>
+                  <Unit /> / item
+                </small>
               </div>
               <Spark
                 values={vals}
@@ -1515,6 +1526,13 @@ function Marketplace({ w, onEntity, onTrade }) {
                 <span>↗</span>
               </button>
               <div className="card-goal">“{e.goal}”</div>
+              <p className="listing-life">
+                {w.decisions.filter((d) => d.entityId === e.id).at(-1)
+                  ?.reason || "An economic life is taking shape."}
+              </p>
+              <button className="world-link" onClick={() => onEntity(e.id)}>
+                Explore their life, connections & history ↗
+              </button>
               <div className="data-row">
                 <span>Economic NAV</span>
                 <strong>
@@ -1522,9 +1540,9 @@ function Marketplace({ w, onEntity, onTrade }) {
                 </strong>
               </div>
               <div className="data-row">
-                <span>Owner sponsor capital</span>
+                <span>Entity treasury</span>
                 <strong>
-                  {format(e.sponsorship)} <Unit />
+                  {format(e.cash)} <Unit />
                 </strong>
               </div>
               <div className="data-row">
@@ -1586,6 +1604,25 @@ async function ingestReceipt(operation) {
         sender: operation.sender,
       });
       sessionStorage.removeItem("econia-pending");
+      if (operation.kind === "SPONSOR") {
+        try {
+          const previous = JSON.parse(
+            localStorage.getItem("econia-followed") || "[]",
+          );
+          localStorage.setItem(
+            "econia-followed",
+            JSON.stringify([
+              ...new Set([
+                ...(Array.isArray(previous) ? previous : []),
+                operation.entityId,
+              ]),
+            ]),
+          );
+        } catch {}
+        window.dispatchEvent(
+          new CustomEvent("econia-sponsored", { detail: operation.entityId }),
+        );
+      }
       return result;
     } catch (error) {
       if (
@@ -1762,7 +1799,8 @@ function Modal({ title, children, onClose }) {
   );
 }
 function ActionModal({ modal, w, onClose, notify }) {
-  const { mode, wallet, selector } = React.useContext(WorldContext);
+  const { mode, wallet, selector, owner, onConnect } =
+    React.useContext(WorldContext);
   const [walletBalance, setWalletBalance] = useState(null);
   useEffect(() => {
     if (mode === "testnet" && wallet)
@@ -1883,6 +1921,10 @@ function ActionModal({ modal, w, onClose, notify }) {
           return;
         }
       }
+      if (modal.type === "SPONSOR")
+        window.dispatchEvent(
+          new CustomEvent("econia-sponsored", { detail: e.id }),
+        );
       notify(
         modal.type === "SPONSOR"
           ? "Capital received. The entity will evaluate its next move."
@@ -1996,7 +2038,7 @@ function ActionModal({ modal, w, onClose, notify }) {
                   onChange={(e) => setAmount(e.target.value)}
                   aria-label="Amount"
                 />
-                <span>u</span>
+                <span>{mode === "testnet" ? "ECO" : "units"}</span>
               </div>
             </label>
           )}
@@ -2009,7 +2051,7 @@ function ActionModal({ modal, w, onClose, notify }) {
                     className={Number(amount) === n ? "selected" : ""}
                     onClick={() => setAmount(String(n))}
                   >
-                    {n} u
+                    {n} {mode === "testnet" ? "ECO" : "units"}
                   </button>
                 ))}
               </div>
@@ -2040,23 +2082,39 @@ function ActionModal({ modal, w, onClose, notify }) {
               {mode === "testnet" ? "Wallet balance" : "Local account balance"}
             </span>
             <strong>
-              {format(
-                mode === "testnet"
-                  ? walletBalance
-                  : w.entities.find((e) => e.id === "player")?.cash,
-              )}{" "}
+              {mode === "testnet" && walletBalance === null
+                ? "Connect to view"
+                : format(
+                    mode === "testnet"
+                      ? walletBalance
+                      : w.entities.find((e) => e.id === "player")?.cash,
+                  )}{" "}
               <Unit />
             </strong>
           </div>
         </>
       )}
+      {modal.type === "SPONSOR" && (
+        <p className="notice">
+          Preview: {e.name} receives {amount}{" "}
+          {mode === "testnet" ? "test ECO" : "simulation units"}.{" "}
+          {e.name.split(" ")[0]} chooses how to use it. The current contract
+          allows sponsorship only by the entity’s owner.
+        </p>
+      )}
       <p className="modal-note">
         {modal.type === "SPONSOR"
-          ? "Capital creates opportunity. The entity chooses how to deploy it within your strategy constraints. Sponsorship is not refundable and does not promise a return."
+          ? "Capital creates opportunity. The entity chooses how to deploy it within your strategy constraints. Sponsorship transfers no ownership, is not refundable and does not guarantee any return. Follow their story to see how the capital is used."
           : mode === "testnet"
             ? "Confirm in your NEAR wallet. Transaction amounts and any storage registration costs appear there before signing."
             : "This is a local simulation operation. No wallet signature or NEAR transaction will occur."}
       </p>
+      {w.settlementDelayed && (
+        <p className="form-error">
+          Settlement is delayed. You can explore this preview; participation
+          resumes when settlement recovers.
+        </p>
+      )}
       {error && (
         <p className="form-error" role="alert">
           {error}
@@ -2064,32 +2122,38 @@ function ActionModal({ modal, w, onClose, notify }) {
       )}
       <button
         className="button primary full"
-        disabled={pending}
-        onClick={submit}
+        disabled={
+          pending ||
+          (Boolean(wallet) && w.settlementDelayed) ||
+          (modal.type === "SPONSOR" && Boolean(wallet) && e.owner !== owner)
+        }
+        onClick={mode === "testnet" && !wallet ? onConnect : submit}
       >
-        {pending
-          ? "Settling…"
-          : modal.type === "CANCEL_OFFER"
-            ? "Cancel offer in wallet"
-            : modal.type === "ACCEPT_OFFER"
-              ? "Accept offer in wallet"
-              : modal.type === "POLICY"
-                ? "Save strategy"
-                : modal.type === "SPONSOR"
-                  ? mode === "testnet"
-                    ? "Sponsor with test ECO"
-                    : "Confirm local sponsorship"
-                  : modal.type === "LIST"
+        {mode === "testnet" && !wallet
+          ? "Connect wallet to participate"
+          : pending
+            ? "Settling…"
+            : modal.type === "CANCEL_OFFER"
+              ? "Cancel offer in wallet"
+              : modal.type === "ACCEPT_OFFER"
+                ? "Accept offer in wallet"
+                : modal.type === "POLICY"
+                  ? "Save strategy"
+                  : modal.type === "SPONSOR"
                     ? mode === "testnet"
-                      ? "Sign testnet listing"
-                      : "Create local listing"
-                    : modal.type === "OFFER"
+                      ? "Sponsor with test ECO"
+                      : "Confirm local sponsorship"
+                    : modal.type === "LIST"
                       ? mode === "testnet"
-                        ? "Submit ECO offer"
-                        : "Submit local offer"
-                      : mode === "testnet"
-                        ? "Purchase with test ECO"
-                        : "Confirm local acquisition"}{" "}
+                        ? "Sign testnet listing"
+                        : "Create local listing"
+                      : modal.type === "OFFER"
+                        ? mode === "testnet"
+                          ? "Submit ECO offer"
+                          : "Submit local offer"
+                        : mode === "testnet"
+                          ? "Purchase with test ECO"
+                          : "Confirm local acquisition"}{" "}
         <span>↗</span>
       </button>
     </Modal>
@@ -2097,8 +2161,9 @@ function ActionModal({ modal, w, onClose, notify }) {
 }
 function App() {
   const [w, setW] = useState(null),
-    [page, setPage] = useState("World"),
-    [selected, setSelected] = useState(null),
+    [page, setPage] = useState(
+      new URLSearchParams(location.search).has("dev") ? "Development" : "World",
+    ),
     [modal, setModal] = useState(null),
     [walletModal, setWalletModal] = useState(false),
     [wallet, setWallet] = useState(null),
@@ -2107,9 +2172,7 @@ function App() {
     [claiming, setClaiming] = useState(false),
     [accountBalance, setAccountBalance] = useState(null),
     [toast, setToast] = useState(null),
-    [connection, setConnection] = useState("connecting"),
-    [search, setSearch] = useState(""),
-    [mobileNav, setMobileNav] = useState(false);
+    [connection, setConnection] = useState("connecting");
   const live = w?.mode === "testnet",
     owner = live ? wallet : "demo.local";
   useEffect(() => {
@@ -2150,28 +2213,8 @@ function App() {
   const notify = (text, error = false) => setToast({ text, error });
   const navigate = (page) => {
     setPage(page);
-    setSelected(null);
-    setMobileNav(false);
     window.scrollTo(0, 0);
   };
-  const openEntity = (id) => {
-    setSelected(id);
-    window.scrollTo(0, 0);
-  };
-  const e = w?.entities.find((x) => x.id === selected);
-  const results = useMemo(
-    () =>
-      search && w
-        ? w.entities
-            .filter((e) =>
-              `${e.name} ${e.role || ""}`
-                .toLowerCase()
-                .includes(search.toLowerCase()),
-            )
-            .slice(0, 6)
-        : [],
-    [search, w],
-  );
   async function connect() {
     try {
       setWalletError("");
@@ -2252,242 +2295,31 @@ function App() {
   }
   return (
     <WorldContext.Provider
-      value={{ owner, mode: live ? "testnet" : "sandbox", wallet, selector }}
+      value={{
+        owner,
+        mode: live ? "testnet" : "sandbox",
+        wallet,
+        selector,
+        onConnect: () => setWalletModal(true),
+      }}
     >
-      <div className={"app " + (live ? "testnet-mode" : "")}>
-        <aside className={"sidebar " + (mobileNav ? "open" : "")}>
-          <a
-            className="brand"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("World");
-            }}
-          >
-            <span className="brand-symbol">E</span>econia
-            <span className="brand-period">.</span>
-          </a>
-          <div className="sidebar-world">
-            <span className="world-orb">◈</span>
-            <span>
-              Genesis world
-              <small>
-                <span className="live-dot" />{" "}
-                {connection === "live"
-                  ? "Economy in motion"
-                  : "Connecting to world"}
-              </small>
-            </span>
-            <span>⌄</span>
-          </div>
-          <div className="nav-label">EXPLORE THE ECONOMY</div>
-          <nav>
-            {[
-              "World",
-              "Entities",
-              "Businesses",
-              "Markets",
-              "Marketplace",
-              "Chronicle",
-              "Leaderboards",
-            ].map((name) => (
-              <button
-                key={name}
-                className={page === name && !e ? "active" : ""}
-                onClick={() => navigate(name)}
-              >
-                <Icon name={name} />
-                <span>
-                  {name === "Entities"
-                    ? "Living entities"
-                    : name === "World"
-                      ? "World overview"
-                      : name}
-                </span>
-                {name === "Chronicle" && <span className="nav-new" />}
-                {name === "World" && <span className="nav-active-dot" />}
-              </button>
-            ))}
-          </nav>
-          <div className="nav-label personal-label">YOUR ECONIA</div>
-          <nav>
-            <button
-              className={page === "Portfolio" && !e ? "active" : ""}
-              onClick={() => navigate("Portfolio")}
-            >
-              <Icon name="Portfolio" />
-              My entities
-              <span className="nav-count">
-                {w?.entities.filter(
-                  (e) => e.type === "PERSON" && e.owner === owner,
-                ).length || 0}
-              </span>
-            </button>
-          </nav>
-          <div className="sidebar-bottom">
-            <div className="sidebar-note">
-              <span>
-                PLAY A PART.
-                <br />
-                LET LIFE HAPPEN.
-              </span>
-              <p>
-                You create opportunity.
-                <br />
-                They decide what comes next.
-              </p>
-              <span className="small-arrow">↗</span>
-            </div>
-            <button
-              className="dev-link"
-              onClick={() => navigate("Development")}
-            >
-              <Icon name="Development" /> Development console
-            </button>
-            <div className="sidebar-version">
-              <span>ECONIA v0.1</span>
-              <span>NEAR ↗</span>
-            </div>
-          </div>
-        </aside>
-        <div className="main-shell">
-          <header className="topbar">
-            <button
-              className="mobile-menu"
-              aria-label="Toggle navigation"
-              onClick={() => setMobileNav(!mobileNav)}
-            >
-              ☰
-            </button>
-            <div className="breadcrumb">
-              Genesis world <span>/</span>{" "}
-              <strong>
-                {e ? e.name : page === "World" ? "World overview" : page}
-              </strong>
-            </div>
-            <div className="global-search">
-              <span>⌕</span>
-              <input
-                aria-label="Search the world"
-                placeholder="Find an entity…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              {search && (
-                <div className="search-results">
-                  {results.map((e) => (
-                    <button
-                      key={e.id}
-                      onClick={() => {
-                        openEntity(e.id);
-                        setSearch("");
-                      }}
-                    >
-                      <Avatar entity={e} size={30} />
-                      {e.name}
-                      <span>↗</span>
-                    </button>
-                  ))}
-                  {!results.length && <p>No matching entities.</p>}
-                </div>
-              )}
-            </div>
-            <div className="cycle-pill">
-              <span className="live-dot" /> CYCLE{" "}
-              <strong>{w ? number(w.cycle) : "—"}</strong>
-            </div>
-            <button
-              className="wallet-button"
-              onClick={() => setWalletModal(true)}
-            >
-              <span>◈</span>
-              {wallet ? wallet : "Connect wallet"}
-              <span>↗</span>
-            </button>
-          </header>
-          <div className="sandbox-banner">
-            <span>◌</span>
-            <strong>{live ? "NEAR TESTNET" : "LOCAL SANDBOX"}</strong>
-            <span>
-              {live
-                ? "Real test ECO · entity treasuries settle on NEAR."
-                : "Balances use simulation units. No onchain funds move in sandbox mode."}
-            </span>
-            <Tag>{live ? "TEST ASSETS ONLY" : "NO REAL FUNDS"}</Tag>
-            {live && (
-              <a
-                href={`https://testnet.nearblocks.io/address/${w.chain.world}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                World contract ↗
-              </a>
-            )}
-          </div>
-          <main>
-            {!w ? (
-              <div className="loading">
-                <span className="world-orb">◈</span>
-                <h1>Opening a living world.</h1>
-                <p>
-                  {connection === "reconnecting"
-                    ? "Waiting for the local Econia server. Run npm run dev to start it."
-                    : "Connecting to the persistent economy…"}
-                </p>
-              </div>
-            ) : e ? (
-              <Profile
-                e={e}
-                w={w}
-                onBack={() => setSelected(null)}
-                onEntity={openEntity}
-                onSponsor={() => setModal({ type: "SPONSOR", e })}
-                onPolicy={() => setModal({ type: "POLICY", e })}
-                onList={() =>
-                  e.owner === owner
-                    ? setModal({ type: "LIST", e })
-                    : notify(
-                        "Connect the current owner wallet to list this entity.",
-                        true,
-                      )
-                }
-              />
-            ) : page === "World" ? (
-              <Overview w={w} onEntity={openEntity} navigate={navigate} />
-            ) : ["Entities", "Businesses", "Portfolio"].includes(page) ? (
-              <Explorer
-                key={page}
-                w={w}
-                onEntity={openEntity}
-                businesses={page === "Businesses"}
-                portfolio={page === "Portfolio"}
-              />
-            ) : page === "Markets" ? (
-              <Markets w={w} />
-            ) : page === "Chronicle" ? (
-              <Chronicle w={w} onEntity={openEntity} />
-            ) : page === "Leaderboards" ? (
-              <Leaderboards w={w} onEntity={openEntity} />
-            ) : page === "Marketplace" ? (
-              <Marketplace w={w} onEntity={openEntity} onTrade={setModal} />
-            ) : (
-              <Development w={w} notify={notify} />
-            )}
-          </main>
-          <footer>
-            <span>
-              <span className="live-dot" />{" "}
-              {connection === "live"
-                ? "Connected to the world"
-                : "Reconnecting to the world"}{" "}
-              <span className="footer-divider">/</span>{" "}
-              {w?.paused ? "Clock paused" : "Autonomous by design"}
-            </span>
-            <span>
-              Players create opportunity. Markets create consequences.
-            </span>
-          </footer>
-        </div>
+      <div className="city-root">
+        <CityExperience
+          w={w}
+          owner={owner}
+          wallet={wallet}
+          connection={connection}
+          page={page === "Portfolio" ? "My Econia" : page}
+          onNavigate={navigate}
+          onConnect={() => setWalletModal(true)}
+          onAction={(type, e, extra = {}) => setModal({ ...extra, type, e })}
+          onNotify={notify}
+          Avatar={Avatar}
+          Markets={Markets}
+          Marketplace={Marketplace}
+          Leaderboards={Leaderboards}
+          Development={Development}
+        />
         {modal && (
           <ActionModal
             key={modal.type + modal.e.id}

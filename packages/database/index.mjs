@@ -127,6 +127,7 @@ export async function openRepository({
       return state;
     },
     async save(w) {
+      if (w.cycle > persistedCycle) w.lastAdvancedAt = new Date().toISOString();
       await run("BEGIN");
       try {
         await run(
@@ -247,10 +248,17 @@ export async function openRepository({
         throw error;
       }
     },
-    async history(id, kind = "events") {
+    async history(id, kind = "events", important = false) {
       const table = kind === "decisions" ? "agent_decisions" : "events",
         field = kind === "decisions" ? "context" : "data";
-      const sql = `SELECT ${field} FROM ${table} WHERE entity_id=? ORDER BY cycle DESC LIMIT 250`;
+      const actionType = connection
+        ? "context::jsonb->'action'->>'type'"
+        : "json_extract(context, '$.action.type')";
+      const significant =
+        important && kind === "decisions"
+          ? ` AND ${actionType} IN ('CREATE_BUSINESS','HIRE','FIRE','INVEST','BORROW','REPAY','QUIT_JOB')`
+          : "";
+      const sql = `SELECT ${field} FROM ${table} WHERE entity_id=?${significant} ORDER BY cycle DESC LIMIT 250`;
       return connection
         ? (await connection.query(sql.replace("?", "$1"), [id])).rows.map((x) =>
             JSON.parse(x[field]),
@@ -259,6 +267,14 @@ export async function openRepository({
             .prepare(sql)
             .all(id)
             .map((x) => JSON.parse(x[field]));
+    },
+    async chronicle() {
+      const sql =
+        "SELECT data FROM events WHERE type IN ('BUSINESS_CREATED','ENTITY_FUNDED','ENTITY_HIRED','ENTITY_FIRED','NFT_SOLD','WORLD_EVENT_STARTED','WORLD_EVENT_ENDED','GENESIS','BANKRUPTCY') ORDER BY cycle DESC LIMIT 100";
+      const rows = connection
+        ? (await connection.query(sql)).rows
+        : db.prepare(sql).all();
+      return rows.map((x) => JSON.parse(x.data));
     },
     async close() {
       if (db) db.close();

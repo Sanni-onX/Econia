@@ -113,3 +113,43 @@ test("API owner controls, invalid inputs, admin authorization, sponsorship and p
     await app.close();
   }
 });
+
+test("pending settlement failure keeps the confirmed city readable and reports delay", async () => {
+  const { genesis } = await import("../packages/simulation-core/index.mjs");
+  let saved = genesis();
+  const app = await createApplication({
+    quiet: true,
+    autoTick: false,
+    repository: {
+      kind: "memory-test",
+      load: async () => structuredClone(saved),
+      save: async (w) => {
+        saved = structuredClone(w);
+      },
+      loadStage: async () => ({ pending: true }),
+      close: async () => {},
+    },
+    runtime: {
+      recover: async () => {
+        throw new Error("Test operator allowance exhausted");
+      },
+      reconcile: async () => ({ balanced: true }),
+    },
+  });
+  await new Promise((r) => app.server.listen(0, "127.0.0.1", r));
+  const base = `http://127.0.0.1:${app.server.address().port}`;
+  try {
+    const world = await (await fetch(base + "/api/world")).json();
+    assert.equal(world.cycle, 0);
+    assert.equal(world.settlementDelayed, true);
+    assert.equal(
+      (await (await fetch(base + "/api/health")).json()).status,
+      "settlement_delayed",
+    );
+    assert.ok(
+      Array.isArray(await (await fetch(base + "/api/chronicle")).json()),
+    );
+  } finally {
+    await app.close();
+  }
+});

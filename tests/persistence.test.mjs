@@ -23,6 +23,16 @@ test("normalized SQLite checkpoint survives restart without duplicate journal ev
     repo = await openRepository({ path, url: "" });
     assert.deepEqual(await repo.load(), w);
     assert.ok((await repo.history("person_199", "decisions")).length >= 5);
+    const before = await repo.history("person_199", "decisions", true);
+    assert.ok(before.some((d) => d.action.type === "CREATE_BUSINESS"));
+    for (let i = 0; i < 280; i++) tick(w);
+    await repo.save(w);
+    const important = await repo.history("person_199", "decisions", true);
+    assert.ok(important.some((d) => d.action.type === "CREATE_BUSINESS"));
+    assert.ok(
+      (await repo.chronicle()).some((e) => e.type === "BUSINESS_CREATED"),
+    );
+    assert.ok((await repo.load()).lastAdvancedAt);
     await repo.close();
   } finally {
     await rm(dir, { recursive: true, force: true });

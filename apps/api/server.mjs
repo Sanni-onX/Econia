@@ -38,15 +38,30 @@ export async function createApplication(options = {}) {
       "World and settlement modes differ. Use a separate testnet database.",
     );
   const runtime =
-    mode === "testnet"
+    options.runtime ??
+    (mode === "testnet"
       ? await (
           await import("../../packages/shared/chain-runtime.mjs")
         ).createChainRuntime(repo, world.chain)
-      : null;
+      : null);
+  let settlementDelayed = false;
   if (runtime) {
-    world = await runtime.recover(world);
+    try {
+      world = await runtime.recover(world);
+    } catch (error) {
+      if (!(await repo.loadStage())) throw error;
+      settlementDelayed = true;
+      console.error(
+        JSON.stringify({
+          level: "error",
+          message:
+            "Pending settlement delayed; serving the last confirmed checkpoint",
+          error: error.message,
+        }),
+      );
+    }
     const report = await runtime.reconcile(world);
-    if (!report.balanced)
+    if (!settlementDelayed && !report.balanced)
       throw new Error(
         "Onchain reconciliation failed: " + JSON.stringify(report),
       );
@@ -65,6 +80,7 @@ export async function createApplication(options = {}) {
         storage: repo.kind,
       }),
     );
+  const publicWorld = () => ({ ...view(world), settlementDelayed });
   let busy = false,
     intervalMs = Number(process.env.SIMULATION_INTERVAL_MS || 5000),
     timer;
@@ -75,7 +91,7 @@ export async function createApplication(options = {}) {
     (process.env.ALLOWED_ORIGINS || "").split(",").filter(Boolean),
   );
   const broadcast = () => {
-    const data = `data: ${JSON.stringify(view(world))}\n\n`;
+    const data = `data: ${JSON.stringify(publicWorld())}\n\n`;
     for (const client of clients) client.write(data);
   };
   async function mutate(fn) {
@@ -109,9 +125,12 @@ export async function createApplication(options = {}) {
       busy = true;
       try {
         world = await runtime.advance(world, count);
+        settlementDelayed = false;
         broadcast();
       } catch (error) {
         world = await repo.load();
+        settlementDelayed = true;
+        broadcast();
         throw error;
       } finally {
         busy = false;
@@ -194,14 +213,14 @@ export async function createApplication(options = {}) {
       }
       if (path === "/api/health")
         return json(res, 200, {
-          status: "ok",
+          status: settlementDelayed ? "settlement_delayed" : "ok",
           cycle: world.cycle,
           storage: repo.kind,
           mode: world.mode,
           invariants: assertInvariants(world),
         });
       if (path === "/api/world" && req.method === "GET")
-        return json(res, 200, view(world));
+        return json(res, 200, publicWorld());
       if (path === "/api/config")
         return json(res, 200, {
           mode,
@@ -220,7 +239,7 @@ export async function createApplication(options = {}) {
           "Cache-Control": "no-cache",
           Connection: "keep-alive",
         });
-        res.write(`data: ${JSON.stringify(view(world))}\n\n`);
+        res.write(`data: ${JSON.stringify(publicWorld())}\n\n`);
         clients.add(res);
         const heartbeat = setInterval(
           () => res.write(": heartbeat\n\n"),
@@ -271,6 +290,12 @@ export async function createApplication(options = {}) {
         challenges.set(challenge.id, challenge);
         return json(res, 200, challenge);
       }
+      if (path === "/api/chronicle" && req.method === "GET")
+        return json(
+          res,
+          200,
+          repo.chronicle ? await repo.chronicle() : view(world).chronicle,
+        );
       const entityMatch = path.match(
         /^\/api\/entities\/([^/]+)(?:\/(history|decisions|sponsor|policy))?$/,
       );
@@ -280,7 +305,15 @@ export async function createApplication(options = {}) {
         if (!e) return json(res, 404, { error: "Entity not found" });
         if (req.method === "GET") {
           if (action === "history" || action === "decisions")
-            return json(res, 200, await repo.history(id, action));
+            return json(
+              res,
+              200,
+              await repo.history(
+                id,
+                action,
+                url.searchParams.get("important") === "1",
+              ),
+            );
           return json(
             res,
             200,
