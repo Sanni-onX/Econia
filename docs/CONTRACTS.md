@@ -1,6 +1,6 @@
 # NEAR contracts and settlement interfaces
 
-The latest official NEAR SDK was researched before implementation. This checkout pins the compatible stable near-sdk / near-contract-standards 5.24.1 and near-sys 0.2.7; their declared minimum Rust is 1.86. The installed compiler is 1.93.1. Newer 5.30 releases require a newer compiler. Rust dependencies are locked. JavaScript uses near-api-js 7.2.0 to support the installed Node version.
+The latest official NEAR SDK was researched before implementation. This checkout pins near-sdk / near-contract-standards 5.24.1 and near-sys 0.2.7. **Use Rust 1.93.1 to reproduce the deployed build**; CI pins it explicitly. Newer compilers changed host-import linking and require an SDK/toolchain migration rather than silently changing this artifact. Newer 5.30 SDK releases require a newer compiler. Rust dependencies are locked. JavaScript uses near-api-js 7.2.0 to support the installed Node version.
 
 ## ECO
 

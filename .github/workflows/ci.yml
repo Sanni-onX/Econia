@@ -34,6 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: 1.93.1
           targets: wasm32-unknown-unknown
       - run: cargo test --manifest-path packages/contracts/Cargo.toml --locked
       - run: cargo build --manifest-path packages/contracts/Cargo.toml --release --target wasm32-unknown-unknown --locked

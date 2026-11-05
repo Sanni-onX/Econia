@@ -13,6 +13,6 @@ Implemented and locally exercised on 5 November 2026:
 
 Public chain evidence is in testnet-deployment.json, testnet-demo.json, testnet-marketplace.json and testnet-verification.json. The read-only `npm run verify:testnet` script rechecks the chain.
 
-PostgreSQL integration is conditional locally and enabled in CI. Local persistence tests use Node SQLite. A prepared-batch recovery test simulates a crash after chain acknowledgement but before durable cursor update, proving a retry does not pay twice.
+PostgreSQL integration passed in the GitHub application job; it is conditional locally. Local persistence tests use Node SQLite. A prepared-batch recovery test simulates a crash after chain acknowledgement but before durable cursor update, proving a retry does not pay twice. CI pins the same Rust 1.93.1 toolchain used for the deployed contracts; a newer runner toolchain exposed incompatible host-import linker behavior with the pinned SDK.
 
 Limits: browser wallet signing and redirects require manual testing with a user wallet; no user authentication dialog was automated. Contract unit tests do not constitute an external audit. Public hosting, a demo video and the final hackathon submission remain unverified/pending. Dependency audit: ten low-severity transitive Wallet Selector findings, no moderate/high/critical findings at inspection.
