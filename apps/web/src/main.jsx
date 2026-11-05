@@ -766,25 +766,50 @@ function Profile({ e, w, onBack, onEntity, onSponsor, onPolicy, onList }) {
   const { owner } = React.useContext(WorldContext);
   const [tab, setTab] = useState("Overview"),
     [why, setWhy] = useState(null),
-    [archived, setArchived] = useState([]);
+    [archived, setArchived] = useState([]),
+    [archivedEvents, setArchivedEvents] = useState([]);
   useEffect(() => {
-    fetch(`/api/entities/${e.id}/decisions`)
-      .then((r) => r.json())
-      .then((x) => setArchived(Array.isArray(x) ? x : []));
+    const controller = new AbortController();
+    Promise.all(
+      ["decisions", "history"].map((kind) =>
+        fetch(`/api/entities/${e.id}/${kind}`, {
+          signal: controller.signal,
+        }).then((r) => r.json()),
+      ),
+    )
+      .then(([decisions, events]) => {
+        setArchived(Array.isArray(decisions) ? decisions : []);
+        setArchivedEvents(Array.isArray(events) ? events : []);
+      })
+      .catch(() => {});
     setWhy(null);
+    return () => controller.abort();
   }, [e.id]);
   const decisions = w.decisions
       .filter((d) => d.entityId === e.id)
       .slice(-20)
       .reverse(),
-    allDecisions = decisions.length ? decisions : archived;
+    allDecisions = [
+      ...new Map(
+        [...archived.filter((d) => d.entityId === e.id), ...decisions].map(
+          (d) => [d.id, d],
+        ),
+      ).values(),
+    ]
+      .sort((a, b) => b.cycle - a.cycle)
+      .slice(0, 100);
   const holdings = w.holdings.filter((h) => h.owner === e.id),
     employment = w.jobs.find((j) => j.person === e.id),
     employees = w.jobs.filter((j) => j.business === e.id),
-    history = w.events
-      .filter((x) => x.entityId === e.id)
-      .slice(-12)
-      .reverse();
+    history = [
+      ...new Map(
+        [...archivedEvents, ...w.events]
+          .filter((x) => x.entityId === e.id)
+          .map((x) => [x.id, x]),
+      ).values(),
+    ]
+      .sort((a, b) => b.sequence - a.sequence)
+      .slice(0, 100);
   return (
     <>
       <button className="back" onClick={onBack}>
@@ -1076,10 +1101,14 @@ function Profile({ e, w, onBack, onEntity, onSponsor, onPolicy, onList }) {
                       <strong>
                         {typeof v === "object"
                           ? JSON.stringify(v)
-                          : ["cash", "reserve", "expectedBatchMargin"].includes(
-                                k,
-                              )
-                            ? format(v, 2) + " u"
+                          : [
+                                "cash",
+                                "reserve",
+                                "expectedBatchMargin",
+                                "startupCapital",
+                              ].includes(k)
+                            ? format(v, 2) +
+                              (w.mode === "testnet" ? " ECO" : " u")
                             : String(v)}
                       </strong>
                     </div>
