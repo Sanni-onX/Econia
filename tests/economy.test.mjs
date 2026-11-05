@@ -19,6 +19,16 @@ import {
   offerSandbox,
 } from "../packages/economy/marketplace.mjs";
 import { HybridAgentProvider } from "../packages/agent-sdk/index.mjs";
+test("population scaling preserves Mira and unique persistent identities", () => {
+  for (const count of [100, 1000]) {
+    const w = genesis("scale", count),
+      people = Object.values(w.entities).filter((e) => e.type === "PERSON");
+    assert.equal(people.length, count);
+    assert.equal(new Set(people.map((e) => e.id)).size, count);
+    assert.equal(w.entities.person_199.name, "Mira #199");
+    assertInvariants(w);
+  }
+});
 test("untrusted providers cannot invent recorded economic inputs", () => {
   const w = genesis(),
     before = w.entities.person_199.cash;

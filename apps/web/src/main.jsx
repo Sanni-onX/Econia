@@ -946,7 +946,7 @@ function Profile({ e, w, onBack, onEntity, onSponsor, onPolicy, onList }) {
                     {w.entities.find((e) => e.id === employment.business)?.name}{" "}
                     ↗
                   </button>{" "}
-                  · {format(employment.wage, 2)} u / cycle
+                  · {format(employment.wage, 2)} <Unit /> / work shift
                 </p>
               )}
               {employees.map((j) => (
@@ -2164,11 +2164,17 @@ function App() {
       setSelector(s);
       const provider = await s.wallet("my-near-wallet");
       const accounts = await provider.getAccounts();
-      if (accounts.length) {
-        setWallet(accounts[0].accountId);
+      const currentAccount = accounts.find((a) => a.accountId);
+      if (currentAccount) {
+        setWallet(currentAccount.accountId);
         setWalletModal(false);
       } else {
-        await provider.signIn({});
+        const signedAccounts = await provider.signIn({});
+        const signedAccount = signedAccounts?.find((a) => a.accountId);
+        if (signedAccount) {
+          setWallet(signedAccount.accountId);
+          setWalletModal(false);
+        }
       }
     } catch (error) {
       setWalletError(error.message);

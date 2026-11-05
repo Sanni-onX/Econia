@@ -143,10 +143,11 @@ export function genesis(seed = "econia-genesis-1", population = 64) {
   ];
   const roles = ["Food artisan", "Grower", "Merchant", "Courier"];
   for (let i = 0; i < population; i++) {
-    const id = i === 0 ? "person_199" : `person_${100 + i}`;
+    const personNumber = i === 0 ? 199 : 100 + i >= 199 ? 101 + i : 100 + i;
+    const id = `person_${personNumber}`;
     const e = entity(
       id,
-      `${names[i % names.length]} #${i === 0 ? 199 : 100 + i}`,
+      `${names[i % names.length]} #${personNumber}`,
       "PERSON",
       i === 0 ? 24000 : Math.floor(25 + rng() * 50) * 1000,
     );
@@ -508,7 +509,7 @@ export function execute(
       "ENTITY_HIRED",
       id,
       `${e.name} hires ${w.entities[action.personId].name}`,
-      "A new employment contract pays 1.5 units per cycle.",
+      "A new employment contract pays 1.5 units per completed work shift.",
       { personId: action.personId },
     );
   } else if (action.type === "WORK") {
