@@ -1,5 +1,15 @@
 # Validation record
 
+## NEAR AI runtime — 9 November 2026
+
+- Implemented the server-side NEAR AI adapter, bounded asynchronous planning, durable request reservations, fair planning slots, persistent outcome memory and validated engine execution.
+- Added eight tests for output validation, source attribution, ledger invariants, scheduling, SQLite restart recovery, stale owner constraints, interrupted/failed inference, request allowances, missing credentials and API integration. Full local result: 37 passed, one optional PostgreSQL integration skipped. Production build passed.
+- Provider tests use explicit mocked responses. No funded NEAR AI account was available, so live inference, model quality and end-to-end AI testnet settlement are **not verified**.
+- Read-only chain enumeration confirmed that all 64 current character IDs have NFTs. Evidence: [post-mint verification](post-mint-verification.json). This is a project-controlled founding cohort, not 64 independently onboarded users.
+- Browser checked the configuration-required panel in an isolated local world, including a 390-pixel viewport without horizontal overflow. [Screenshot](screenshots/agent-configuration.png). The temporary review server was stopped afterward.
+- Existing testnet cycle 161 and operator allowance blockage remain separate from AI configuration. No payment, sponsorship or contract-permission change was performed for this update.
+- External services, negotiation, revenue distribution and independent per-agent wallets remain outside this implemented slice. See [activation](NEAR-AI-SETUP.md) and [product direction](PRODUCT-DIRECTION.md).
+
 ## Wallet update — 9 November 2026
 
 - Added official Wallet Selector adapters for Nightly, Sender, OKX Wallet and Intear alongside MyNearWallet.

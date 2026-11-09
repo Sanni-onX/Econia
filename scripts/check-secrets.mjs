@@ -2,6 +2,17 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 const secrets = [];
+if (existsSync(".env")) {
+  for (const line of readFileSync(".env", "utf8").split(/\r?\n/)) {
+    const match = line.match(
+      /^\s*([A-Z_]*(?:KEY|TOKEN|SECRET)[A-Z_]*)\s*=\s*(.*?)\s*$/,
+    );
+    if (match) {
+      const value = match[2].replace(/^(['"])(.*)\1$/, "$2");
+      if (value.length > 8) secrets.push(value);
+    }
+  }
+}
 if (existsSync(".private"))
   for (const file of readdirSync(".private")) {
     const path = join(".private", file);

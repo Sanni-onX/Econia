@@ -14,6 +14,7 @@ import {
   catalog,
 } from "../../packages/simulation-core/index.mjs";
 import { openRepository } from "../../packages/database/index.mjs";
+import { createAgentScheduler } from "../../packages/agent-sdk/scheduler.mjs";
 import {
   listSandbox,
   buySandbox,
@@ -24,6 +25,7 @@ export async function createApplication(options = {}) {
   if (!["sandbox", "testnet"].includes(mode))
     throw new Error("Unsupported settlement mode");
   const repo = options.repository || (await openRepository());
+  const agentScheduler = options.agentScheduler ?? createAgentScheduler();
   let world = await repo.load();
   if (!world && mode === "testnet")
     throw new Error(
@@ -80,7 +82,19 @@ export async function createApplication(options = {}) {
         storage: repo.kind,
       }),
     );
-  const publicWorld = () => ({ ...view(world), settlementDelayed });
+  let agentIssue =
+    agentScheduler && !agentScheduler.ready
+      ? "NEAR AI Cloud configuration is required."
+      : null;
+  const publicWorld = () => ({
+    ...view(world),
+    settlementDelayed,
+    intelligence: {
+      mode: agentScheduler?.mode || "rules",
+      ready: agentScheduler?.ready ?? true,
+      issue: agentIssue,
+    },
+  });
   let busy = false,
     intervalMs = Number(process.env.SIMULATION_INTERVAL_MS || 5000),
     timer;
@@ -124,12 +138,39 @@ export async function createApplication(options = {}) {
       if (busy) throw new Error("Settlement is already in progress");
       busy = true;
       try {
-        world = await runtime.advance(world, count);
+        world = await runtime.advance(world, count, agentScheduler);
         settlementDelayed = false;
+        agentIssue = null;
         broadcast();
       } catch (error) {
         world = await repo.load();
-        settlementDelayed = true;
+        settlementDelayed = Boolean(await repo.loadStage());
+        if (error.code?.startsWith("AGENT_")) agentIssue = error.message;
+        broadcast();
+        throw error;
+      } finally {
+        busy = false;
+      }
+      return;
+    }
+    if (agentScheduler) {
+      if (busy) throw new Error("Agent planning is already in progress");
+      busy = true;
+      try {
+        for (let i = 0; i < count && !world.paused; i++) {
+          const provider = await agentScheduler.prepare(world, () =>
+            repo.save(world),
+          );
+          const candidate = structuredClone(world);
+          tick(candidate, provider);
+          agentScheduler.record(candidate);
+          await repo.save(candidate);
+          world = candidate;
+        }
+        agentIssue = null;
+        broadcast();
+      } catch (error) {
+        if (error.code?.startsWith("AGENT_")) agentIssue = error.message;
         broadcast();
         throw error;
       } finally {
@@ -144,6 +185,7 @@ export async function createApplication(options = {}) {
   const schedule = () => {
     clearInterval(timer);
     timer = setInterval(() => {
+      if (agentScheduler && !agentScheduler.ready) return;
       if (!world.paused && !busy)
         advance().catch((error) =>
           console.error(
@@ -217,6 +259,11 @@ export async function createApplication(options = {}) {
           cycle: world.cycle,
           storage: repo.kind,
           mode: world.mode,
+          intelligence: {
+            mode: agentScheduler?.mode || "rules",
+            ready: agentScheduler?.ready ?? true,
+            issue: agentIssue,
+          },
           invariants: assertInvariants(world),
         });
       if (path === "/api/world" && req.method === "GET")

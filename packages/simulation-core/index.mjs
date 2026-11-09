@@ -633,10 +633,16 @@ export function tick(w, provider = new RuleBasedAgentProvider()) {
           w,
           "PROVIDER_FAILURE",
           e.id,
-          "Agent fallback activated",
+          provider.strict ? "Agent action paused" : "Agent fallback activated",
           String(error.message),
         );
-        proposal = new RuleBasedAgentProvider().decide({ entity: e, world: w });
+        proposal = provider.strict
+          ? {
+              action: { type: "WAIT" },
+              reason: "AI decision unavailable; no rule fallback was used.",
+              evidence: { provider: "scheduler" },
+            }
+          : new RuleBasedAgentProvider().decide({ entity: e, world: w });
       }
       const facts = {
         cycle: w.cycle,
@@ -645,7 +651,10 @@ export function tick(w, provider = new RuleBasedAgentProvider()) {
         risk: e.policy.risk,
         prices: { ...w.prices },
         goal: e.goal,
-        provider: provider.name || "external",
+        provider: proposal.evidence?.provider || provider.name || "external",
+        ...(proposal.evidence
+          ? { inference: structuredClone(proposal.evidence) }
+          : {}),
       };
       if (
         proposal.action.type === "CREATE_BUSINESS" &&
@@ -762,6 +771,14 @@ export function sponsorSandbox(w, id, amount, key) {
 export function view(w) {
   return {
     ...w,
+    agentRuntime: w.agentRuntime
+      ? {
+          mode: w.agentRuntime.mode,
+          targetCycle: w.agentRuntime.targetCycle,
+          budget: w.agentRuntime.budget,
+          agents: w.agentRuntime.agents,
+        }
+      : null,
     receipts: undefined,
     ledger: w.ledger.slice(-250),
     events: w.events.slice(-100),

@@ -1,0 +1,54 @@
+.agent-status {
+  padding: 20px;
+  margin: 16px 0;
+  border: 1px solid #d9e0da;
+  border-radius: 14px;
+  background: #f7faf6;
+  color: #263b32;
+}
+.agent-status-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.agent-status-heading span {
+  font-size: 11px;
+  background: #e4ece4;
+  padding: 5px 9px;
+  border-radius: 20px;
+}
+.agent-status p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 12px 0;
+  color: #45594e;
+}
+.agent-status small {
+  font-size: 11px;
+  color: #617467;
+}
+.agent-memory {
+  border-top: 1px solid #d9e0da;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.city-root .agent-status {
+  background: #203241;
+  border-color: #3a505e;
+  color: #f1f6f4;
+}
+.city-root .agent-status p {
+  color: #c4d3da;
+}
+.city-root .agent-status small {
+  color: #a7bec4;
+}
+.city-root .agent-status-heading span {
+  background: #345047;
+  color: #d5ebe0;
+}
+.city-root .agent-memory {
+  border-color: #3a505e;
+}

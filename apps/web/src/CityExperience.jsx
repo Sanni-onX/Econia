@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
+import { AgentStatus } from "./AgentStatus.jsx";
 import {
   districts,
   money,
@@ -447,6 +448,17 @@ function DecisionEvidence({ decision: d, w, onClose }) {
       </h3>
       <p>{d.reason}</p>
       <div className="record-label">
+        DECISION SOURCE · {d.facts?.provider || "legacy record"}
+        {d.facts?.inference?.model ? ` · ${d.facts.inference.model}` : ""}
+      </div>
+      {d.facts?.inference?.requestId && (
+        <details className="quiet-details">
+          <summary>Inference receipt</summary>
+          <p>Request: {d.facts.inference.requestId}</p>
+          <p>Context fingerprint: {d.facts.inference.contextHash}</p>
+        </details>
+      )}
+      <div className="record-label">
         RECORDED BEFORE THE ACTION · CYCLE {d.cycle}
       </div>
       {Object.entries(d.facts || {})
@@ -655,6 +667,7 @@ function ContextPanel({
           <DecisionEvidence decision={why} w={w} onClose={() => setWhy(null)} />
         ) : tab === "Life" ? (
           <>
+            <AgentStatus entity={e} world={w} />
             {!isBusiness && (
               <section className="ambition-block">
                 <span className="small-kicker">

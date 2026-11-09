@@ -355,7 +355,7 @@ export async function createChainRuntime(repo, chain) {
       if (stage) return finish(stage);
       return w;
     },
-    async advance(w, count = 1) {
+    async advance(w, count = 1, agentScheduler = null) {
       for (let n = 0; n < count; n++) {
         const pending = await repo.loadStage();
         if (pending) {
@@ -363,9 +363,13 @@ export async function createChainRuntime(repo, chain) {
           continue;
         }
         if (w.paused) break;
+        const provider = agentScheduler
+          ? await agentScheduler.prepare(w, () => repo.save(w))
+          : undefined;
         const candidate = structuredClone(w),
           knownLedger = new Set(w.ledger.map((l) => l.id));
-        tick(candidate);
+        tick(candidate, provider);
+        agentScheduler?.record(candidate);
         const movements = candidate.ledger.filter(
           (l) => !knownLedger.has(l.id),
         );

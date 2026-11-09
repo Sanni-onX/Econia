@@ -1,4 +1,5 @@
 process.env.SETTLEMENT_MODE = "testnet";
+process.env.AGENT_MODE ||= "near-ai";
 process.env.ECONIA_DATA_PATH ||= ".data/econia-testnet.sqlite";
 process.env.PORT ||= "3003";
 process.env.SIMULATION_INTERVAL_MS ||= "30000";

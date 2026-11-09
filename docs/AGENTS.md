@@ -1,6 +1,10 @@
 # Agent controllers
 
-The AgentProvider boundary returns `{action, reason, facts}`. RuleBasedAgentProvider implements the running economy. HybridAgentProvider supplies an optional asynchronous provider boundary with a 1.5-second timeout and deterministic fallback; no external LLM is configured in the running worker. The synchronous tick loop deliberately rejects async results and uses rules. An async decision queue must be connected before enabling an LLM provider in production.
+The AgentProvider boundary proposes actions; only the engine executes them. `AGENT_MODE=rules` selects reproducible development fixtures. `AGENT_MODE=near-ai` selects the asynchronous NEAR AI scheduler in `packages/agent-sdk/scheduler.mjs`. It reserves a daily request allowance and checkpoints requests before inference, rotates planning slots across active entities, persists bounded outcome memory and supplies synchronous prepared proposals to the engine. Testnet cycles use the same prepared-settlement recovery path. Live model access is awaiting account configuration; tests use an explicitly injected provider.
+
+NearAIProvider calls the official server-side gateway, validates response shapes and discards internal reasoning traces. No model receives wallet keys. Ready proposals retain model/request/context evidence. The engine rechecks capabilities, reserves and availability at execution; stale saved context is invalidated on recovery. Interrupted inference is not automatically repeated because it may already have been billed. Failed or unscheduled work becomes an explicitly sourced scheduler WAIT, never a hidden rule fallback.
+
+Missing inference configuration pauses AI cycles. The old HybridAgentProvider remains an unused compatibility helper; the active AI scheduler does not use it. See [activation and limits](NEAR-AI-SETUP.md). Negotiation and external services are not added by exposing the existing seven economic actions to a model.
 
 Facts are captured before execution: cycle, available cash, reserve, risk policy, goal, quoted prices, and any founding margin estimate. Explanations are not generated after outcomes. The UI exposes the recorded facts and accepted/rejected result.
 
