@@ -24,4 +24,3 @@ scene.render.engine='BLENDER_EEVEE';scene.render.resolution_x=640;scene.render.r
 target=artifacts.file(name='pavilion-blockout.png',media_type='image/png');scene.render.filepath=str(target.path);scene.render.image_settings.media_type='IMAGE';scene.render.image_settings.file_format='PNG'
 bpy.ops.render.render(write_still=True);target.publish()
 result={'objects':len(bpy.data.objects),'footprint_m':5.6,'height_m':4.08,'camera':'CAM_main'}
-

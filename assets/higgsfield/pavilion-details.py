@@ -33,4 +33,3 @@ scene=bpy.context.scene;scene.render.resolution_x=720;scene.render.resolution_y=
 target=artifacts.file(name='econia-commons-final.png',media_type='image/png');scene.render.filepath=str(target.path);scene.render.image_settings.media_type='IMAGE';scene.render.image_settings.file_format='PNG'
 bpy.ops.render.render(write_still=True);target.publish()
 result={'objects':len(bpy.data.objects),'camera':scene.camera.name,'max_mesh_height':round(max(max((o.matrix_world@Vector(c)).z for c in o.bound_box) for o in bpy.data.objects if o.type=='MESH'),3),'materials':len(bpy.data.materials)}
-
