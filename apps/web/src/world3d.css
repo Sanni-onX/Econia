@@ -1,0 +1,452 @@
+.world-3d {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #a4c6cc;
+}
+.world-3d-canvas {
+  position: absolute;
+  inset: 0;
+}
+.world-3d-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  outline: 0;
+}
+.world-3d-canvas canvas:focus-visible {
+  outline: 3px solid #f4b544;
+  outline-offset: -4px;
+}
+.world-3d-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.world-3d-labels button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: auto;
+  visibility: hidden;
+  will-change: transform;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.world-district-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid #fff8;
+  border-radius: 5px;
+  background: #f6f1dfed;
+  box-shadow: 0 4px 13px #33493822;
+  padding: 9px 11px;
+  color: #30463d;
+  backdrop-filter: blur(8px);
+}
+.world-district-label i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--district-color);
+}
+.world-district-label > span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+.world-district-label small {
+  display: block;
+  font-size: 6px;
+  letter-spacing: 1.1px;
+  font-weight: 500;
+  margin-top: 4px;
+  color: #76806a;
+}
+.world-district-label b {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9a9f87;
+  margin-left: 4px;
+}
+.world-place-marker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid #fff9;
+  border-radius: 6px;
+  background: #f8f1dfeb;
+  padding: 0;
+  box-shadow: 0 3px 10px #293b3525;
+  color: #32483f;
+  min-height: 27px;
+}
+.place-marker-icon {
+  display: grid;
+  place-items: center;
+  min-width: 27px;
+  height: 27px;
+  color: #a66644;
+  background: #e9ddc5;
+  border-radius: 5px;
+  font-size: 18px;
+}
+.industry-farming {
+  color: #527b48;
+  background: #dce4c6;
+}
+.industry-milling {
+  color: #9c823b;
+  background: #eee1b5;
+}
+.industry-transport {
+  color: #427e97;
+  background: #d1e3e3;
+}
+.place-marker-name {
+  font-size: 9px;
+  padding: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    max-width 0.2s,
+    padding 0.2s;
+}
+.world-place-marker:hover .place-marker-name,
+.world-place-marker.show-name .place-marker-name {
+  opacity: 1;
+  max-width: 210px;
+  padding: 0 9px;
+}
+.world-place-marker.is-selected {
+  background: #172333;
+  color: #fff3cd;
+  border-color: #f4b544;
+}
+.world-place-marker.is-selected .place-marker-icon {
+  background: #f4b544;
+  color: #172333;
+}
+.world-place-marker.is-producing:after {
+  content: "•";
+  position: absolute;
+  right: -4px;
+  top: -8px;
+  font-size: 23px;
+  color: #e9ae46;
+  text-shadow: 0 1px 2px #fff;
+}
+.world-resident-marker {
+  padding: 3px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: #f1e7ce;
+  box-shadow: 0 3px 9px #233a3b33;
+  display: flex;
+  align-items: center;
+  color: #172333;
+}
+.world-resident-marker > svg {
+  display: block;
+  border-radius: 50%;
+  width: 27px;
+  height: 27px;
+}
+.world-resident-marker > span {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 4px);
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 4px;
+  background: #172333ed;
+  color: #f3e7c9;
+  font-size: 9px;
+  font-weight: 650;
+  padding: 6px 10px;
+}
+.world-resident-marker b {
+  font-weight: 400;
+  color: #f4b544;
+}
+.world-resident-marker.is-selected {
+  border: 2px solid #f4b544;
+  background: #f4b544;
+  box-shadow: 0 0 0 4px #f4b54428;
+}
+.world-object-tooltip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  transform: translateY(-100%);
+  border: 1px solid #ffffff26;
+  background: #172333ed;
+  padding: 13px 16px;
+  color: #f4f6f8;
+  border-radius: 7px;
+  box-shadow: 0 8px 30px #17233333;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.world-object-tooltip small {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #9fb6c6;
+}
+.world-object-tooltip strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.world-object-tooltip > span {
+  font-size: 9px;
+  color: #f4b544;
+}
+.world-3d-loading {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  padding: 15px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #172333ec;
+  color: #e9e4d2;
+  border: 1px solid #ffffff20;
+  border-radius: 8px;
+  box-shadow: 0 7px 35px #17233320;
+}
+.world-3d-loading > span {
+  color: #f4b544;
+  font-size: 24px;
+}
+.world-3d-credit {
+  position: absolute;
+  right: 25px;
+  bottom: 114px;
+  font-size: 8px;
+  letter-spacing: 0.2px;
+  color: #335c65;
+  pointer-events: auto;
+  background: #d4e2d9a8;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+.world-3d-credit > span {
+  font-size: 7px;
+  font-weight: 750;
+  letter-spacing: 1.2px;
+  margin-right: 10px;
+}
+.world-3d-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.world-3d-unavailable {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 340px;
+  padding: 24px;
+  background: #172333;
+  color: #f4f6f8;
+  border-radius: 12px;
+  line-height: 1.7;
+}
+.world-3d-unavailable p {
+  font-size: 12px;
+  color: #adbdcb;
+}
+.world-location {
+  z-index: 5;
+  background: linear-gradient(120deg, #e5e8d8d9, #e5e8d800);
+  padding: 14px 18px;
+  margin: -14px -18px;
+  border-radius: 10px;
+}
+.world-top-right,
+.explore-prompt,
+.mira-invitation,
+.map-controls,
+.map-legend {
+  z-index: 6;
+}
+.world-story-rail {
+  z-index: 8;
+}
+.world-economy-popover,
+.world-list-alternative {
+  z-index: 15;
+}
+.world-3d .world-district-label:hover {
+  background: #fff9df;
+}
+.world-camera-hint {
+  position: absolute;
+  right: 26px;
+  bottom: 156px;
+  z-index: 5;
+  color: #38616b;
+  font-size: 9px;
+  background: #e4ebdeb8;
+  padding: 7px 10px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+.world-camera-hint b {
+  font-weight: 650;
+  color: #254c55;
+  margin-right: 8px;
+}
+.world-camera-reset {
+  font-size: 10px !important;
+}
+.city-world .map-legend {
+  bottom: 140px;
+}
+.world-story-rail {
+  background: #172333f2;
+}
+@media (max-width: 900px) {
+  .world-3d-credit {
+    bottom: 116px;
+    right: 23px;
+  }
+  .world-camera-hint {
+    display: none;
+  }
+  .world-district-label small {
+    display: none;
+  }
+  .world-district-label > span {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+  .world-district-label {
+    padding: 7px 9px;
+  }
+}
+@media (max-width: 640px) {
+  .world-3d-credit {
+    bottom: 70px;
+    right: 12px;
+    font-size: 6px;
+    background: #dce9e1bc;
+  }
+  .world-3d-credit > span {
+    font-size: 6px;
+    margin-right: 5px;
+  }
+  .world-district-label {
+    padding: 6px 7px;
+    gap: 5px;
+  }
+  .world-district-label > span {
+    font-size: 7px;
+  }
+  .world-district-label b {
+    display: none;
+  }
+  .place-marker-icon {
+    min-width: 23px;
+    height: 23px;
+    font-size: 15px;
+  }
+  .world-place-marker {
+    min-height: 23px;
+  }
+  .place-marker-name {
+    font-size: 8px;
+  }
+  .world-place-marker.show-name .place-marker-name {
+    max-width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .world-resident-marker > svg {
+    width: 24px;
+    height: 24px;
+  }
+  .world-location {
+    max-width: 205px;
+  }
+  .world-3d-loading {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .world-object-tooltip {
+    display: none;
+  }
+}
+.world-controls-help {
+  position: relative;
+  font-size: 10px;
+  color: #365344;
+}
+.world-controls-help summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 9px 10px;
+  background: #f8f5e8;
+  border-radius: 5px;
+}
+.world-controls-help > div {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 255px;
+  padding: 17px;
+  background: #172333;
+  color: #e7edf2;
+  border: 1px solid #ffffff20;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px #17233330;
+  font-size: 11px;
+  line-height: 1.8;
+  z-index: 15;
+}
+.world-controls-help p {
+  color: #b4c5d0;
+  margin: 10px 0 0;
+}
+.world-controls-help strong {
+  color: #f4b544;
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .world-controls-help summary {
+    padding: 8px;
+    font-size: 9px;
+  }
+  .world-controls-help > div {
+    left: -120px;
+    width: 230px;
+  }
+}
+@media (max-width: 640px) {
+  .world-location h1 {
+    font-size: 25px;
+    white-space: nowrap;
+  }
+  .world-location h1 > span {
+    display: none;
+  }
+  .world-location .small-kicker {
+    font-size: 6px;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+  }
+}

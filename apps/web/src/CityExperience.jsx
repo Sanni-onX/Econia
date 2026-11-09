@@ -13,6 +13,7 @@ import {
   storyContext,
 } from "./city-model.mjs";
 import "./city.css";
+const World3D = React.lazy(() => import("./World3D.jsx"));
 function readLocal(key) {
   try {
     return localStorage.getItem(key);
@@ -147,26 +148,6 @@ function relativeTime(stamp, now) {
       : `${Math.floor(seconds / 3600)}h ago`;
 }
 
-function Tree({ x, y, tint = "#4D805B", scale = 1 }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <ellipse cy="7" rx="15" ry="7" fill="#264f3d" opacity=".13" />
-      <path d="M0 1v-29" stroke="#82654B" strokeWidth="5" />
-      <path
-        d="M-19-25q-5-19 9-26 5-18 19-9 22 0 20 22 8 23-16 24-24 7-32-11"
-        fill={tint}
-      />
-      <path
-        d="M-11-35q2-17 14-17"
-        fill="none"
-        stroke="#9AB87B"
-        strokeWidth="5"
-        strokeLinecap="round"
-        opacity=".5"
-      />
-    </g>
-  );
-}
 function Block({
   x = 0,
   y = 0,
@@ -410,430 +391,6 @@ function PlaceArt({
     </g>
   );
 }
-function Residence({ x, y, i }) {
-  return (
-    <g transform={`translate(${x} ${y})`} opacity=".95">
-      <Block
-        x={-22}
-        width={51}
-        depth={31}
-        height={35 + (i % 3) * 9}
-        front={["#F0DBBB", "#F3CDA8", "#D4DFCF"][i % 3]}
-        side={["#C9B799", "#D1A889", "#B4C6B4"][i % 3]}
-        roof={["#638991", "#C47955", "#8B956F"][i % 3]}
-      />
-      <path d={`m-13-${19 + (i % 3) * 9} 8 4v10l-8-4z`} fill="#607E7B" />
-      <path d={`m9-${13 + (i % 3) * 9} 8-4v10l-8 4z`} fill="#F7E4AA" />
-    </g>
-  );
-}
-
-function InhabitedMap({
-  w,
-  selected,
-  onSelect,
-  camera,
-  setCamera,
-  onDistrict,
-  positions,
-  Avatar,
-  fresh,
-  layer,
-}) {
-  const drag = useRef(null),
-    svgRef = useRef(null);
-  const businesses = w.entities.filter((e) => e.type === "BUSINESS");
-  const featured = w.entities
-    .filter(
-      (e) =>
-        e.type === "PERSON" &&
-        (e.id === "person_199" ||
-          e.id === selected ||
-          parseInt(e.id.split("_")[1]) % 5 === 0),
-    )
-    .slice(0, 18);
-  const trades = w.ledger
-    .filter(
-      (t) =>
-        t.cycle === w.cycle &&
-        t.reason.startsWith("Purchase") &&
-        positions.has(t.debit) &&
-        positions.has(t.credit),
-    )
-    .slice(-7);
-  function point(ev) {
-    const rect = svgRef.current.getBoundingClientRect();
-    return {
-      x: (ev.clientX * 1400) / rect.width,
-      y: (ev.clientY * 850) / rect.height,
-    };
-  }
-  return (
-    <svg
-      ref={svgRef}
-      className="inhabited-map"
-      viewBox="0 0 1400 850"
-      preserveAspectRatio="xMidYMid slice"
-      role="group"
-      aria-label="Econia city. Select a district, business or resident."
-      onPointerDown={(ev) => {
-        if (ev.button !== 0) return;
-        drag.current = { ...point(ev), camera };
-        ev.currentTarget.setPointerCapture(ev.pointerId);
-      }}
-      onPointerMove={(ev) => {
-        if (!drag.current) return;
-        const p = point(ev);
-        setCamera({
-          ...camera,
-          x: drag.current.camera.x + p.x - drag.current.x,
-          y: drag.current.camera.y + p.y - drag.current.y,
-        });
-      }}
-      onPointerUp={() => {
-        drag.current = null;
-      }}
-      onPointerCancel={() => {
-        drag.current = null;
-      }}
-    >
-      <defs>
-        <linearGradient id="city-ground" x2="1" y2="1">
-          <stop stopColor="#C1D5A8" />
-          <stop offset="1" stopColor="#A5C698" />
-        </linearGradient>
-        <linearGradient id="city-river">
-          <stop stopColor="#83C2D0" />
-          <stop offset="1" stopColor="#60A8C5" />
-        </linearGradient>
-        <pattern
-          id="water-ripples"
-          width="70"
-          height="36"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M8 20h20m18-10h12"
-            stroke="#DDF3EF"
-            strokeWidth="1.5"
-            opacity=".4"
-          />
-        </pattern>
-        <filter id="island-shadow">
-          <feDropShadow
-            dx="0"
-            dy="18"
-            stdDeviation="22"
-            floodColor="#496E61"
-            floodOpacity=".22"
-          />
-        </filter>
-      </defs>
-      <rect width="1400" height="850" fill="#BCD4CC" />
-      <g transform={`translate(${camera.x} ${camera.y}) scale(${camera.zoom})`}>
-        <path
-          d="M30 445 632 94 1374 464 790 803z"
-          fill="#739D83"
-          transform="translate(0 17)"
-          filter="url(#island-shadow)"
-        />
-        <path d="M30 445 632 94 1374 464 790 803z" fill="url(#city-ground)" />
-        <path
-          d="m862 204 97 48-365 204 417 217 89-50-322-169z"
-          fill="url(#city-river)"
-        />
-        <path
-          d="m862 204 97 48-365 204 417 217 89-50-322-169z"
-          fill="url(#water-ripples)"
-        />
-        <path
-          d="M126 494 705 165M278 570 865 243M456 661 1037 328M631 744 1216 418M211 340 1035 753M385 240 1200 650M559 140 1352 535"
-          fill="none"
-          stroke="#CFD7B2"
-          strokeWidth="37"
-        />
-        <path
-          d="M126 489 705 160M278 565 865 238M456 656 1037 323M631 739 1216 413M211 335 1035 748M385 235 1200 645M559 135 1352 530"
-          fill="none"
-          stroke="#F4E8CA"
-          strokeWidth="25"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M278 565 865 238M385 235 1200 645"
-          fill="none"
-          stroke="#CBBF9D"
-          strokeWidth="1.5"
-          strokeDasharray="5 10"
-        />
-        <g>
-          <path d="m622 440 59-32 75 37-59 32z" fill="#ECE0BB" />
-          <path d="m622 440 75 37v11l-75-37z" fill="#A89E80" />
-          <path
-            d="m640 430 75 37m-57-48 75 38"
-            stroke="#BCAC89"
-            strokeWidth="3"
-          />
-        </g>
-        {Array.from({ length: 5 }, (_, i) => (
-          <g key={i} transform={`translate(${195 + i * 30} ${339 - i * 17})`}>
-            <path
-              d="m0 0 72-39 70 35-72 39z"
-              fill={i % 2 ? "#799D59" : "#99AF69"}
-            />
-            {[0, 1, 2, 3].map((j) => (
-              <path
-                key={j}
-                d={`m${8 + j * 15} ${j * 7} 62-33`}
-                stroke={j % 2 ? "#D5CB89" : "#B9C379"}
-                strokeWidth="5"
-              />
-            ))}
-          </g>
-        ))}
-        <path d="m1042 549 108-60 125 61-109 60z" fill="#899A82" />
-        <path d="m1076 548 73-41 104 51-74 41z" fill="#C9B185" />
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <path
-            key={i}
-            d={`m${1084 + i * 16} ${552 + i * 8} 62-35`}
-            stroke="#A38E6C"
-            strokeWidth="2"
-          />
-        ))}
-        {Array.from({ length: 26 }, (_, i) => {
-          const x = 408 + (i % 7) * 58 + (Math.floor(i / 7) % 2) * 13,
-            y = 410 + Math.floor(i / 7) * 48 + (i % 7) * 23;
-          return <Residence key={i} x={x} y={y} i={i} />;
-        })}
-        {[
-          [148, 438],
-          [385, 187],
-          [443, 190],
-          [575, 204],
-          [721, 182],
-          [1150, 420],
-          [1271, 479],
-          [837, 728],
-          [758, 735],
-          [367, 549],
-          [483, 704],
-          [1009, 700],
-          [177, 402],
-          [997, 310],
-          [1031, 338],
-          [680, 607],
-          [589, 647],
-        ].map(([x, y], i) => (
-          <Tree
-            key={i}
-            x={x}
-            y={y}
-            tint={i % 3 ? "#638C5C" : "#3D7963"}
-            scale={0.65 + (i % 3) * 0.12}
-          />
-        ))}
-        <g transform="translate(791 499)">
-          <ellipse rx="47" ry="24" fill="#769C77" />
-          <ellipse rx="35" ry="18" fill="#D4DFBD" />
-          <ellipse rx="23" ry="12" fill="#82BCC0" />
-          <path d="M0-8v-19" stroke="#E6E6CC" strokeWidth="5" />
-          <ellipse cy="-28" rx="13" ry="6" fill="#EFE7C9" />
-        </g>
-        {districts.map((d) => (
-          <g
-            key={d.id}
-            role="button"
-            tabIndex="0"
-            aria-label={`Explore ${d.label} district`}
-            className="district-sign"
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={() => onDistrict(d.id)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") onDistrict(d.id);
-            }}
-            transform={`translate(${d.x - 65} ${d.y - 122})`}
-          >
-            <rect
-              x="-8"
-              y="-25"
-              width={d.label.length * 10 + 30}
-              height="39"
-              rx="7"
-              fill="#F9F2D9"
-              stroke="#FFFFFF"
-              strokeWidth="2"
-            />
-            <circle cx="8" cy="-5" r="4" fill={d.color} />
-            <text
-              x="20"
-              y="0"
-              fontSize="13"
-              fontWeight="750"
-              fill="#3E5D50"
-              letterSpacing="1"
-            >
-              {d.label.toUpperCase()}
-            </text>
-          </g>
-        ))}
-        {businesses.map((e) => {
-          const p = positions.get(e.id),
-            active =
-              fresh &&
-              w.events.some(
-                (ev) =>
-                  ev.entityId === e.id &&
-                  ev.type === "PRODUCTION_COMPLETED" &&
-                  ev.cycle === w.cycle,
-              );
-          return (
-            <g
-              key={e.id}
-              transform={`translate(${p.x} ${p.y})`}
-              className="world-place"
-              role="button"
-              tabIndex="0"
-              aria-label={`Step inside ${e.name}`}
-              onPointerDown={(ev) => ev.stopPropagation()}
-              onClick={() => onSelect(e.id)}
-              onKeyDown={(ev) => {
-                if (ev.key === "Enter" || ev.key === " ") {
-                  ev.preventDefault();
-                  onSelect(e.id);
-                }
-              }}
-            >
-              <title>
-                {e.name} · {e.industry.toLowerCase()} · {e.district}
-              </title>
-              <PlaceArt
-                entity={e}
-                selected={selected === e.id}
-                active={active}
-              />
-              {(selected === e.id || layer === "Names") && (
-                <g className="place-label">
-                  <rect
-                    x="-83"
-                    y="42"
-                    rx="5"
-                    width="166"
-                    height="29"
-                    fill="#172333"
-                  />
-                  <text textAnchor="middle" y="61" fontSize="11" fill="#F4F6F8">
-                    {e.name.length > 25 ? e.name.slice(0, 23) + "…" : e.name}
-                  </text>
-                </g>
-              )}
-              {active && (
-                <g transform="translate(36 -112)">
-                  <circle r="12" fill="#F4B544" />
-                  <text textAnchor="middle" y="4" fontSize="12" fill="#172333">
-                    ✓
-                  </text>
-                </g>
-              )}
-            </g>
-          );
-        })}
-        {layer !== "Places" &&
-          featured.map((e) => {
-            const p = positions.get(e.id);
-            return (
-              <g
-                key={e.id}
-                transform={`translate(${p.x} ${p.y})`}
-                role="button"
-                tabIndex="0"
-                aria-label={`Meet ${e.name}`}
-                onPointerDown={(ev) => ev.stopPropagation()}
-                onClick={() => onSelect(e.id)}
-                onKeyDown={(ev) => {
-                  if (ev.key === "Enter" || ev.key === " ") {
-                    ev.preventDefault();
-                    onSelect(e.id);
-                  }
-                }}
-                className="resident-pin"
-              >
-                <ellipse cy="8" rx="12" ry="5" fill="#244734" opacity=".18" />
-                <path
-                  d="M-6-1v14m12-14v14"
-                  stroke="#405F63"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cy="-11"
-                  r={selected === e.id ? 22 : 17}
-                  fill={e.id === "person_199" ? "#F4B544" : "#F5F1DC"}
-                  stroke={selected === e.id ? "#172333" : "#fff"}
-                  strokeWidth="2"
-                />
-                <foreignObject x="-13" y="-25" width="26" height="28">
-                  <Avatar entity={e} size={26} />
-                </foreignObject>
-                {(e.id === "person_199" || selected === e.id) && (
-                  <g>
-                    <rect
-                      x="-38"
-                      y="20"
-                      width="76"
-                      height="24"
-                      rx="5"
-                      fill="#172333"
-                    />
-                    <text
-                      textAnchor="middle"
-                      y="36"
-                      fill="#FFF2D7"
-                      fontSize="10"
-                      fontWeight="650"
-                    >
-                      {e.name.split(" ")[0]} {e.id === "person_199" ? "↗" : ""}
-                    </text>
-                  </g>
-                )}
-              </g>
-            );
-          })}
-        {fresh &&
-          layer !== "Places" &&
-          trades.map((t, i) => {
-            const a = positions.get(t.credit),
-              b = positions.get(t.debit),
-              path = `M${a.x} ${a.y + 20} Q${(a.x + b.x) / 2} ${Math.min(a.y, b.y) - 15} ${b.x} ${b.y + 20}`;
-            return (
-              <g key={t.id} className="recorded-delivery">
-                <title>
-                  {t.reason} · cycle {t.cycle} · {money(t.amount)} {unit(w)}
-                </title>
-                <path
-                  d={path}
-                  fill="none"
-                  stroke="#F2F6D0"
-                  strokeWidth="2"
-                  strokeDasharray="4 6"
-                  opacity=".8"
-                />
-                <circle r="5" fill="#E3A340" stroke="#fff" strokeWidth="2">
-                  <animateMotion
-                    dur={`${5 + i * 0.4}s`}
-                    path={path}
-                    repeatCount="1"
-                    fill="freeze"
-                  />
-                </circle>
-              </g>
-            );
-          })}
-      </g>
-    </svg>
-  );
-}
-
 function PersonCard({ e, w, Avatar, onOpen, followed, onFollow }) {
   const latest = w.decisions.filter((d) => d.entityId === e.id).at(-1),
     holdings = businessOf(w, e.id);
@@ -1750,6 +1307,7 @@ export function CityExperience({
       const mobile = window.matchMedia("(max-width:640px)").matches;
       setCamera({
         zoom: 1.65,
+        focus: id,
         x: (mobile ? 700 : 500) - p.x * 1.65,
         y: (mobile ? 90 : 385) - p.y * 1.65,
       });
@@ -1761,7 +1319,12 @@ export function CityExperience({
     const d = districts.find((d) => d.id === id);
     if (d) {
       setDistrict(id);
-      setCamera({ zoom: 1.45, x: 620 - d.x * 1.45, y: 340 - d.y * 1.45 });
+      setCamera({
+        zoom: 1.45,
+        focusDistrict: id,
+        x: 620 - d.x * 1.45,
+        y: 340 - d.y * 1.45,
+      });
     }
     setStory(null);
     onNavigate("World");
@@ -1999,18 +1562,29 @@ export function CityExperience({
             aria-hidden={page !== "World"}
             inert={page !== "World" ? true : undefined}
           >
-            <InhabitedMap
-              w={w}
-              selected={selected}
-              onSelect={open}
-              camera={camera}
-              setCamera={setCamera}
-              onDistrict={exploreDistrict}
-              positions={positions}
-              Avatar={Avatar}
-              fresh={fresh}
-              layer={layer}
-            />
+            <React.Suspense
+              fallback={
+                <div className="world-3d-loading">Opening the 3D city…</div>
+              }
+            >
+              <World3D
+                w={w}
+                selected={selected}
+                onSelect={open}
+                camera={camera}
+                setCamera={setCamera}
+                onDistrict={exploreDistrict}
+                positions={positions}
+                Avatar={Avatar}
+                fresh={fresh}
+                layer={layer}
+                active={page === "World"}
+              />
+            </React.Suspense>
+            <div className="world-camera-hint">
+              <b>EXPLORE IN 3D</b> Drag to orbit · scroll to zoom · right-drag
+              to pan
+            </div>
             <div className="world-location">
               <div className="small-kicker">
                 <span className="daylight-icon">☀</span> A PERSISTENT ECONOMIC
@@ -2206,6 +1780,21 @@ export function CityExperience({
                 <option>Places</option>
                 <option>Names</option>
               </select>
+              <details className="world-controls-help">
+                <summary>3D controls</summary>
+                <div>
+                  <strong>Explore the city</strong>
+                  <p>Drag to orbit. Scroll to zoom. Right-drag to pan.</p>
+                  <p>
+                    On a touch screen, drag with one finger to orbit; pinch or
+                    move two fingers to zoom and pan.
+                  </p>
+                  <p>
+                    Keyboard: focus the world and use the arrow keys to pan. The
+                    city list offers every person and place.
+                  </p>
+                </div>
+              </details>
               <button
                 className="economy-toggle"
                 onClick={() => setEconomyOpen(!economyOpen)}
@@ -2218,7 +1807,7 @@ export function CityExperience({
               {fresh
                 ? "Trails mark recorded goods purchases in this cycle."
                 : "Showing the latest recorded world state."}
-              <span>Drag to explore</span>
+              <span>Orbit · Zoom · Pan</span>
             </div>
             {!sheet && (
               <div className="world-story-rail">

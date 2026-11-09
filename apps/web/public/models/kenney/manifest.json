@@ -1,0 +1,113 @@
+{
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "repository": "Hidencod/tge-assets",
+  "revision": "ea2f2aa1ca8da0898330c97df8a5489976b051d0",
+  "assets": [
+    {
+      "file": "city-kit-suburban--building-type-a.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-a.glb",
+      "bytes": 110408
+    },
+    {
+      "file": "city-kit-suburban--building-type-c.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-c.glb",
+      "bytes": 111408
+    },
+    {
+      "file": "city-kit-suburban--building-type-f.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-f.glb",
+      "bytes": 150356
+    },
+    {
+      "file": "city-kit-suburban--building-type-h.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-h.glb",
+      "bytes": 77168
+    },
+    {
+      "file": "city-kit-suburban--building-type-l.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-l.glb",
+      "bytes": 121056
+    },
+    {
+      "file": "city-kit-suburban--building-type-q.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-suburban/building-type-q.glb",
+      "bytes": 110456
+    },
+    {
+      "file": "city-kit-commercial--building-a.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-commercial/building-a.glb",
+      "bytes": 119976
+    },
+    {
+      "file": "city-kit-commercial--building-c.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-commercial/building-c.glb",
+      "bytes": 113828
+    },
+    {
+      "file": "city-kit-commercial--building-d.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-commercial/building-d.glb",
+      "bytes": 106200
+    },
+    {
+      "file": "city-kit-commercial--building-f.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-commercial/building-f.glb",
+      "bytes": 159976
+    },
+    {
+      "file": "city-kit-commercial--detail-parasol-a.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/city-kit-commercial/detail-parasol-a.glb",
+      "bytes": 21348
+    },
+    {
+      "file": "nature-kit--tree-oak.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/tree-oak.glb",
+      "bytes": 14644
+    },
+    {
+      "file": "nature-kit--tree-pinedefaulta.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/tree-pinedefaulta.glb",
+      "bytes": 17220
+    },
+    {
+      "file": "nature-kit--tree-detailed.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/tree-detailed.glb",
+      "bytes": 31412
+    },
+    {
+      "file": "nature-kit--plant-bush.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/plant-bush.glb",
+      "bytes": 4396
+    },
+    {
+      "file": "nature-kit--rock-largea.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/rock-largea.glb",
+      "bytes": 7552
+    },
+    {
+      "file": "nature-kit--flower-yellowa.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/nature-kit/flower-yellowa.glb",
+      "bytes": 7120
+    },
+    {
+      "file": "car-kit--truck.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/car-kit/truck.glb",
+      "bytes": 188652
+    },
+    {
+      "file": "car-kit--van.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/car-kit/van.glb",
+      "bytes": 187952
+    },
+    {
+      "file": "mini-characters--character-female-a.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/mini-characters/character-female-a.glb",
+      "bytes": 279936
+    },
+    {
+      "file": "mini-characters--character-male-a.glb",
+      "source": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/mini-characters/character-male-a.glb",
+      "bytes": 253400
+    }
+  ]
+}
