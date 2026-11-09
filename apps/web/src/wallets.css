@@ -1,0 +1,227 @@
+.wallet-choices {
+  margin: 20px 0;
+}
+.wallet-network {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #f4b544;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+.wallet-network > i {
+  width: 6px;
+  height: 6px;
+  background: #e8b95c;
+  border-radius: 50%;
+}
+.wallet-network > span {
+  margin-left: auto;
+  color: #9bb1c1;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.wallet-network-help {
+  font-size: 12px !important;
+  line-height: 1.75 !important;
+  color: #b5c5d1 !important;
+  margin: 12px 0 20px !important;
+}
+.wallet-picker-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0 12px;
+}
+.wallet-picker-heading strong {
+  font-size: 13px;
+  color: #edf2f5;
+}
+.wallet-picker-heading > span {
+  font-size: 9px;
+  color: #91a8ba;
+}
+.wallet-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wallet-choice-row {
+  border: 1px solid #ffffff18;
+  border-radius: 8px;
+  background: #ffffff03;
+}
+.wallet-choice-row.connected {
+  border-color: #f4b54466;
+}
+.wallet-choice-row .wallet-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  margin: 0;
+  border: 0;
+  background: none;
+  padding: 13px;
+  text-align: left;
+  color: #ecf2f6;
+  border-radius: 8px;
+}
+.wallet-choice-row .wallet-option:hover {
+  background: #ffffff06;
+}
+.wallet-option:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.wallet-choice-row .wallet-option > img {
+  flex-shrink: 0;
+  border-radius: 9px;
+  object-fit: contain;
+}
+.wallet-choice-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: #172333;
+  font-size: 22px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.wallet-choice-row .wallet-option > span:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.wallet-choice-row .wallet-option strong {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.wallet-choice-row .wallet-option small {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #a9bdcb;
+}
+.wallet-choice-row em {
+  font-style: normal;
+  font-size: 7px;
+  letter-spacing: 0.9px;
+  color: #f4b544;
+  background: #f4b54416;
+  border-radius: 3px;
+  padding: 3px 4px;
+}
+.wallet-choice-row .wallet-choice-status {
+  font-size: 9px;
+  color: #a6bbca;
+  white-space: nowrap;
+}
+.wallet-choice-row.connected .wallet-choice-status {
+  color: #f4b544;
+}
+.wallet-choice-row > a {
+  display: block;
+  padding: 0 14px 10px 64px;
+  font-size: 10px;
+  color: #e4b963;
+  text-decoration: none;
+}
+.wallet-pending {
+  font-size: 12px !important;
+  line-height: 1.8 !important;
+  color: #f4d28a !important;
+  background: #f4b5440b;
+  padding: 13px;
+  border-radius: 7px;
+}
+.wallet-connection-note {
+  font-size: 10px !important;
+  line-height: 1.85 !important;
+  color: #96adbf !important;
+  margin: 16px 0 0 !important;
+}
+.wallet-connected-card {
+  padding: 17px;
+  border: 1px solid #f4b54435;
+  border-radius: 8px;
+  background: #f4b54408;
+}
+.wallet-connected-card > small {
+  font-size: 8px;
+  color: #d5b570;
+  letter-spacing: 1.3px;
+}
+.wallet-connected-card > strong {
+  display: block;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+  color: #edf3f7;
+  margin: 10px 0;
+}
+.wallet-connected-card > .text-button {
+  font-size: 11px;
+  color: #f4b544;
+  margin: 3px 0 0;
+}
+.wallet-connected-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  color: #aebdcb;
+  margin: 12px 0;
+}
+.wallet-connected-card select {
+  padding: 10px;
+  background: #172333;
+  color: #e9f0f4;
+  border: 1px solid #ffffff25;
+  border-radius: 5px;
+}
+.wallet-connect-error {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.city-root .modal:has(.wallet-choices) {
+  max-height: 90dvh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #475c6c transparent;
+}
+@media (max-width: 640px) {
+  .wallet-choice-row .wallet-option {
+    gap: 10px;
+    padding: 11px;
+  }
+  .wallet-choice-row .wallet-option small {
+    font-size: 9px;
+  }
+  .wallet-choice-row .wallet-choice-status {
+    font-size: 8px;
+  }
+  .wallet-picker-heading > span {
+    font-size: 8px;
+  }
+  .wallet-choice-row .wallet-option strong {
+    font-size: 12px;
+  }
+}
+.city-root .modal h2 {
+  color: #f4f6f8;
+  font-family: inherit;
+  font-size: 28px;
+  letter-spacing: -0.8px;
+}
+.city-root .modal > p {
+  color: #b4c4d0;
+  line-height: 1.8;
+}

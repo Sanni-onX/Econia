@@ -6,7 +6,9 @@ Own, sponsor and observe autonomous entities as they work, trade, establish busi
 
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
-![The Econia world](docs/screenshots/world-testnet.png)
+![The Econia world](docs/screenshots/world3d-overview.png)
+
+**Product review:** [Current build outline and walkthrough](docs/BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits.
 
 ## Run it
 
@@ -37,9 +39,9 @@ The commissioned project testnet instance uses `npm run start:testnet` on port *
 - Autonomous persons and firms: work, wages, food consumption, founding, hiring, production and finite-stock purchases.
 - Capability checks, owner reserve/founding/risk/growth constraints, provider isolation and recorded decision inputs.
 - Recursive business stakes in basis points with cycle and excess-ownership rejection. Stakes and inventory contribute to economic NAV; asking prices remain separate.
-- Clickable isometric city, recognizable entity portraits, detailed profiles, decision evidence, markets, Chronicle, leaderboards and marketplace.
+- Interactive Three.js coastal city, recognizable entity portraits, contextual profiles, recorded decision evidence, goods/asset exchange, Chronicle, achievements and browser-local following.
 - Actual NEP-141 ECO, NEP-171 Living Entity NFTs, sponsorship, pooled entity treasury settlement, exact-price NFT purchases, escrowed offers and withdrawable sale proceeds.
-- Wallet Selector integration for MyNearWallet testnet, unsigned transaction preparation, finalized receipt verification and signed owner policy proofs (NEP-413).
+- Wallet Selector integration for Nightly, MyNearWallet, Sender, OKX Wallet and Intear on NEAR testnet; session restoration, account changes and disconnecting; unsigned transaction preparation, finalized receipt verification and signed owner policy proofs (NEP-413) where the wallet supports them.
 - A finite 250-ECO test distribution per account, capped at 500 claims and taken from existing supply. It does not mint additional tokens. Wallet signing paths require a user's wallet; no user keys enter agents.
 - Restricted settlement operator, durable prepared cycles and idempotent batch recovery. Local development controls require an admin token.
 
@@ -91,7 +93,7 @@ The simulation cannot be mutated by an LLM. The running provider is deterministi
 
 Open Mira #199 in the local world. Inspect her strong cooking skill, limited cash, current job, goal and reserve. Sponsor 100 simulation units. Her next valid decisions can found a business, purchase actual inputs and hire an available worker; no outcome is guaranteed. Inspect the bakery, decision inputs, counterparties and Chronicle.
 
-For actual ECO, use the commissioned testnet instance, connect a testnet wallet, claim test ECO if eligible, acquire a listed person and sponsor it. Wallet confirmation happens in MyNearWallet. The backend verifies successful finalized receipts, journals capital once and activates ordinary agent decisions. Users can list, offer, cancel offers and withdraw available marketplace credit. [Demo walkthrough and narration](docs/DEMO.md) separate the two modes explicitly.
+For actual ECO, use the commissioned testnet instance, connect a testnet wallet, claim test ECO if eligible, acquire a listed person and sponsor it. Wallet confirmation happens in the selected wallet. The backend verifies successful finalized receipts, journals capital once and activates ordinary agent decisions. Users can list, offer, cancel offers and withdraw available marketplace credit. [Demo walkthrough and narration](docs/DEMO.md) separate the two modes explicitly.
 
 ## Checks
 
@@ -105,7 +107,7 @@ npm run contracts:build
 
 Tests cover deterministic replay, ledger conservation, input validation, recipes, weather constraints, policy enforcement, ownership graphs, sponsorship, business formation, hiring, sale identity preservation, receipt validation, durable restart and acknowledgement-before-checkpoint recovery. The 10,000-cycle soak checks for impossible balances and continued economic activity. PostgreSQL integration runs when TEST_DATABASE_URL is provided; CI provisions PostgreSQL. Rust tests cover token transfer/distribution, sponsorship, NFT transfer, marketplace purchase/offer cancellation/acceptance and privilege rejection.
 
-The dependency audit currently reports ten **low-severity** transitive findings in Wallet Selector's elliptic/secp256k1 dependency tree; no moderate, high or critical findings were reported. Wallet signing remains delegated to the wallet. See [validation status](docs/VALIDATION.md) for evidence and test limits.
+The dependency audit currently reports fifteen **low-severity** transitive findings in Wallet Selector's elliptic/secp256k1 dependency tree; no moderate, high or critical findings were reported. Wallet signing remains delegated to the wallet. See [validation status](docs/VALIDATION.md) for evidence and test limits.
 
 ## Repository layout
 

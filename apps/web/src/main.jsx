@@ -1,3 +1,11 @@
+import { WalletChoices } from "./WalletChoices.jsx";
+import {
+  getWalletSelector,
+  connectWallet,
+  connectionFromState,
+  walletErrorMessage,
+  nonceFromChallenge,
+} from "./wallets.mjs";
 import { CityExperience } from "./CityExperience.jsx";
 import React, { useState, useEffect, useMemo } from "react";
 import { createRoot } from "react-dom/client";
@@ -1803,11 +1811,18 @@ function ActionModal({ modal, w, onClose, notify }) {
     React.useContext(WorldContext);
   const [walletBalance, setWalletBalance] = useState(null);
   useEffect(() => {
-    if (mode === "testnet" && wallet)
-      fetch(`/api/token/balance?account=${encodeURIComponent(wallet)}`)
-        .then((r) => r.json())
-        .then((x) => setWalletBalance(Number(x.amount)))
-        .catch(() => {});
+    setWalletBalance(null);
+    if (mode !== "testnet" || !wallet) return;
+    const controller = new AbortController();
+    fetch(`/api/token/balance?account=${encodeURIComponent(wallet)}`, {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((x) => {
+        if (x && !controller.signal.aborted) setWalletBalance(Number(x.amount));
+      })
+      .catch(() => {});
+    return () => controller.abort();
   }, [wallet, mode]);
   const [amount, setAmount] = useState(
       modal.type === "SPONSOR"
@@ -1841,9 +1856,7 @@ function ActionModal({ modal, w, onClose, notify }) {
           const signed = await signer.signMessage({
             message: challenge.message,
             recipient: challenge.recipient,
-            nonce: Uint8Array.from(atob(challenge.nonce), (c) =>
-              c.charCodeAt(0),
-            ),
+            nonce: nonceFromChallenge(challenge.nonce),
           });
           if (!signed)
             throw new Error("Wallet did not return a signed message");
@@ -2168,6 +2181,13 @@ function App() {
     [walletModal, setWalletModal] = useState(false),
     [wallet, setWallet] = useState(null),
     [selector, setSelector] = useState(null),
+    [walletSession, setWalletSession] = useState({
+      walletId: null,
+      account: null,
+      accounts: [],
+    }),
+    [walletLoading, setWalletLoading] = useState(false),
+    [connectingWallet, setConnectingWallet] = useState(null),
     [walletError, setWalletError] = useState(""),
     [claiming, setClaiming] = useState(false),
     [accountBalance, setAccountBalance] = useState(null),
@@ -2176,11 +2196,57 @@ function App() {
   const live = w?.mode === "testnet",
     owner = live ? wallet : "demo.local";
   useEffect(() => {
-    if (live && wallet && walletModal)
-      fetch(`/api/token/balance?account=${encodeURIComponent(wallet)}`)
-        .then((r) => r.json())
-        .then(setAccountBalance)
-        .catch(() => {});
+    let active = true;
+    // Let Selector validate its saved session even before the picker is opened.
+    if (selector) return;
+    setWalletLoading(true);
+    getWalletSelector()
+      .then((s) => {
+        if (active) {
+          setWalletLoading(false);
+          setSelector(s);
+        }
+      })
+      .catch((error) => {
+        if (active) {
+          setWalletLoading(false);
+          setWalletError(walletErrorMessage(error));
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [walletModal, selector]);
+  useEffect(() => {
+    if (!selector) return;
+    const sync = (state) => {
+      const next = connectionFromState(state);
+      setWalletSession(next);
+      setWallet(next.account);
+    };
+    sync(selector.store.getState());
+    const subscription = selector.store.observable.subscribe(sync);
+    return () => subscription.unsubscribe();
+  }, [selector]);
+  useEffect(() => {
+    setAccountBalance(null);
+    if (!live || !wallet || !walletModal) return;
+    const controller = new AbortController();
+    fetch(`/api/token/balance?account=${encodeURIComponent(wallet)}`, {
+      signal: controller.signal,
+    })
+      .then(async (r) => {
+        const x = await r.json();
+        if (!r.ok) throw new Error(x.error || "Balance unavailable");
+        return x;
+      })
+      .then((value) => {
+        if (!controller.signal.aborted) setAccountBalance(value);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setWalletError(error.message);
+      });
+    return () => controller.abort();
   }, [live, wallet, walletModal, claiming]);
   useEffect(() => {
     const pending = JSON.parse(
@@ -2215,41 +2281,38 @@ function App() {
     setPage(page);
     window.scrollTo(0, 0);
   };
-  async function connect() {
+  async function connect(id) {
+    setWalletError("");
+    setConnectingWallet(id);
     try {
-      setWalletError("");
-      const [{ setupWalletSelector }, { setupMyNearWallet }] =
-        await Promise.all([
-          import("@near-wallet-selector/core"),
-          import("@near-wallet-selector/my-near-wallet"),
-        ]);
-      const s =
-        selector ||
-        (await setupWalletSelector({
-          network: "testnet",
-          modules: [
-            setupMyNearWallet({
-              walletUrl: "https://testnet.mynearwallet.com",
-            }),
-          ],
-        }));
+      const s = selector || (await getWalletSelector());
       setSelector(s);
-      const provider = await s.wallet("my-near-wallet");
-      const accounts = await provider.getAccounts();
-      const currentAccount = accounts.find((a) => a.accountId);
-      if (currentAccount) {
-        setWallet(currentAccount.accountId);
+      const connected = await connectWallet(s, id);
+      if (connected) {
+        setWalletSession(connected);
+        setWallet(connected.account);
         setWalletModal(false);
-      } else {
-        const signedAccounts = await provider.signIn({});
-        const signedAccount = signedAccounts?.find((a) => a.accountId);
-        if (signedAccount) {
-          setWallet(signedAccount.accountId);
-          setWalletModal(false);
-        }
-      }
+      } else
+        setWalletError(
+          "Complete the connection in your wallet, then return to Econia.",
+        );
     } catch (error) {
-      setWalletError(error.message);
+      setWalletError(walletErrorMessage(error, id));
+    } finally {
+      setConnectingWallet(null);
+    }
+  }
+  async function disconnect() {
+    setConnectingWallet("disconnect");
+    setWalletError("");
+    try {
+      const provider = await selector.wallet();
+      await provider.signOut();
+      setAccountBalance(null);
+    } catch (error) {
+      setWalletError(walletErrorMessage(error, walletSession.walletId));
+    } finally {
+      setConnectingWallet(null);
     }
   }
   async function claimEco() {
@@ -2339,22 +2402,19 @@ function App() {
                 ? "Connect your NEAR testnet wallet to sponsor entities and acquire Living Assets. You approve transactions in your wallet."
                 : "Connect a NEAR testnet wallet. This world uses a local sandbox; connecting does not move funds."}
             </p>
-            <button className="wallet-option" onClick={connect}>
-              <span className="wallet-logo">N</span>
-              <span>
-                <strong>MyNearWallet</strong>
-                <small>NEAR Testnet · opens wallet to authorize</small>
-              </span>
-              <span>↗</span>
-            </button>
-            {wallet && (
-              <p className="notice">
-                Connected as {wallet}.{" "}
-                {live
-                  ? "Testnet transactions require wallet confirmation."
-                  : "Read-only in the local sandbox."}
-              </p>
-            )}
+            <WalletChoices
+              selector={selector}
+              loading={walletLoading}
+              connecting={connectingWallet}
+              connection={walletSession}
+              onConnect={connect}
+              onDisconnect={disconnect}
+              onAccount={(accountId) => {
+                setWalletError("");
+                selector.setActiveAccount(accountId);
+              }}
+              error={walletError}
+            />
             {wallet && live && wallet !== w.chain.owner && (
               <div className="notice">
                 <strong>A starting point for your economic life.</strong>
@@ -2420,7 +2480,6 @@ function App() {
                 </button>
               </div>
             )}
-            {walletError && <p className="form-error">{walletError}</p>}
           </Modal>
         )}
         {toast && (

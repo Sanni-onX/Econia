@@ -1,5 +1,17 @@
 # Validation record
 
+## Wallet update — 9 November 2026
+
+- Added official Wallet Selector adapters for Nightly, Sender, OKX Wallet and Intear alongside MyNearWallet.
+- The user approved a Nightly connection successfully. Browser verification confirmed the connected state and restoration after a refresh. No purchase, sponsorship or claim was submitted during these checks.
+- Verified the five-option picker, provider detection and install links on desktop, plus a 390 × 844 mobile viewport with no horizontal overflow. Proof: [wallet picker](screenshots/wallet-options.png).
+- Wallet tests cover active-account selection, decorated sign-in for already exposed accounts, cancellation/redirect behavior and 32-byte Buffer nonces for message signing.
+- Production build passed. JavaScript checks: 29 passed, with the optional local PostgreSQL integration skipped. The dependency inspection reported 15 low-severity findings, with no moderate/high/critical findings.
+- Other wallets are integrated but have not each completed manual connection, signing and mobile redirect testing.
+- The local testnet world remains at confirmed cycle 161 with settlement delayed by the existing operator allowance. Wallet connection does not resolve that separate operational issue.
+
+## Earlier economy and contract validation
+
 Implemented and locally exercised on 5 November 2026:
 
 - JavaScript unit/integration checks for accounting, deterministic replay, ownership, policies, actual state transitions, API authorization and persistence.
