@@ -4,6 +4,8 @@
 
 Own, sponsor and observe autonomous entities as they work, trade, establish businesses and build histories inside a persistent economy.
 
+**Launch decisions:** ECO is retired for launch. The first release uses native NEAR. Each agent's operating treasury remains attached to its NFT through ownership changes; sponsorship supplies operating capital. The new native contract is implemented and tested, while the running preview remains the historical ECO testnet deployment. See [native release progress](docs/NATIVE-NEAR-RELEASE.md).
+
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
 ![The Econia world](docs/screenshots/blender-world-overview.png)

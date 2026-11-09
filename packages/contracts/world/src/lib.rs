@@ -1,5 +1,6 @@
 use near_contract_standards::fungible_token::{core::ext_ft_core, receiver::FungibleTokenReceiver};
 use near_contract_standards::non_fungible_token::{
+    approval::NonFungibleTokenApproval,
     core::{NonFungibleTokenCore, NonFungibleTokenResolver},
     enumeration::NonFungibleTokenEnumeration,
     metadata::{
@@ -125,7 +126,7 @@ impl EconiaWorld {
             owner: owner_id.clone(),
             operator: operator_id,
             eco_contract,
-            tokens: NonFungibleToken::new(b"n", owner_id, Some(b"m"), Some(b"o"), None::<Vec<u8>>),
+            tokens: NonFungibleToken::new(b"n", owner_id, Some(b"m"), Some(b"o"), Some(b"a")),
             registry: LookupMap::new(b"r"),
             listings: LookupMap::new(b"l"),
             balances: LookupMap::new(b"b"),
@@ -560,6 +561,35 @@ impl NonFungibleTokenResolver for EconiaWorld {
     }
 }
 #[near]
+impl NonFungibleTokenApproval for EconiaWorld {
+    #[payable]
+    fn nft_approve(
+        &mut self,
+        token_id: TokenId,
+        account_id: AccountId,
+        msg: Option<String>,
+    ) -> Option<Promise> {
+        self.tokens.nft_approve(token_id, account_id, msg)
+    }
+    #[payable]
+    fn nft_revoke(&mut self, token_id: TokenId, account_id: AccountId) {
+        self.tokens.nft_revoke(token_id, account_id);
+    }
+    #[payable]
+    fn nft_revoke_all(&mut self, token_id: TokenId) {
+        self.tokens.nft_revoke_all(token_id);
+    }
+    fn nft_is_approved(
+        &self,
+        token_id: TokenId,
+        approved_account_id: AccountId,
+        approval_id: Option<u64>,
+    ) -> bool {
+        self.tokens
+            .nft_is_approved(token_id, approved_account_id, approval_id)
+    }
+}
+#[near]
 impl NonFungibleTokenEnumeration for EconiaWorld {
     fn nft_total_supply(&self) -> U128 {
         self.tokens.nft_total_supply()
@@ -680,6 +710,43 @@ mod tests {
         w.nft_transfer("bob.testnet".parse().unwrap(), "mira".into(), None, None);
         assert_eq!(w.nft_token("mira".into()).unwrap().token_id, "mira");
         assert_eq!(w.get_entity("mira".into()).unwrap().provenance, "genesis");
+    }
+    #[test]
+    fn marketplace_approval_transfers_treasury_with_agent_and_clears_authority() {
+        let mut w = fixture();
+        setup("eco.econia.testnet", 0);
+        w.ft_on_transfer(
+            "alice.testnet".parse().unwrap(),
+            U128(100000),
+            r#"{"kind":"Sponsor","entity_id":"mira"}"#.into(),
+        );
+        setup("alice.testnet", 10u128.pow(23));
+        w.nft_approve("mira".into(), "market.testnet".parse().unwrap(), None);
+        let approval = w
+            .nft_token("mira".into())
+            .unwrap()
+            .approved_account_ids
+            .unwrap()[&"market.testnet".parse::<AccountId>().unwrap()];
+        assert!(w.nft_is_approved(
+            "mira".into(),
+            "market.testnet".parse().unwrap(),
+            Some(approval)
+        ));
+        setup("market.testnet", 1);
+        w.nft_transfer(
+            "bob.testnet".parse().unwrap(),
+            "mira".into(),
+            Some(approval),
+            None,
+        );
+        assert_eq!(
+            w.nft_token("mira".into()).unwrap().owner_id.as_str(),
+            "bob.testnet"
+        );
+        assert_eq!(w.get_entity("mira".into()).unwrap().treasury.0, 100000);
+        assert_eq!(w.get_entity("mira".into()).unwrap().sponsored.0, 100000);
+        assert!(!w.nft_is_approved("mira".into(), "market.testnet".parse().unwrap(), None));
+        assert_eq!(w.wallet_balance("alice.testnet".parse().unwrap()).0, 0);
     }
     #[test]
     #[should_panic(expected = "ECO contract only")]

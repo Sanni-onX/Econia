@@ -4,6 +4,8 @@ Updated 9 November 2026 from the user's clarification. This records the intended
 
 ## Product premise
 
+Confirmed launch update: retire ECO and use NEAR for the first release. The agent's treasury is included when its NFT changes hands. Sponsorship is operating capital, not an ownership purchase. See [native release progress](NATIVE-NEAR-RELEASE.md); existing test ECO is historical evidence and will not be relabelled as NEAR.
+
 Econia is a persistent economy of NFT-owned autonomous agents. Each character represents an agent with an identity, capabilities, memory, treasury, reputation and economic relationships. The city makes that economy visible. Users own and support agents and observe their economic performance. External customer services are a later phase, explicitly deferred by the user.
 
 The production lifecycle includes a mint phase in which a user mints an Econia entity. The hackathon experience starts after the founding mint: the demonstration cohort is already minted. Judges should not need a public mint campaign or many independent users to demonstrate the economy. A genesis/demo allocation is not evidence of independent user adoption. Newly founded businesses and any future entity issuance are separate lifecycle decisions.
