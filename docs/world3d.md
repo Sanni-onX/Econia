@@ -21,7 +21,7 @@ The models include beveled foundations, mullioned windows, shop signs and awning
 
 Blender is downloaded from the official vendor as a portable tool under the ignored private tools directory; the executable is not committed. Run the source with Blender's `--background --factory-startup --python` options. [Model review](screenshots/blender-premises.png), [in-world bakery](screenshots/blender-world-bakery.png), [mobile](screenshots/blender-world-mobile.png).
 
-Higgsfield was connected during this update, but its tools returned `Unknown tool` for both instruction and preference reads. The browser fallback was signed out and awaits user login. No Higgsfield-generated asset or completed generation is claimed.
+Higgsfield access recovered after account sign-in. Its **3D Jutsu** tools were used to create and review an original Commons pavilion in Blender 5.2, with two committed design revisions. The local 324,956-byte GLB and editable `.blend` source are included, with project/revision provenance under `models/higgsfield/`. The pavilion replaces the square's fountain when loaded. It is decorative shared architecture, not an extra business or a claim that real agents have met there. Its review lights/camera are removed on import so Econia's own world lighting stays authoritative. [Reviewed render](screenshots/higgsfield-pavilion.png).
 
 Three.js **0.187.0** supplies the renderer, glTF loading and camera controls. Its MIT license is included under `apps/web/public/licenses/`.
 

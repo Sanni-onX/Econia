@@ -9,6 +9,33 @@ const actionFields = {
   HIRE: ["personId"],
   CREATE_BUSINESS: ["industry", "capital"],
 };
+const fieldSchemas = {
+  good: { type: "string", enum: Object.keys(catalog.goods) },
+  quantity: { type: "integer", minimum: 1, maximum: 100 },
+  personId: { type: "string" },
+  industry: { type: "string", enum: Object.keys(catalog.recipes) },
+  capital: { type: "integer", minimum: 75000 },
+};
+export const decisionSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["action", "reason", "memory"],
+  properties: {
+    action: {
+      anyOf: Object.entries(actionFields).map(([type, fields]) => ({
+        type: "object",
+        additionalProperties: false,
+        required: ["type", ...fields],
+        properties: {
+          type: { type: "string", enum: [type] },
+          ...Object.fromEntries(fields.map((f) => [f, fieldSchemas[f]])),
+        },
+      })),
+    },
+    reason: { type: "string" },
+    memory: { type: "string" },
+  },
+};
 export function parseDecision(value) {
   const parsed = typeof value === "string" ? JSON.parse(value) : value;
   if (
@@ -64,7 +91,7 @@ export class NearAIProvider {
     apiKey,
     model,
     maxTokens = 1200,
-    timeoutMs = 45000,
+    timeoutMs = 90000,
     fetchImpl = fetch,
   }) {
     if (!apiKey || !model)
@@ -76,6 +103,12 @@ export class NearAIProvider {
     this.fetch = fetchImpl;
   }
   async decide(context) {
+    const schema = structuredClone(decisionSchema);
+    if (context.permittedActions?.length)
+      schema.properties.action.anyOf = schema.properties.action.anyOf.filter(
+        (option) =>
+          context.permittedActions.includes(option.properties.type.enum[0]),
+      );
     const response = await this.fetch(
       "https://cloud-api.near.ai/v1/chat/completions",
       {
@@ -88,6 +121,14 @@ export class NearAIProvider {
         body: JSON.stringify({
           model: this.model,
           max_tokens: this.maxTokens,
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "econia_decision",
+              strict: true,
+              schema,
+            },
+          },
           ...(this.model === "z-ai/glm-5.3-flash"
             ? { thinking_token_budget: 512 }
             : {}),
@@ -123,8 +164,14 @@ export class NearAIProvider {
     const choice = result.choices?.[0];
     if (choice?.finish_reason !== "stop")
       throw new Error("NEAR AI did not finish a decision");
+    const decision = parseDecision(choice.message?.content);
+    if (
+      context.permittedActions?.length &&
+      !context.permittedActions.includes(decision.action.type)
+    )
+      throw new Error("AI action is not currently permitted");
     return {
-      ...parseDecision(choice.message?.content),
+      ...decision,
       model: this.model,
       requestId: response.headers.get("x-request-id") || null,
       usage: { totalTokens: Number(result.usage?.total_tokens) || 0 },

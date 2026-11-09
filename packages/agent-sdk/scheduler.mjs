@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { catalog } from "../economy/index.mjs";
 import { NearAIProvider, parseDecision } from "./near-ai.mjs";
+import { validate } from "../simulation-core/index.mjs";
 
 const integer = (value, fallback, min, max) => {
   const n = Number(value ?? fallback);
@@ -241,6 +242,48 @@ function digest(context) {
   return createHash("sha256").update(JSON.stringify(context)).digest("hex");
 }
 function decisionContext(world, e, memory, cycle) {
+  const recipe = catalog.recipes[e.industry];
+  const stockBlocked =
+    recipe &&
+    Object.keys(recipe.outputs).some((g) => (e.inventory[g] || 0) >= 100);
+  const can = (action) => validate(world, e.id, action) === null;
+  const permittedActions = ["WAIT"];
+  if (e.status === "ACTIVE") {
+    if (can({ type: "WORK" })) permittedActions.push("WORK");
+    if ((e.inventory.BREAD || 0) > 0 && can({ type: "CONSUME" }))
+      permittedActions.push("CONSUME");
+    if (
+      recipe &&
+      !stockBlocked &&
+      can({ type: "PRODUCE" }) &&
+      Object.entries(recipe.inputs).every(
+        ([g, q]) => (e.inventory[g] || 0) >= q,
+      )
+    )
+      permittedActions.push("PRODUCE");
+    if (
+      Object.keys(catalog.goods).some(
+        (g) =>
+          can({ type: "BUY", good: g, quantity: 1 }) &&
+          Object.values(world.entities).some(
+            (x) => x.id !== e.id && (x.inventory[g] || 0) > 0,
+          ),
+      )
+    )
+      permittedActions.push("BUY");
+    if (
+      Object.values(world.entities).some((x) =>
+        can({ type: "HIRE", personId: x.id }),
+      )
+    )
+      permittedActions.push("HIRE");
+    if (
+      Object.keys(catalog.recipes).some((industry) =>
+        can({ type: "CREATE_BUSINESS", industry, capital: 75000 }),
+      )
+    )
+      permittedActions.push("CREATE_BUSINESS");
+  }
   const {
     id,
     name,
@@ -275,9 +318,30 @@ function decisionContext(world, e, memory, cycle) {
       status,
     },
     cycle,
+    permittedActions,
     memory,
     prices: world.prices,
     recipes: catalog.recipes,
+    production:
+      e.industry && catalog.recipes[e.industry]
+        ? {
+            employees: world.jobs.filter((j) => j.business === e.id).length,
+            batchesBeforeStockLimit: Math.min(
+              catalog.recipes[e.industry].capacity,
+              1 + world.jobs.filter((j) => j.business === e.id).length,
+              ...Object.entries(catalog.recipes[e.industry].inputs).map(
+                ([g, q]) => Math.floor((e.inventory[g] || 0) / q),
+              ),
+            ),
+            outputStockCeiling: 100,
+            blockedByOutputStock: Object.keys(
+              catalog.recipes[e.industry].outputs,
+            ).some((g) => (e.inventory[g] || 0) >= 100),
+          }
+        : null,
+    activeWorldConstraints: world.worldEvents.filter(
+      (x) => x.start <= cycle && x.end > cycle,
+    ),
     jobs: world.jobs,
     holdings: world.holdings,
     relationships: world.relationships
@@ -285,8 +349,18 @@ function decisionContext(world, e, memory, cycle) {
       .slice(-30),
     counterparties: Object.values(world.entities)
       .filter(
-        (x) => x.id !== id && (x.type === "PERSON" || x.type === "BUSINESS"),
+        (x) =>
+          x.id !== id &&
+          (x.type === "BUSINESS" ||
+            (x.type === "PERSON" &&
+              !world.jobs.some((j) => j.person === x.id))),
       )
+      .sort(
+        (a, b) =>
+          (a.type === "BUSINESS" ? 0 : 1) - (b.type === "BUSINESS" ? 0 : 1) ||
+          a.id.localeCompare(b.id),
+      )
+      .slice(0, 24)
       .map((x) => ({
         id: x.id,
         name: x.name,
@@ -297,6 +371,6 @@ function decisionContext(world, e, memory, cycle) {
         reputation: x.reputation,
       })),
     constraints:
-      "One action per planning slot. HIRE requires an unemployed worker and 18000 cash. CREATE_BUSINESS requires capability, owner permission, founder skill, at least 75000 capital, no existing business holding and minimum reserve. BUY preserves reserve. WORK earns the existing contract wage or a funded public shift. PRODUCE is constrained by recipe, inventory, staff, equipment and reserve. WAIT is permitted.",
+      "One action per planning slot. HIRE requires an unemployed worker and 18000 cash. CREATE_BUSINESS requires capability, owner permission, founder skill, at least 75000 capital, no existing business holding and minimum reserve. BUY preserves reserve. WORK earns the existing contract wage or a funded public shift. PRODUCE is blocked whenever ANY output good already has inventory >=100; otherwise batches are min(recipe capacity, 1+employee count, available input batches). Goods are sold passively when a buyer purchases; SELL is not an enabled action. WAIT is permitted.",
   };
 }

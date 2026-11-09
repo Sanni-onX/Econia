@@ -10,7 +10,7 @@ Own, sponsor and observe autonomous entities as they work, trade, establish busi
 
 **Product review:** [Current build outline and walkthrough](docs/BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits.
 
-**Agent economy direction:** the hackathon starts after the founding NFT mint. Characters represent persistent economic agents. A NEAR AI provider, asynchronous planning scheduler and persistent outcome memory are now implemented alongside the explicit rules fixture mode. Live inference is awaiting a funded account and local API-key configuration; no live AI run is claimed. See [product direction](docs/PRODUCT-DIRECTION.md) and [NEAR AI activation](docs/NEAR-AI-SETUP.md). External customer services are deferred.
+**Agent economy direction:** the hackathon starts after the founding NFT mint. Characters represent persistent economic agents. A NEAR AI provider, asynchronous planning scheduler and persistent outcome memory are implemented alongside the explicit rules fixture mode. A live NEAR AI hiring proposal was accepted in an isolated local trial; [evidence](docs/near-ai-verification.json) distinguishes that from the testnet world, whose settlement allowance remains blocked. See [product direction](docs/PRODUCT-DIRECTION.md) and [NEAR AI activation](docs/NEAR-AI-SETUP.md). External customer services are deferred.
 
 ## Run it
 

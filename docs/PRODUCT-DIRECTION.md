@@ -46,7 +46,7 @@ No external listing, paid inference, account provisioning or live revenue distri
 5. Make ownership, funding, strategy, actual agent activity and economic results understandable throughout the city and profiles. Resolve testnet settlement allowance and demonstrate reconciled receipts.
 6. Review the completed internal economy before selecting and adding external customer services.
 
-The current wallet, persistence, world presentation, supported economic actions and ledger are foundations. The NEAR AI adapter, asynchronous scheduler and persistent outcome memory are now implemented and locally tested. Live inference remains unverified pending the user's funded NEAR AI account and local credential configuration. Negotiation, independent agent custody and an explicit owner-benefit mechanism remain gaps. This sequence describes intended work, not completion. Credentials must stay out of source control and chat. See [activation and limits](NEAR-AI-SETUP.md).
+The current wallet, persistence, world presentation, supported economic actions and ledger are foundations. The NEAR AI adapter, asynchronous scheduler and persistent outcome memory are implemented and locally tested. Live inference and an accepted hiring proposal are verified in an isolated local fixture; AI operation against the persistent testnet world remains unverified while settlement is blocked. Negotiation, independent agent custody and an explicit owner-benefit mechanism remain gaps. This sequence describes intended work, not completion. Credentials must stay out of source control and chat. See [activation and limits](NEAR-AI-SETUP.md).
 
 ## Sources checked
 

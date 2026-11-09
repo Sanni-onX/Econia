@@ -15,6 +15,7 @@ const assets = {
   econiaFarm: "/models/econia/farm.glb",
   econiaMill: "/models/econia/mill.glb",
   econiaHarbor: "/models/econia/harbor.glb",
+  commonsPavilion: "/models/higgsfield/commons-pavilion.glb",
   homeA: "city-kit-suburban--building-type-a",
   homeC: "city-kit-suburban--building-type-c",
   homeF: "city-kit-suburban--building-type-f",
@@ -395,7 +396,7 @@ export function createWorldScene(host, callbacks) {
   sphere(scene, -26, 1.1, -23, 7, "#8ba66e", [1, 0.25, 0.7]);
   sphere(scene, -8, 1.1, -25, 5, "#9bb17b", [1.4, 0.27, 0.75]);
   sphere(scene, 5, 1, -25, 6, "#8ea979", [1, 0.25, 0.65]);
-  // Commons square, fountain, planters and seating.
+  // Shared Commons square. The fountain remains an asset-loading fallback.
   const plaza = cylinder(scene, -5, 1.09, -6, 3.45, 3.45, 0.12, "#d7d1b4", 40);
   for (let ring = 0; ring < 3; ring++) {
     const t = mesh(
@@ -405,10 +406,12 @@ export function createWorldScene(host, callbacks) {
     t.rotation.x = -Math.PI / 2;
     t.position.set(-5, 1.17, -6);
   }
-  cylinder(scene, -5, 1.35, -6, 1.28, 1.45, 0.45, "#bdbba0", 20);
-  cylinder(scene, -5, 1.61, -6, 1.14, 1.14, 0.06, "#7ca9ad", 28);
-  cylinder(scene, -5, 2, -6, 0.18, 0.27, 0.85, "#dcd4b9");
-  cylinder(scene, -5, 2.41, -6, 0.62, 0.26, 0.15, "#d5cdb4", 18);
+  const fountainFallback = new THREE.Group();
+  scene.add(fountainFallback);
+  cylinder(fountainFallback, -5, 1.35, -6, 1.28, 1.45, 0.45, "#bdbba0", 20);
+  cylinder(fountainFallback, -5, 1.61, -6, 1.14, 1.14, 0.06, "#7ca9ad", 28);
+  cylinder(fountainFallback, -5, 2, -6, 0.18, 0.27, 0.85, "#dcd4b9");
+  cylinder(fountainFallback, -5, 2.41, -6, 0.62, 0.26, 0.15, "#d5cdb4", 18);
   for (const [x, z, r] of [
     [-8, -5, 0.6],
     [-2, -7, -0.6],
@@ -545,6 +548,11 @@ export function createWorldScene(host, callbacks) {
           return;
         }
         const root = gltf.scene;
+        const reviewNodes = [];
+        root.traverse((o) => {
+          if (o.isLight || o.isCamera) reviewNodes.push(o);
+        });
+        for (const node of reviewNodes) node.removeFromParent();
         root.traverse((o) => {
           if (o.isMesh) {
             o.castShadow = true;
@@ -616,6 +624,10 @@ export function createWorldScene(host, callbacks) {
     return g;
   }
   function addDecorations() {
+    if (models.has("commonsPavilion")) {
+      fountainFallback.removeFromParent();
+      instance("commonsPavilion", scene, -5, -6, 5.25, 0, 1.15);
+    }
     const houses = [
       [-30, 17, "homeA", 4.7],
       [-33, 7, "homeH", 4.0],

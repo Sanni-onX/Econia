@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-11-09T20:54:21.232Z",
+  "scope": "One live NEAR AI request in an isolated sandbox; not testnet settlement",
+  "model": "z-ai/glm-5.3-flash",
+  "requestId": "97f06c7e-8849-4b88-8000-4a5b2c2a4286",
+  "contextHash": "a67d634af6e35d8b7aa51cf6d5ac403871b81db27d216cd007383025fad64861",
+  "usage": {
+    "totalTokens": 3758
+  },
+  "entityId": "business_1",
+  "action": {
+    "type": "HIRE",
+    "personId": "person_121"
+  },
+  "reason": "PRODUCE/WORK unavailable this slot; hiring Leo (farming 89) adds a second production employee for the FARMING recipe (capacity = 1 + employees), directly boosting grain output next cycle. Cost 18000 leaves cash 102000, well above the 4000 reserve; buying goods is unnecessary since I already hold 120 GRAIN and 20 ENERGY.",
+  "executionStatus": "ACCEPTED",
+  "result": "Completed",
+  "balanced": true
+}

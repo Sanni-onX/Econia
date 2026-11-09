@@ -52,7 +52,22 @@ test("NEAR AI validates output and never forwards provider error bodies", async 
   const result = await provider.decide({ entity: { id: "person_199" } });
   assert.equal(request.url, "https://cloud-api.near.ai/v1/chat/completions");
   assert.equal(JSON.parse(request.init.body).model, "test-model");
+  assert.equal(
+    JSON.parse(request.init.body).response_format.json_schema.strict,
+    true,
+  );
   assert.equal(result.usage.totalTokens, 17);
+  await assert.rejects(
+    provider.decide({
+      entity: { id: "person_199" },
+      permittedActions: ["WAIT"],
+    }),
+    /not currently permitted/,
+  );
+  const options = JSON.parse(request.init.body).response_format.json_schema
+    .schema.properties.action.anyOf;
+  assert.equal(options.length, 1);
+  assert.deepEqual(options[0].properties.type.enum, ["WAIT"]);
   assert.throws(() =>
     parseDecision({ ...decision, action: { type: "TRANSFER", amount: 100 } }),
   );
@@ -296,4 +311,27 @@ test("billing failure pauses the economy and backs off instead of repeating bloc
   );
   assert.equal(calls, 2);
   assert.equal(recovered.agentRuntime.budget.calls, 2);
+});
+
+test("AI context excludes impossible production and reduces irrelevant counterparties", async () => {
+  const w = genesis();
+  let context;
+  const s = createAgentScheduler(
+    { ...env, AGENT_BATCH_SIZE: "1" },
+    {
+      provider: {
+        decide: async (c) => {
+          context = c;
+          return { ...decision, action: { type: "WAIT" } };
+        },
+      },
+    },
+  );
+  await s.prepare(w, async () => {});
+  assert.equal(context.entity.id, "business_1");
+  assert.equal(context.production.blockedByOutputStock, true);
+  assert.equal(context.permittedActions.includes("PRODUCE"), false);
+  assert.equal(context.permittedActions.includes("WORK"), false);
+  assert.ok(context.permittedActions.includes("WAIT"));
+  assert.ok(context.counterparties.length <= 24);
 });

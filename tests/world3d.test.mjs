@@ -111,3 +111,26 @@ test("original Blender premises have reproducible source and valid self-containe
     );
   }
 });
+
+test("Higgsfield pavilion has a pinned reviewed revision and local mesh export", async () => {
+  const root = new URL(
+    "../apps/web/public/models/higgsfield/",
+    import.meta.url,
+  );
+  const manifest = JSON.parse(
+    await readFile(new URL("manifest.json", root), "utf8"),
+  );
+  assert.equal(manifest.revision, 2);
+  assert.match(manifest.tool, /Higgsfield/);
+  const bytes = await readFile(new URL(manifest.file, root));
+  assert.equal(bytes.toString("ascii", 0, 4), "glTF");
+  assert.equal(bytes.readUInt32LE(8), manifest.bytes);
+  assert.ok(
+    (
+      await readFile(
+        new URL("../assets/higgsfield/pavilion-details.py", import.meta.url),
+        "utf8",
+      )
+    ).includes("COMMONS"),
+  );
+});

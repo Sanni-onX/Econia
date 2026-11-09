@@ -1,6 +1,6 @@
 # Activate Econia's NEAR AI runtime
 
-The integration is implemented; live inference requires your NEAR AI Cloud account, credits and a private local API key. External customer services are not part of this phase.
+The integration is implemented and a live inference/validated hiring proposal has been verified in an isolated sandbox. The running testnet world still needs its separate settlement allowance issue resolved before AI operation there is verified. External customer services are not part of this phase.
 
 ## Account and local configuration
 
@@ -14,7 +14,9 @@ Default limits are four requests per cycle and 240 reserved requests per UTC day
 
 The live testnet world also has a previously exhausted restricted operator gas allowance. Adding inference credits does not fix NEAR settlement. A prepared settlement is recovered before new AI plans are requested; a failed pending batch prevents new plans from being billed.
 
-On 9 November the configured local key reached the gateway, but inference returned HTTP 402. Account credits still need checking; a configured key does not establish successful paid inference. Billing and authentication refusals pause the cycle and persist a five-minute retry delay. Correct the account/key issue before restarting a live trial. The development probe did not produce an AI decision.
+An initial probe on 9 November returned HTTP 402. Later, live inference succeeded after account access was resolved. The live trial exposed a schema mismatch and slow responses; requests now use a strict JSON action schema with a 90-second timeout and constrain action types to the entity's current permissions. Context includes actual production-stock limits and a smaller relevant counterparty list. Billing/authentication refusals still pause the cycle and persist a five-minute retry delay.
+
+`node --env-file=.env scripts/verify-agent-inference.mjs` makes **one paid request** against an isolated local fixture and writes public verification only when a valid model proposal is returned. It does not touch the running world, contracts or wallets. [Latest evidence](near-ai-verification.json) records an accepted hiring proposal and balanced accounting. A valid proposal is not a guarantee that its rationale is correct or its strategy profitable; the engine remains the authority on actual costs and outcomes.
 
 ## What the runtime does
 

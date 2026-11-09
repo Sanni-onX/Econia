@@ -1,5 +1,12 @@
 # Validation record
 
+## Live inference and Higgsfield completion — 9 November 2026
+
+- NEAR AI returned live model output. After adding a strict per-entity action schema and explicit production constraints, a farm selected an available worker and its hiring proposal was accepted by the engine with balanced accounting. [Evidence](near-ai-verification.json). This is an isolated local trial, not AI testnet settlement or a profitability evaluation. Model rationale remains untrusted generated text.
+- Added the reviewed Commons pavilion through Higgsfield 3D Jutsu, revision 2. Structural query verified 49 meshes, no negative scales, no missing materials and no external image references. Inspected its rendered image, exported the GLB/editable source and showed the scene through Higgsfield's native preview.
+- The city loads 26 models after integration. Exported review lights and cameras are stripped so they cannot affect world lighting. Pavilion geometry is decorative; no invented agent activity or entity was added.
+- Current local checks: 41 passed; one optional PostgreSQL integration skipped. Production build passed.
+
 ## Blender premises and live AI access — 9 November 2026
 
 - Built four original economic premises with Blender 4.5.9 LTS. Committed editable source, generation scripts, GLB exports and matching profile renders. The city successfully loaded all 25 models (21 existing scenery assets plus four original premises).
@@ -7,7 +14,6 @@
 - Production build passed. Local checks: 39 passed; one optional PostgreSQL test skipped. Added checks for self-contained original GLBs/provenance and billing-failure backoff.
 - The user's local NEAR AI key is configured. An actual gateway probe returned HTTP 402; live model output remains unverified. No provider key or response body was published. Billing/authentication failures now pause cycles and persist a five-minute retry delay instead of repeatedly consuming planning slots.
 - Higgsfield connection appeared, but instruction/preferences tools returned `Unknown tool`. Browser fallback requires user login. No Higgsfield generation was submitted.
-
 
 ## NEAR AI runtime — 9 November 2026
 
