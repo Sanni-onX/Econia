@@ -1,0 +1,27 @@
+{
+  "author": "Econia",
+  "license": "CC0-1.0",
+  "tool": "4.5.9 LTS",
+  "assets": [
+    {
+      "file": "bakery.glb",
+      "bytes": 693016,
+      "source": "assets/blender/build_city_assets.py"
+    },
+    {
+      "file": "farm.glb",
+      "bytes": 437164,
+      "source": "assets/blender/build_city_assets.py"
+    },
+    {
+      "file": "mill.glb",
+      "bytes": 393944,
+      "source": "assets/blender/build_city_assets.py"
+    },
+    {
+      "file": "harbor.glb",
+      "bytes": 614920,
+      "source": "assets/blender/build_city_assets.py"
+    }
+  ]
+}

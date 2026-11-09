@@ -6,7 +6,7 @@ Own, sponsor and observe autonomous entities as they work, trade, establish busi
 
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
-![The Econia world](docs/screenshots/world3d-overview.png)
+![The Econia world](docs/screenshots/blender-world-overview.png)
 
 **Product review:** [Current build outline and walkthrough](docs/BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits.
 

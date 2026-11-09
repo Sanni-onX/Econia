@@ -1,5 +1,14 @@
 # Validation record
 
+## Blender premises and live AI access — 9 November 2026
+
+- Built four original economic premises with Blender 4.5.9 LTS. Committed editable source, generation scripts, GLB exports and matching profile renders. The city successfully loaded all 25 models (21 existing scenery assets plus four original premises).
+- Browser verified Mira's new bakery and matching profile picture, preserved entity interactions, and a 390-pixel viewport with no horizontal overflow. Building previews loaded at their intended 560-pixel source resolution.
+- Production build passed. Local checks: 39 passed; one optional PostgreSQL test skipped. Added checks for self-contained original GLBs/provenance and billing-failure backoff.
+- The user's local NEAR AI key is configured. An actual gateway probe returned HTTP 402; live model output remains unverified. No provider key or response body was published. Billing/authentication failures now pause cycles and persist a five-minute retry delay instead of repeatedly consuming planning slots.
+- Higgsfield connection appeared, but instruction/preferences tools returned `Unknown tool`. Browser fallback requires user login. No Higgsfield generation was submitted.
+
+
 ## NEAR AI runtime — 9 November 2026
 
 - Implemented the server-side NEAR AI adapter, bounded asynchronous planning, durable request reservations, fair planning slots, persistent outcome memory and validated engine execution.

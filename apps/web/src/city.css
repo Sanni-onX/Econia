@@ -891,6 +891,28 @@
   border-top: 1px solid #ffffff13;
   flex-shrink: 0;
 }
+.premises-art {
+  position: relative;
+  height: 230px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.premises-art .blender-premises-preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px 18px 23px;
+}
+.premises-art > span {
+  position: absolute;
+  left: 20px;
+  bottom: 12px;
+  color: #3c4e4b;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 700;
+}
 .business-premises {
   height: 148px;
   position: relative;

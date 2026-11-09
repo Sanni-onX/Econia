@@ -80,3 +80,34 @@ test("external 3D assets ship locally with license, pinned provenance and valid 
   }
   assert.match(await readFile(new URL("LICENSE.txt", root), "utf8"), /CC0/);
 });
+
+test("original Blender premises have reproducible source and valid self-contained GLB exports", async () => {
+  const root = new URL("../apps/web/public/models/econia/", import.meta.url);
+  const manifest = JSON.parse(
+    await readFile(new URL("manifest.json", root), "utf8"),
+  );
+  assert.equal(manifest.author, "Econia");
+  assert.equal(manifest.license, "CC0-1.0");
+  assert.deepEqual(manifest.assets.map((a) => a.file).sort(), [
+    "bakery.glb",
+    "farm.glb",
+    "harbor.glb",
+    "mill.glb",
+  ]);
+  for (const asset of manifest.assets) {
+    const bytes = await readFile(new URL(asset.file, root));
+    assert.equal(bytes.toString("ascii", 0, 4), "glTF");
+    assert.equal(bytes.readUInt32LE(8), bytes.length);
+    assert.equal(bytes.length, asset.bytes);
+    const length = bytes.readUInt32LE(12);
+    const json = JSON.parse(bytes.toString("utf8", 20, 20 + length));
+    assert.ok(json.meshes.length > 10);
+    assert.ok(json.buffers.every((b) => !b.uri));
+    assert.ok((json.images || []).every((i) => !i.uri));
+    assert.ok(
+      (
+        await readFile(new URL(`../${asset.source}`, import.meta.url), "utf8")
+      ).includes("bpy.ops.export_scene.gltf"),
+    );
+  }
+});

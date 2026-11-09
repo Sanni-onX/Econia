@@ -106,7 +106,17 @@ export class NearAIProvider {
     );
     // Provider error bodies can contain sensitive request details; never forward them.
     if (!response.ok)
-      throw new Error(`NEAR AI request failed (HTTP ${response.status})`);
+      throw Object.assign(
+        new Error(`NEAR AI request failed (HTTP ${response.status})`),
+        {
+          code:
+            response.status === 402
+              ? "AI_BILLING_REQUIRED"
+              : response.status === 401
+                ? "AI_AUTH_REQUIRED"
+                : "AI_PROVIDER_ERROR",
+        },
+      );
     const raw = await response.text();
     if (raw.length > 100000) throw new Error("NEAR AI response exceeded limit");
     const result = JSON.parse(raw);

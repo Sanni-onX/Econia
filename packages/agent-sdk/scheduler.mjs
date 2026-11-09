@@ -48,6 +48,15 @@ export function createAgentScheduler(env = process.env, overrides = {}) {
         budget: { day, calls: 0 },
       });
       runtime.mode = mode;
+      if (runtime.retryAfter && now().getTime() < runtime.retryAfter)
+        throw Object.assign(new Error(runtime.issue), {
+          code: "AGENT_PROVIDER_BLOCKED",
+        });
+      if (runtime.retryAfter) {
+        runtime.retryAfter = null;
+        runtime.issue = null;
+        runtime.targetCycle = null;
+      }
       if (runtime.budget.day !== day) runtime.budget = { day, calls: 0 };
       const entities = Object.values(world.entities).filter(
         (e) =>
@@ -114,11 +123,16 @@ export function createAgentScheduler(env = process.env, overrides = {}) {
                 usage: raw.usage || { totalTokens: 0 },
               };
               return [e.id, { status: "READY", result }];
-            } catch {
+            } catch (error) {
               return [
                 e.id,
                 {
                   status: "FAILED",
+                  code: ["AI_BILLING_REQUIRED", "AI_AUTH_REQUIRED"].includes(
+                    error.code,
+                  )
+                    ? error.code
+                    : null,
                   error:
                     "Inference failed or returned an invalid decision; no rule fallback was used.",
                 },
@@ -131,6 +145,18 @@ export function createAgentScheduler(env = process.env, overrides = {}) {
           runtime.agents[id].status = result.status;
         }
         await persist();
+        const blocked = results.find(([, result]) => result.code);
+        if (blocked) {
+          runtime.issue =
+            blocked[1].code === "AI_BILLING_REQUIRED"
+              ? "NEAR AI requires usable account credits; agent decisions are paused."
+              : "NEAR AI credentials were rejected; agent decisions are paused.";
+          runtime.retryAfter = now().getTime() + 5 * 60 * 1000;
+          await persist();
+          throw Object.assign(new Error(runtime.issue), {
+            code: "AGENT_PROVIDER_BLOCKED",
+          });
+        }
       } else {
         for (const [id, request] of Object.entries(runtime.requests))
           if (request.status === "RUNNING") {

@@ -14,6 +14,8 @@ Default limits are four requests per cycle and 240 reserved requests per UTC day
 
 The live testnet world also has a previously exhausted restricted operator gas allowance. Adding inference credits does not fix NEAR settlement. A prepared settlement is recovered before new AI plans are requested; a failed pending batch prevents new plans from being billed.
 
+On 9 November the configured local key reached the gateway, but inference returned HTTP 402. Account credits still need checking; a configured key does not establish successful paid inference. Billing and authentication refusals pause the cycle and persist a five-minute retry delay. Correct the account/key issue before restarting a live trial. The development probe did not produce an AI decision.
+
 ## What the runtime does
 
 - Maintains a runtime identity for each working/producing entity, with recent structured outcome memory.

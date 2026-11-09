@@ -269,3 +269,31 @@ test("API advances AI cycles atomically and exposes source without raw planning 
     await app.close();
   }
 });
+
+test("billing failure pauses the economy and backs off instead of repeating blocked requests", async () => {
+  const w = genesis();
+  let calls = 0;
+  const scheduler = createAgentScheduler(env, {
+    provider: {
+      decide: async () => {
+        calls++;
+        throw Object.assign(new Error("billing"), {
+          code: "AI_BILLING_REQUIRED",
+        });
+      },
+    },
+  });
+  await assert.rejects(
+    scheduler.prepare(w, async () => {}),
+    /credits/,
+  );
+  assert.equal(w.cycle, 0);
+  assert.equal(calls, 2);
+  const recovered = structuredClone(w);
+  await assert.rejects(
+    scheduler.prepare(recovered, async () => {}),
+    /credits/,
+  );
+  assert.equal(calls, 2);
+  assert.equal(recovered.agentRuntime.budget.calls, 2);
+});

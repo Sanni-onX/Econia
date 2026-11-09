@@ -142,7 +142,7 @@ export default function World3D(props) {
         </div>
       )}
       <div className="world-3d-credit">
-        <span>ECONIA IN 3D</span> Models by{" "}
+        <span>ECONIA IN 3D</span> Original Econia models · scenery by{" "}
         <a href="https://kenney.nl" target="_blank" rel="noreferrer">
           Kenney
         </a>

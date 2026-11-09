@@ -11,6 +11,10 @@ import {
 
 const ROOT = "/models/kenney/";
 const assets = {
+  econiaBakery: "/models/econia/bakery.glb",
+  econiaFarm: "/models/econia/farm.glb",
+  econiaMill: "/models/econia/mill.glb",
+  econiaHarbor: "/models/econia/harbor.glb",
   homeA: "city-kit-suburban--building-type-a",
   homeC: "city-kit-suburban--building-type-c",
   homeF: "city-kit-suburban--building-type-f",
@@ -44,7 +48,7 @@ export function createWorldScene(host, callbacks) {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.autoUpdate = false;
   renderer.shadowMap.needsUpdate = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   renderer.domElement.setAttribute(
@@ -533,29 +537,31 @@ export function createWorldScene(host, callbacks) {
 
   function loadModel(key) {
     const name = assets[key];
-    return new GLTFLoader().loadAsync(`${ROOT}${name}.glb`).then((gltf) => {
-      if (disposed) {
-        disposeObject(gltf.scene);
-        return;
-      }
-      const root = gltf.scene;
-      root.traverse((o) => {
-        if (o.isMesh) {
-          o.castShadow = true;
-          o.receiveShadow = true;
-          geometries.add(o.geometry);
-          for (const m of Array.isArray(o.material)
-            ? o.material
-            : [o.material]) {
-            m.roughness = Math.max(0.65, m.roughness || 0);
-            if (m.map) textures.add(m.map);
-          }
+    return new GLTFLoader()
+      .loadAsync(name.startsWith("/") ? name : `${ROOT}${name}.glb`)
+      .then((gltf) => {
+        if (disposed) {
+          disposeObject(gltf.scene);
+          return;
         }
+        const root = gltf.scene;
+        root.traverse((o) => {
+          if (o.isMesh) {
+            o.castShadow = true;
+            o.receiveShadow = true;
+            geometries.add(o.geometry);
+            for (const m of Array.isArray(o.material)
+              ? o.material
+              : [o.material]) {
+              m.roughness = Math.max(0.65, m.roughness || 0);
+              if (m.map) textures.add(m.map);
+            }
+          }
+        });
+        models.set(key, root);
+        dirty = true;
+        return root;
       });
-      models.set(key, root);
-      dirty = true;
-      return root;
-    });
   }
   function instance(
     key,
@@ -700,74 +706,109 @@ export function createWorldScene(host, callbacks) {
     const g = new THREE.Group();
     g.userData.entityId = e.id;
     dynamic.add(g);
-    box(g, 0, 0.05, 0, 6.1, 0.13, 5.5, "#d7d2b7");
-    if (e.industry === "FOOD") {
-      box(g, 0, 1.6, 0, 4.7, 3.1, 3.8, "#eddbb4");
-      roof(g, 0, 3.15, 0, 5.25, 4.3, 1.7, "#b86043");
-      box(g, -1.38, 0.95, 1.96, 0.95, 1.9, 0.12, "#5e716a");
-      windowPane(g, 1, 1.25, 1.97, 1.55, 1.3);
-      windowPane(g, -1.15, 2.65, 1.97, 0.7, 0.65);
-      windowPane(g, 1.1, 2.65, 1.97, 0.7, 0.65);
-      box(g, 0.7, 2.25, 2.4, 3, 0.12, 1.1, "#d2a24b", 0.02);
-      for (let i = 0; i < 7; i++)
-        box(g, -0.64 + i * 0.43, 2.27, 2.4, 0.22, 0.13, 1.13, "#f4e9c8");
-      box(g, 1.5, 3.9, -0.8, 0.6, 2.2, 0.65, "#c5b294");
-      box(g, 1.5, 5.05, -0.8, 0.8, 0.18, 0.82, "#e0ceab");
-      box(g, 2.95, 0.7, 1.5, 0.8, 1.35, 0.95, "#8a6a47");
-      box(g, 2.95, 1.42, 1.5, 1, 0.12, 1.05, "#c69c61");
-      for (let i = 0; i < 3; i++)
-        sphere(g, 2.7 + i * 0.24, 1.6, 1.5, 0.2, "#d9ac65", [0.55, 0.65, 1.2]);
-      // A bread-shaped hanging sign identifies the actual bakery even without labels.
-      box(g, -2.55, 2.8, 2.15, 0.08, 0.08, 1.4, "#68573f");
-      sphere(g, -2.55, 2.25, 2.55, 0.45, "#d8ac65", [0.5, 0.7, 1]);
-    } else if (e.industry === "FARMING") {
-      box(g, 0, 1.45, 0, 4.5, 2.8, 3.7, "#c47a55");
-      roof(g, 0, 2.88, 0, 5, 4.2, 1.55, "#556f62");
-      box(g, 0, 1, 1.9, 1.7, 1.9, 0.12, "#765240");
-      for (const x of [-0.75, 0.75])
-        box(g, x, 1, 1.99, 0.09, 1.9, 0.05, "#ead8b4");
-      box(g, 0, 1, 1.99, 1.6, 0.09, 0.05, "#ead8b4");
-      cylinder(g, 3, 2, -0.5, 0.8, 0.8, 3.8, "#d5d8c0", 14);
-      const cap = mesh(new THREE.ConeGeometry(0.87, 0.8, 14), "#7f9584", g);
-      cap.position.set(3, 4.3, -0.5);
-      for (let i = 0; i < 3; i++)
-        cylinder(g, -2.1 + i * 0.8, 0.5, 2.9, 0.35, 0.35, 0.8, "#c6b06c", 8);
-    } else if (e.industry === "MILLING") {
-      instance("shopC", g, 0, 0, 4.8, 0, 0);
-      cylinder(g, -1, 2, -0.6, 1, 1.6, 4, "#e1d5b3", 8);
-      roof(g, -1, 4, -0.6, 2.4, 2.1, 1.4, "#677f78");
+    const customKey = {
+      FOOD: "econiaBakery",
+      FARMING: "econiaFarm",
+      MILLING: "econiaMill",
+      TRANSPORT: "econiaHarbor",
+    }[e.industry];
+    const custom = customKey && instance(customKey, g, 0, 0, 6.1, 0, 0);
+    if (!custom) {
+      box(g, 0, 0.05, 0, 6.1, 0.13, 5.5, "#d7d2b7");
+      if (e.industry === "FOOD") {
+        box(g, 0, 1.6, 0, 4.7, 3.1, 3.8, "#eddbb4");
+        roof(g, 0, 3.15, 0, 5.25, 4.3, 1.7, "#b86043");
+        box(g, -1.38, 0.95, 1.96, 0.95, 1.9, 0.12, "#5e716a");
+        windowPane(g, 1, 1.25, 1.97, 1.55, 1.3);
+        windowPane(g, -1.15, 2.65, 1.97, 0.7, 0.65);
+        windowPane(g, 1.1, 2.65, 1.97, 0.7, 0.65);
+        box(g, 0.7, 2.25, 2.4, 3, 0.12, 1.1, "#d2a24b", 0.02);
+        for (let i = 0; i < 7; i++)
+          box(g, -0.64 + i * 0.43, 2.27, 2.4, 0.22, 0.13, 1.13, "#f4e9c8");
+        box(g, 1.5, 3.9, -0.8, 0.6, 2.2, 0.65, "#c5b294");
+        box(g, 1.5, 5.05, -0.8, 0.8, 0.18, 0.82, "#e0ceab");
+        box(g, 2.95, 0.7, 1.5, 0.8, 1.35, 0.95, "#8a6a47");
+        box(g, 2.95, 1.42, 1.5, 1, 0.12, 1.05, "#c69c61");
+        for (let i = 0; i < 3; i++)
+          sphere(
+            g,
+            2.7 + i * 0.24,
+            1.6,
+            1.5,
+            0.2,
+            "#d9ac65",
+            [0.55, 0.65, 1.2],
+          );
+        // A bread-shaped hanging sign identifies the actual bakery even without labels.
+        box(g, -2.55, 2.8, 2.15, 0.08, 0.08, 1.4, "#68573f");
+        sphere(g, -2.55, 2.25, 2.55, 0.45, "#d8ac65", [0.5, 0.7, 1]);
+      } else if (e.industry === "FARMING") {
+        box(g, 0, 1.45, 0, 4.5, 2.8, 3.7, "#c47a55");
+        roof(g, 0, 2.88, 0, 5, 4.2, 1.55, "#556f62");
+        box(g, 0, 1, 1.9, 1.7, 1.9, 0.12, "#765240");
+        for (const x of [-0.75, 0.75])
+          box(g, x, 1, 1.99, 0.09, 1.9, 0.05, "#ead8b4");
+        box(g, 0, 1, 1.99, 1.6, 0.09, 0.05, "#ead8b4");
+        cylinder(g, 3, 2, -0.5, 0.8, 0.8, 3.8, "#d5d8c0", 14);
+        const cap = mesh(new THREE.ConeGeometry(0.87, 0.8, 14), "#7f9584", g);
+        cap.position.set(3, 4.3, -0.5);
+        for (let i = 0; i < 3; i++)
+          cylinder(g, -2.1 + i * 0.8, 0.5, 2.9, 0.35, 0.35, 0.8, "#c6b06c", 8);
+      } else if (e.industry === "MILLING") {
+        instance("shopC", g, 0, 0, 4.8, 0, 0);
+        cylinder(g, -1, 2, -0.6, 1, 1.6, 4, "#e1d5b3", 8);
+        roof(g, -1, 4, -0.6, 2.4, 2.1, 1.4, "#677f78");
+        const rotor = new THREE.Group();
+        rotor.position.set(-1, 3.7, 1.1);
+        g.add(rotor);
+        for (let i = 0; i < 4; i++) {
+          const blade = new THREE.Group();
+          blade.rotation.z = (i * Math.PI) / 2;
+          rotor.add(blade);
+          box(blade, 0, 1.1, 0, 0.22, 2.2, 0.1, "#806b4c");
+          box(blade, 0.26, 1.4, 0.01, 0.55, 1.3, 0.07, "#e4cf9e");
+        }
+        const hub = mesh(
+          new THREE.SphereGeometry(0.22, 8, 6),
+          "#806b4c",
+          rotor,
+        );
+        rotors.push({ rotor, id: e.id });
+        for (let i = 0; i < 3; i++) crate(g, 2.5, 1.5 - i * 0.85, 0);
+      } else {
+        box(g, 0, 1.5, 0, 5.2, 3, 4.1, "#8eafba");
+        roof(g, 0, 3, 0, 5.65, 4.5, 1.1, "#527583");
+        for (let i = 0; i < 2; i++) {
+          box(g, -1.35 + i * 2.7, 1.3, 2.1, 1.7, 2.5, 0.1, "#456674");
+          for (let j = 0; j < 5; j++)
+            box(
+              g,
+              -1.35 + i * 2.7,
+              0.35 + j * 0.4,
+              2.17,
+              1.65,
+              0.04,
+              0.04,
+              "#78959d",
+            );
+        }
+        for (let i = 0; i < 3; i++) crate(g, -2 + i * 0.78, 2.8, 0);
+        instance("truck", g, 3.4, 0.2, 2.6, Math.PI / 2, 0);
+      }
+    }
+    if (custom && e.industry === "MILLING") {
       const rotor = new THREE.Group();
-      rotor.position.set(-1, 3.7, 1.1);
+      rotor.position.set(-0.45, 3.7, 1.72);
       g.add(rotor);
       for (let i = 0; i < 4; i++) {
         const blade = new THREE.Group();
         blade.rotation.z = (i * Math.PI) / 2;
         rotor.add(blade);
-        box(blade, 0, 1.1, 0, 0.22, 2.2, 0.1, "#806b4c");
-        box(blade, 0.26, 1.4, 0.01, 0.55, 1.3, 0.07, "#e4cf9e");
+        box(blade, 0, 1.1, 0, 0.16, 2.2, 0.1, "#806b4c");
+        box(blade, 0.23, 1.4, 0.01, 0.5, 1.25, 0.07, "#e4cf9e");
       }
-      const hub = mesh(new THREE.SphereGeometry(0.22, 8, 6), "#806b4c", rotor);
+      mesh(new THREE.SphereGeometry(0.2, 8, 6), "#806b4c", rotor);
       rotors.push({ rotor, id: e.id });
-      for (let i = 0; i < 3; i++) crate(g, 2.5, 1.5 - i * 0.85, 0);
-    } else {
-      box(g, 0, 1.5, 0, 5.2, 3, 4.1, "#8eafba");
-      roof(g, 0, 3, 0, 5.65, 4.5, 1.1, "#527583");
-      for (let i = 0; i < 2; i++) {
-        box(g, -1.35 + i * 2.7, 1.3, 2.1, 1.7, 2.5, 0.1, "#456674");
-        for (let j = 0; j < 5; j++)
-          box(
-            g,
-            -1.35 + i * 2.7,
-            0.35 + j * 0.4,
-            2.17,
-            1.65,
-            0.04,
-            0.04,
-            "#78959d",
-          );
-      }
-      for (let i = 0; i < 3; i++) crate(g, -2 + i * 0.78, 2.8, 0);
-      instance("truck", g, 3.4, 0.2, 2.6, Math.PI / 2, 0);
     }
     box(g, 0, 0.13, 3, 3, 0.16, 0.8, "#d1c6a9");
     const hit = mesh(new THREE.BoxGeometry(6, 5.3, 5), "#ffffff", g, {

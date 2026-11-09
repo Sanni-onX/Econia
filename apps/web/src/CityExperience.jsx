@@ -582,14 +582,11 @@ function ContextPanel({
       </div>
       {isBusiness ? (
         <div className={`premises-art premises-${e.industry.toLowerCase()}`}>
-          <svg
-            viewBox="-130 -180 260 240"
-            role="img"
-            aria-label={`${e.industry.toLowerCase()} premises`}
-          >
-            <ellipse cy="15" rx="110" ry="45" fill="#172333" opacity=".1" />
-            <PlaceArt entity={e} mini />
-          </svg>
+          <img
+            className="blender-premises-preview"
+            src={`/images/premises/${{ FOOD: "bakery", FARMING: "farm", MILLING: "mill", TRANSPORT: "harbor" }[e.industry] || "harbor"}.png`}
+            alt={`${e.name} — Blender-built ${e.industry.toLowerCase()} premises`}
+          />
           <span>
             {e.industry === "FOOD"
               ? "THE BAKERY"
