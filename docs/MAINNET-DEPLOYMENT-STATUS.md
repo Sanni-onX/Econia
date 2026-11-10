@@ -1,5 +1,7 @@
 # Mainnet deployment — 10 November 2026
 
+**Latest correction:** the virtual-role AI planner is disabled and its running process was stopped. All 64 NFT identities are unassigned and idle until real service workflows are implemented. Earlier AI plans and role descriptions below are historical. NFT ownership and zero treasuries are unchanged; no contract transaction was needed for this correction.
+
 Native NEAR contract deployed and verified on the project account:
 
 `eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17`

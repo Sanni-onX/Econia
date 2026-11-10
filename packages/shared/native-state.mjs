@@ -34,6 +34,9 @@ export async function readNativeState({
       throw Error("NFT identity reconciliation failed");
     return {
       ...source,
+      legacyRole: source.role,
+      role: "Unassigned",
+      goal: "Awaiting a verified service capability and a funded task.",
       token,
       treasuryYocto: state?.treasury ?? "0",
       treasuryNear: formatNear(state?.treasury ?? "0"),

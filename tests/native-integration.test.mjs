@@ -12,10 +12,28 @@ import {
   parseNativePlan,
 } from "../packages/agent-sdk/native-planner.mjs";
 import { createNativeApplication } from "../apps/api/native-server.mjs";
+import { createApplication } from "../apps/api/server.mjs";
 const roster = [
   { id: "a", name: "A" },
   { id: "b", name: "B" },
 ];
+test("Mainnet startup retires virtual roles and creates no automatic AI worker", async () => {
+  const previous = process.env.SETTLEMENT_MODE;
+  process.env.SETTLEMENT_MODE = "mainnet";
+  let app;
+  try {
+    app = await createApplication({ rpc: rpcFor(), roster });
+    assert.equal(app.world.plans.enabled, false);
+    assert.equal(app.world.plans.dailyLimit, 0);
+    assert.equal(app.world.intelligence.mode, "idle");
+    assert.equal(app.world.agents[0].role, "Unassigned");
+    await new Promise((r) => app.server.listen(0, "127.0.0.1", r));
+  } finally {
+    if (app) await app.close();
+    if (previous === undefined) delete process.env.SETTLEMENT_MODE;
+    else process.env.SETTLEMENT_MODE = previous;
+  }
+});
 function rpcFor(treasury = "0", paused = true) {
   return async (method, p) => {
     if (method === "block")

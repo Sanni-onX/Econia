@@ -63,13 +63,17 @@ export async function createNativeApplication(options = {}) {
     stale: Boolean(issue),
     issue,
     intelligence: {
-      mode: "near-ai",
-      scope: "Planning only; no paid service executor is enabled",
-      ready: Boolean(process.env.NEAR_AI_API_KEY),
+      mode: "idle",
+      scope:
+        "Awaiting a verified real-service workflow; virtual-role planning retired",
+      ready: false,
     },
     plans: options.planner?.publicState() ?? {
       agents: {},
-      issue: "Planning worker is not running",
+      issue: null,
+      enabled: false,
+      dailyLimit: 0,
+      status: "Idle; no AI credits consumed by this worker",
     },
   });
   const server = http.createServer(async (req, res) => {

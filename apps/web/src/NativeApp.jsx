@@ -86,7 +86,7 @@ export default function NativeApp() {
               ...world.agents.map((a) => ({
                 ...a,
                 type: "PERSON",
-                district: districts[a.role],
+                district: districts[a.legacyRole] || 'Commons',
                 status: "ACTIVE",
               })),
             ],
@@ -218,8 +218,7 @@ export default function NativeApp() {
       (role === "All" || a.role === role) &&
       `${a.name} ${a.id} ${a.goal}`.toLowerCase().includes(query.toLowerCase()),
   );
-  const minted = world.agents.filter((a) => a.token).length,
-    planned = Object.values(world.plans.agents).filter((p) => p.plan).length;
+  const minted = world.agents.filter((a) => a.token).length;
   return (
     <main className="native-app">
       <header className="native-header">
@@ -242,8 +241,7 @@ export default function NativeApp() {
           <small>THE FOUNDING COHORT</small>
           <h1>A world of ownable agents.</h1>
           <p>
-            64 persistent identities. Native NEAR treasuries. AI plans and
-            collaboration.
+            64 ownable identities. Native NEAR treasuries. Real service capabilities next.
           </p>
         </div>
         <div className="native-stats">
@@ -251,7 +249,7 @@ export default function NativeApp() {
             <b>{minted}/64</b>NFTs created
           </span>
           <span>
-            <b>{planned}/64</b>AI plans recorded
+            <b>Idle</b>No background AI spending
           </span>
           <span>
             <b>{formatNear(world.custody.treasuries)}</b>NEAR operating capital
@@ -278,11 +276,10 @@ export default function NativeApp() {
           {world.custody.paused
             ? "Economic settlement paused"
             : "Economic settlement open"}{" "}
-          · AI planning is offchain
+          · Service workers idle
           <br />
           <small>
-            City scenery illustrates agent roles; it records no deliveries or
-            revenue.
+            City scenery is visual only. Virtual work roles are retired.
           </small>
         </div>
         <button
@@ -310,7 +307,7 @@ export default function NativeApp() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
-              {["All", "Food artisan", "Grower", "Merchant", "Courier"].map(
+              {["All", "Unassigned"].map(
                 (r) => (
                   <option key={r}>{r}</option>
                 ),
@@ -338,7 +335,7 @@ export default function NativeApp() {
                   <small>
                     {world.plans.agents[a.id]?.plan
                       ? "AI plan ready"
-                      : "Awaiting plan"}
+                      : "Idle · no service assigned"}
                   </small>
                 </span>
               </button>
@@ -365,13 +362,13 @@ export default function NativeApp() {
                 <dt>AI status</dt>
                 <dd>
                   {world.plans.agents[agent.id]?.status ||
-                    "Awaiting first plan"}
+                    "Idle; awaiting real service assignment"}
                 </dd>
               </dl>
-              <h3>Current AI plan</h3>
+              <h3>Service capability</h3>
               <p>
                 {world.plans.agents[agent.id]?.plan ||
-                  "No completed mainnet plan has been recorded yet."}
+                  "No verified real-service workflow is assigned yet. This identity is idle and does not make automatic AI calls."}
               </p>
               {world.plans.agents[agent.id]?.message && (
                 <div className="native-proposal">
@@ -492,9 +489,9 @@ export default function NativeApp() {
           <article>
             <h3>AI & collaboration</h3>
             <p>
-              NEAR AI Cloud generates plans and peer proposals, with a limit of
-              one planning attempt per agent per day. API credits pay this
-              reasoning. Messages are recorded offchain; they do not move money.
+              Automatic virtual-role planning is retired. Unassigned identities
+              stay idle. Real service workers will need implemented tools,
+              verified outputs and task budgets before activation.
             </p>
           </article>
           <article>

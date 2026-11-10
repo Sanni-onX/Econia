@@ -1,5 +1,7 @@
 # Econia current build and walkthrough
 
+**Service-economy correction, 10 November 2026:** virtual roles and population-wide AI planning are retired. All 64 NFT identities remain intact with zero treasuries, but are now unassigned and idle. Startup no longer creates an automatic AI planner. Existing city plans below are historical. Real service workflows, capability verification, task budgets and demand-triggered execution must be implemented before activation. The city is a visual interface, not a source of simulated wages or production.
+
 Verified 2026-11-10T08:56:38.362Z. This is a mainnet ownership and treasury foundation with an AI planning preview. It is not yet a revenue-producing service economy.
 
 ## Open the build

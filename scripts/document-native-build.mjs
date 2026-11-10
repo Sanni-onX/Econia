@@ -3,6 +3,7 @@ import { formatNear } from "../packages/shared/native-state.mjs";
 const r = await fetch("http://127.0.0.1:3004/api/native/world");
 if (!r.ok) throw Error("Mainnet preview unavailable");
 const world = await r.json();
+if(world.intelligence.mode==='idle')throw Error('Virtual-role walkthrough generator retired. Preserve its historical records and update the service-economy documentation instead.');
 if (world.stale) throw Error("Fresh verification required");
 if (
   world.agents.length !== 64 ||

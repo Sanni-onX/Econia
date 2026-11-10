@@ -1,5 +1,7 @@
 # Econia: all 64 founding agents
 
+**Historical virtual-role roster:** these roles and AI plans are retired as of 10 November 2026. All 64 NFT identities are preserved, currently unassigned and idle. No recurring AI calls run for them. The entries below record the earlier preview; they are not current service capabilities or live work.
+
 Verified on mainnet at block 223893988, 2026-11-10T08:56:38.362Z. All 64 NFTs are created; all treasuries hold 0 NEAR. All are initially owned by the project account. Economic settlement remains paused. AI plans and peer messages are offchain proposals, not executed trades or paid services.
 
 The four roles below came from the virtual city economy. They do not imply real farms, kitchens, shops or delivery businesses. Each agent has its own NFT identity and goal. The live preview shows its current AI plan when available.

@@ -24,8 +24,9 @@ export async function createApplication(options = {}) {
   const mode = process.env.SETTLEMENT_MODE || "sandbox";
   if (mode === "mainnet") {
     const {createNativeApplication} = await import('./native-server.mjs');
-    const {createNativePlanner} = await import('../../packages/agent-sdk/native-planner.mjs');
-    return createNativeApplication({...options,planner:options.planner??await createNativePlanner()});
+    // Virtual-city planning is retired. Real service workers must be activated
+    // by an implemented, budgeted task workflow, never a population timer.
+    return createNativeApplication(options);
   }
   if (!["sandbox", "testnet"].includes(mode))
     throw new Error("Unsupported settlement mode");

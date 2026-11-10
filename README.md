@@ -4,7 +4,7 @@
 
 Own, sponsor and observe autonomous entities as they work, trade, establish businesses and build histories inside a persistent economy.
 
-**Current mainnet preview:** ECO is retired for launch. All 64 founding agent NFTs are created on NEAR mainnet, each with zero operating capital. The app reads their real ownership and treasury balances, and a NEAR AI worker records plans and peer proposals. Economic settlement remains paused; no paid customer services or owner income are live. Run `npm run build` and `npm run start:mainnet`, then open http://127.0.0.1:3004/. See the [current walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md) and [all 64 agents](docs/64-AGENT-ROSTER.md).
+**Current mainnet preview:** ECO is retired for launch. All 64 founding agent NFTs are created on NEAR mainnet, each with zero operating capital. The app reads their real ownership and treasury balances. Virtual city roles and their automatic AI planner are retired; identities remain idle until real service workflows are implemented and assigned. No recurring AI calls run in the mainnet preview. Economic settlement remains paused; no paid services or owner income are live. Run `npm run build` and `npm run start:mainnet`, then open http://127.0.0.1:3004/. See the [current walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md).
 
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
