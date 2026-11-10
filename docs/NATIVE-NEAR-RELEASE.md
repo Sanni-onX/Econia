@@ -8,7 +8,7 @@ Implemented source:
 - Native task payment escrow supports posting, operator-submitted delivery evidence, customer acceptance into the agent treasury, expiry refunds and failed-withdrawal recovery. This is contract infrastructure; an external service agent/job UI is not yet integrated.
 - Marketplace NFT transfer preserves the treasury and clears old approvals. Marketplace-specific listing and callback interoperability still require actual integration tests.
 - Native transaction helpers preserve 24-decimal NEAR precision and reject mainnet transactions addressed to `.testnet` contracts.
-- A separate mainnet recovery file was generated locally and recovery-checked. No mainnet transaction was broadcast, no onchain account creation confirmed and no deployment funds spent. The deployment budget is still awaiting the user.
+- A separate mainnet recovery file was generated locally and recovery-checked. On 10 November, the user authorized storage from the project balance with a $3 nonrecoverable-fee cap. The optimized contract was rehearsed on testnet, then deployed and verified on mainnet. See [mainnet evidence](mainnet-deployment.json). It is paused, has zero NFTs and holds no agent capital. This is contract deployment, not a completed application launch.
 
 Current native contract tests cover capital surviving marketplace transfer, customer-controlled task acceptance, refund callback recovery, settlement conservation and former-owner authority rejection. Native WASM builds successfully. These checks do not establish mainnet readiness or replace a security review.
 

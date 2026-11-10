@@ -1,0 +1,31 @@
+{
+  "network": "testnet",
+  "contract": "econia-native-6c690b0eaa.testnet",
+  "wasmSha256": "1ebf19fdc4a01fd54adb41cb2ccb53b016d3d7d4d17b11ec38ae535c9fac7304",
+  "transactions": [
+    {
+      "hash": "6JA7cJnSj2YZcWqiwcBX5xBE1K5hYZB6LMFZoyhUA4f6",
+      "label": "Deploy and initialize paused native NEAR world",
+      "feesYocto": "2425700496577300000000",
+      "status": {
+        "SuccessValue": ""
+      }
+    }
+  ],
+  "feesYocto": "2425700496577300000000",
+  "verified": true,
+  "verifiedAt": "2026-11-10T08:15:00.963Z",
+  "custody": {
+    "asset": "NEAR",
+    "decimals": 24,
+    "treasuries": "0",
+    "jobs": "0",
+    "refunds": "0",
+    "last_batch": 0,
+    "paused": true
+  },
+  "storageBytes": 262123,
+  "storageLockedNEAR": "2.62123",
+  "remainingBalanceYocto": "9997574299503422700000000",
+  "nftSupply": "0"
+}

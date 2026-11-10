@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-10T08:11:05.151Z",
+  "network": "mainnet",
+  "rawBytes": 468276,
+  "optimizedBytes": 261647,
+  "storageYoctoPerByte": "10000000000000000000",
+  "optimizedCodeStorageNEAR": "2.61647",
+  "checkedNearUsd": 3.62,
+  "codeStorageEstimateUsd": 9.47,
+  "excludes": [
+    "contract state",
+    "NFT mint storage",
+    "gas",
+    "agent capital",
+    "ongoing inference"
+  ],
+  "spendAuthorizedUsd": 3,
+  "transactionsSent": 0,
+  "exportSurfacePreserved": true,
+  "optimizedWasmSha256": "1ebf19fdc4a01fd54adb41cb2ccb53b016d3d7d4d17b11ec38ae535c9fac7304"
+}
