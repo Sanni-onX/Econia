@@ -23,7 +23,7 @@ export const walletChoices = [
     id: "my-near-wallet",
     name: "MyNearWallet",
     kind: "web",
-    description: "Connect through the testnet web wallet",
+    description: "Connect through MyNearWallet",
     url: "https://testnet.mynearwallet.com",
     mark: "N",
     color: "#68BFA3",
@@ -57,36 +57,59 @@ export const walletChoices = [
   },
 ];
 
-let selectorPromise;
-export function getWalletSelector() {
-  if (!selectorPromise)
-    selectorPromise = Promise.all([
-      import("@near-wallet-selector/core"),
-      import("@near-wallet-selector/nightly"),
-      import("@near-wallet-selector/my-near-wallet"),
-      import("@near-wallet-selector/sender"),
-      import("@near-wallet-selector/okx-wallet"),
-      import("@near-wallet-selector/intear-wallet"),
-    ])
-      .then(([core, nightly, mynear, sender, okx, intear]) =>
-        core.setupWalletSelector({
-          network: "testnet",
-          modules: [
-            nightly.setupNightly(),
-            mynear.setupMyNearWallet({
-              walletUrl: "https://testnet.mynearwallet.com",
-            }),
-            sender.setupSender(),
-            okx.setupOKXWallet(),
-            intear.setupIntearWallet(),
-          ],
+const selectorPromises = new Map();
+export function getWalletSelector(network = "testnet") {
+  if (!["testnet", "mainnet"].includes(network))
+    throw Error("Unsupported wallet network");
+  if (!selectorPromises.has(network))
+    selectorPromises.set(
+      network,
+      Promise.all([
+        import("@near-wallet-selector/core"),
+        import("@near-wallet-selector/nightly"),
+        import("@near-wallet-selector/my-near-wallet"),
+        import("@near-wallet-selector/sender"),
+        import("@near-wallet-selector/okx-wallet"),
+        import("@near-wallet-selector/intear-wallet"),
+      ])
+        .then(([core, nightly, mynear, sender, okx, intear]) =>
+          core.setupWalletSelector({
+            network,
+            ...(network === "mainnet"
+              ? {
+                  storage: {
+                    async getItem(key) {
+                      return localStorage.getItem("econia-mainnet:" + key);
+                    },
+                    async setItem(key, value) {
+                      localStorage.setItem("econia-mainnet:" + key, value);
+                    },
+                    async removeItem(key) {
+                      localStorage.removeItem("econia-mainnet:" + key);
+                    },
+                  },
+                }
+              : {}),
+            modules: [
+              nightly.setupNightly(),
+              mynear.setupMyNearWallet({
+                walletUrl:
+                  network === "mainnet"
+                    ? "https://app.mynearwallet.com"
+                    : "https://testnet.mynearwallet.com",
+              }),
+              sender.setupSender(),
+              okx.setupOKXWallet(),
+              intear.setupIntearWallet(),
+            ],
+          }),
+        )
+        .catch((error) => {
+          selectorPromises.delete(network);
+          throw error;
         }),
-      )
-      .catch((error) => {
-        selectorPromise = undefined;
-        throw error;
-      });
-  return selectorPromise;
+    );
+  return selectorPromises.get(network);
 }
 
 export function connectionFromState(state) {
@@ -113,7 +136,8 @@ export async function connectWallet(selector, id) {
   return null; // A web wallet may be redirecting; restoration comes from Selector.
 }
 
-export function walletErrorMessage(error, id) {
+export function walletErrorMessage(error, id, network = "testnet") {
+  const networkLabel = network === "mainnet" ? "Mainnet" : "Testnet";
   const text =
     typeof error === "string"
       ? error
@@ -126,8 +150,8 @@ export function walletErrorMessage(error, id) {
       text,
     )
   )
-    return `${name} wasn’t detected in this browser. Enable its NEAR extension on this site, or open Econia in its wallet browser, then reload. Select NEAR Testnet in the wallet.`;
+    return `${name} wasn’t detected in this browser. Enable its NEAR extension on this site, or open Econia in its wallet browser, then reload. Select NEAR ${networkLabel} in the wallet.`;
   if (/network|mainnet|testnet|rpc/i.test(text))
-    return `Select NEAR Testnet in ${name}, then try again. ${text}`;
+    return `Select NEAR ${networkLabel} in ${name}, then try again. ${text}`;
   return text;
 }

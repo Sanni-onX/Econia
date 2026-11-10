@@ -1,0 +1,1312 @@
+{
+  "scope": "Identity profiles and archived testnet cycle 161 work; employers and business stakes are not mainnet employment or assets",
+  "cycle": 161,
+  "agents": [
+    {
+      "id": "person_199",
+      "name": "Mira #199",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 92.4799999999997,
+        "farming": 41,
+        "trading": 44,
+        "negotiation": 21,
+        "management": 48,
+        "transport": 52
+      },
+      "employer": "Hearth & Grain",
+      "businesses": [
+        "Mira’s Sunrise Bakery"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_101",
+      "name": "Kofi #101",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 40,
+        "farming": 82.33999999999973,
+        "trading": 66,
+        "negotiation": 48,
+        "management": 48,
+        "transport": 38
+      },
+      "employer": "Greenfield Farm",
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_102",
+      "name": "Ada #102",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 24,
+        "farming": 77,
+        "trading": 73.21999999999976,
+        "negotiation": 36,
+        "management": 51,
+        "transport": 47
+      },
+      "employer": "Common Ground Mill",
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_103",
+      "name": "Ren #103",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 57,
+        "farming": 20,
+        "trading": 33,
+        "negotiation": 43,
+        "management": 54,
+        "transport": 68
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_104",
+      "name": "Sana #104",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 77,
+        "farming": 71,
+        "trading": 56,
+        "negotiation": 49,
+        "management": 35,
+        "transport": 57.380000000000216
+      },
+      "employer": "Harbor Logistics",
+      "businesses": [
+        "Greenfield Farm"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_105",
+      "name": "Leo #105",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 71,
+        "farming": 67.37999999999973,
+        "trading": 65,
+        "negotiation": 44,
+        "management": 46,
+        "transport": 54
+      },
+      "employer": "Greenfield Farm 2",
+      "businesses": [
+        "Common Ground Mill"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_106",
+      "name": "Amara #106",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 28,
+        "farming": 44,
+        "trading": 76.41999999999972,
+        "negotiation": 23,
+        "management": 54,
+        "transport": 54
+      },
+      "employer": "Common Ground Mill 2",
+      "businesses": [
+        "Hearth & Grain"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_107",
+      "name": "Nico #107",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 27.219999999999974,
+        "farming": 41,
+        "trading": 28,
+        "negotiation": 49,
+        "management": 26,
+        "transport": 67
+      },
+      "employer": "Hearth & Grain 2",
+      "businesses": [
+        "Harbor Logistics"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_108",
+      "name": "Yuki #108",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 82,
+        "farming": 21,
+        "trading": 23,
+        "negotiation": 72,
+        "management": 74,
+        "transport": 76.4799999999997
+      },
+      "employer": null,
+      "businesses": [
+        "Greenfield Farm 2"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Employment terminated: insufficient wage funds",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_109",
+      "name": "Ezra #109",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 62,
+        "farming": 79.45999999999971,
+        "trading": 21,
+        "negotiation": 65,
+        "management": 40,
+        "transport": 59
+      },
+      "employer": "Greenfield Farm 3",
+      "businesses": [
+        "Common Ground Mill 2"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_110",
+      "name": "Zara #110",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 65,
+        "farming": 71,
+        "trading": 77.25999999999975,
+        "negotiation": 45,
+        "management": 78,
+        "transport": 56
+      },
+      "employer": "Common Ground Mill 3",
+      "businesses": [
+        "Hearth & Grain 2"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_111",
+      "name": "Ivo #111",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 34.2600000000002,
+        "farming": 36,
+        "trading": 22,
+        "negotiation": 41,
+        "management": 79,
+        "transport": 89
+      },
+      "employer": "Hearth & Grain 3",
+      "businesses": [
+        "Harbor Logistics 2"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_112",
+      "name": "Lena #112",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 65,
+        "farming": 27,
+        "trading": 39,
+        "negotiation": 29,
+        "management": 72,
+        "transport": 67.25999999999975
+      },
+      "employer": "Harbor Logistics 3",
+      "businesses": [
+        "Greenfield Farm 3"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_113",
+      "name": "Omar #113",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 72,
+        "farming": 84,
+        "trading": 21,
+        "negotiation": 36,
+        "management": 31,
+        "transport": 64
+      },
+      "employer": null,
+      "businesses": [
+        "Common Ground Mill 3"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_114",
+      "name": "Tala #114",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 51,
+        "farming": 38,
+        "trading": 81,
+        "negotiation": 40,
+        "management": 42,
+        "transport": 65
+      },
+      "employer": null,
+      "businesses": [
+        "Hearth & Grain 3"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_115",
+      "name": "Kai #115",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 29,
+        "farming": 74,
+        "trading": 54,
+        "negotiation": 74,
+        "management": 72,
+        "transport": 77
+      },
+      "employer": null,
+      "businesses": [
+        "Harbor Logistics 3"
+      ],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_116",
+      "name": "Mira #116",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 87,
+        "farming": 69,
+        "trading": 71,
+        "negotiation": 26,
+        "management": 36,
+        "transport": 36
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_117",
+      "name": "Kofi #117",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 58,
+        "farming": 71,
+        "trading": 50,
+        "negotiation": 78,
+        "management": 28,
+        "transport": 44
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_118",
+      "name": "Ada #118",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 76,
+        "farming": 63,
+        "trading": 73,
+        "negotiation": 71,
+        "management": 22,
+        "transport": 36
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_119",
+      "name": "Ren #119",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 56,
+        "farming": 54,
+        "trading": 38,
+        "negotiation": 68,
+        "management": 64,
+        "transport": 89
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_120",
+      "name": "Sana #120",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 66,
+        "farming": 25,
+        "trading": 42,
+        "negotiation": 29,
+        "management": 41,
+        "transport": 42
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_121",
+      "name": "Leo #121",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 56,
+        "farming": 89,
+        "trading": 65,
+        "negotiation": 69,
+        "management": 29,
+        "transport": 77
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_122",
+      "name": "Amara #122",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 40,
+        "farming": 47,
+        "trading": 65,
+        "negotiation": 58,
+        "management": 70,
+        "transport": 62
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_123",
+      "name": "Nico #123",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 49,
+        "farming": 41,
+        "trading": 60,
+        "negotiation": 78,
+        "management": 50,
+        "transport": 88
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_124",
+      "name": "Yuki #124",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 75,
+        "farming": 20,
+        "trading": 74,
+        "negotiation": 76,
+        "management": 77,
+        "transport": 65
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_125",
+      "name": "Ezra #125",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 25,
+        "farming": 84,
+        "trading": 22,
+        "negotiation": 44,
+        "management": 73,
+        "transport": 59
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_126",
+      "name": "Zara #126",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 47,
+        "farming": 69,
+        "trading": 88,
+        "negotiation": 74,
+        "management": 35,
+        "transport": 62
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_127",
+      "name": "Ivo #127",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 54,
+        "farming": 67,
+        "trading": 76,
+        "negotiation": 79,
+        "management": 62,
+        "transport": 80
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_128",
+      "name": "Lena #128",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 86,
+        "farming": 76,
+        "trading": 66,
+        "negotiation": 54,
+        "management": 27,
+        "transport": 24
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_129",
+      "name": "Omar #129",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 20,
+        "farming": 85,
+        "trading": 79,
+        "negotiation": 54,
+        "management": 42,
+        "transport": 62
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_130",
+      "name": "Tala #130",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 66,
+        "farming": 26,
+        "trading": 89,
+        "negotiation": 70,
+        "management": 22,
+        "transport": 24
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_131",
+      "name": "Kai #131",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 36,
+        "farming": 40,
+        "trading": 31,
+        "negotiation": 24,
+        "management": 62,
+        "transport": 65
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_132",
+      "name": "Mira #132",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 81,
+        "farming": 28,
+        "trading": 63,
+        "negotiation": 49,
+        "management": 47,
+        "transport": 26
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_133",
+      "name": "Kofi #133",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 76,
+        "farming": 79,
+        "trading": 60,
+        "negotiation": 76,
+        "management": 43,
+        "transport": 48
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_134",
+      "name": "Ada #134",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 63,
+        "farming": 71,
+        "trading": 70,
+        "negotiation": 21,
+        "management": 56,
+        "transport": 21
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_135",
+      "name": "Ren #135",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 42,
+        "farming": 44,
+        "trading": 47,
+        "negotiation": 37,
+        "management": 20,
+        "transport": 74
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_136",
+      "name": "Sana #136",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 85,
+        "farming": 26,
+        "trading": 29,
+        "negotiation": 66,
+        "management": 28,
+        "transport": 77
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_137",
+      "name": "Leo #137",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 59,
+        "farming": 79,
+        "trading": 54,
+        "negotiation": 45,
+        "management": 61,
+        "transport": 45
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_138",
+      "name": "Amara #138",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 52,
+        "farming": 67,
+        "trading": 89,
+        "negotiation": 23,
+        "management": 47,
+        "transport": 46
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_139",
+      "name": "Nico #139",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 72,
+        "farming": 75,
+        "trading": 46,
+        "negotiation": 53,
+        "management": 39,
+        "transport": 85
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_140",
+      "name": "Yuki #140",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 65,
+        "farming": 42,
+        "trading": 53,
+        "negotiation": 50,
+        "management": 45,
+        "transport": 50
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_141",
+      "name": "Ezra #141",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 65,
+        "farming": 80,
+        "trading": 35,
+        "negotiation": 77,
+        "management": 72,
+        "transport": 62
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_142",
+      "name": "Zara #142",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 67,
+        "farming": 46,
+        "trading": 75,
+        "negotiation": 21,
+        "management": 67,
+        "transport": 25
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_143",
+      "name": "Ivo #143",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 32,
+        "farming": 41,
+        "trading": 60,
+        "negotiation": 43,
+        "management": 47,
+        "transport": 83
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_144",
+      "name": "Lena #144",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 87,
+        "farming": 49,
+        "trading": 32,
+        "negotiation": 68,
+        "management": 69,
+        "transport": 74
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_145",
+      "name": "Omar #145",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 55,
+        "farming": 84,
+        "trading": 51,
+        "negotiation": 46,
+        "management": 48,
+        "transport": 65
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_146",
+      "name": "Tala #146",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 70,
+        "farming": 35,
+        "trading": 65,
+        "negotiation": 50,
+        "management": 79,
+        "transport": 63
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_147",
+      "name": "Kai #147",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 49,
+        "farming": 36,
+        "trading": 64,
+        "negotiation": 60,
+        "management": 50,
+        "transport": 75
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_148",
+      "name": "Mira #148",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 87,
+        "farming": 48,
+        "trading": 20,
+        "negotiation": 67,
+        "management": 54,
+        "transport": 24
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_149",
+      "name": "Kofi #149",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 49,
+        "farming": 82,
+        "trading": 65,
+        "negotiation": 46,
+        "management": 40,
+        "transport": 29
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_150",
+      "name": "Ada #150",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 30,
+        "farming": 56,
+        "trading": 81,
+        "negotiation": 58,
+        "management": 37,
+        "transport": 24
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_151",
+      "name": "Ren #151",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 26,
+        "farming": 59,
+        "trading": 56,
+        "negotiation": 58,
+        "management": 25,
+        "transport": 83
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_152",
+      "name": "Sana #152",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 68,
+        "farming": 66,
+        "trading": 29,
+        "negotiation": 45,
+        "management": 41,
+        "transport": 27
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_153",
+      "name": "Leo #153",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 29,
+        "farming": 75,
+        "trading": 43,
+        "negotiation": 41,
+        "management": 52,
+        "transport": 53
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_154",
+      "name": "Amara #154",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 32,
+        "farming": 33,
+        "trading": 77,
+        "negotiation": 47,
+        "management": 65,
+        "transport": 49
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_155",
+      "name": "Nico #155",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 24,
+        "farming": 24,
+        "trading": 38,
+        "negotiation": 38,
+        "management": 56,
+        "transport": 83
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_156",
+      "name": "Yuki #156",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 89.25999999999975,
+        "farming": 23,
+        "trading": 29,
+        "negotiation": 59,
+        "management": 39,
+        "transport": 51
+      },
+      "employer": "Mira’s Sunrise Bakery",
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 1.5",
+      "lastRecordedReason": "Fulfil an employment contract and earn the agreed wage."
+    },
+    {
+      "id": "person_157",
+      "name": "Ezra #157",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 32,
+        "farming": 77,
+        "trading": 37,
+        "negotiation": 74,
+        "management": 56,
+        "transport": 23
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_158",
+      "name": "Zara #158",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 49,
+        "farming": 75,
+        "trading": 80,
+        "negotiation": 22,
+        "management": 30,
+        "transport": 69
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_159",
+      "name": "Ivo #159",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 65,
+        "farming": 44,
+        "trading": 59,
+        "negotiation": 74,
+        "management": 63,
+        "transport": 86
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_160",
+      "name": "Lena #160",
+      "role": "Food artisan",
+      "goal": "Build a profitable food company.",
+      "skills": {
+        "cooking": 81,
+        "farming": 37,
+        "trading": 35,
+        "negotiation": 75,
+        "management": 36,
+        "transport": 28
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_161",
+      "name": "Omar #161",
+      "role": "Grower",
+      "goal": "Supply the city with reliable harvests.",
+      "skills": {
+        "cooking": 43,
+        "farming": 68,
+        "trading": 75,
+        "negotiation": 56,
+        "management": 30,
+        "transport": 32
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_162",
+      "name": "Tala #162",
+      "role": "Merchant",
+      "goal": "Connect producers with customers.",
+      "skills": {
+        "cooking": 48,
+        "farming": 70,
+        "trading": 83,
+        "negotiation": 39,
+        "management": 26,
+        "transport": 38
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    },
+    {
+      "id": "person_163",
+      "name": "Kai #163",
+      "role": "Courier",
+      "goal": "Keep goods moving across the city.",
+      "skills": {
+        "cooking": 70,
+        "farming": 72,
+        "trading": 23,
+        "negotiation": 25,
+        "management": 31,
+        "transport": 78
+      },
+      "employer": null,
+      "businesses": [],
+      "lastRecordedAction": "WORK",
+      "lastRecordedCycle": 161,
+      "lastRecordedResult": "Earned 0.9",
+      "lastRecordedReason": "Perform a public infrastructure shift when private employment is unavailable."
+    }
+  ]
+}

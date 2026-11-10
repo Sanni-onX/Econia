@@ -1,0 +1,22 @@
+{
+  "network": "mainnet",
+  "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "wasmSha256": "90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1",
+  "hash": "6X9tFz7uYtZnK8qF4iDiL249CbLoVpc8yhMLGmemih9a",
+  "feesYocto": "1968788637331300000000",
+  "status": {
+    "SuccessValue": ""
+  },
+  "verified": true,
+  "supply": 64,
+  "custody": {
+    "asset": "NEAR",
+    "decimals": 24,
+    "treasuries": "0",
+    "jobs": "0",
+    "refunds": "0",
+    "last_batch": 0,
+    "paused": true
+  },
+  "verifiedAt": "2026-11-10T08:49:31.155Z"
+}

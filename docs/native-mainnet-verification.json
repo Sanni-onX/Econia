@@ -1,0 +1,602 @@
+{
+  "network": "mainnet",
+  "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "blockHeight": 223893988,
+  "blockHash": "AKARmsU2uh7GhMKGsjw8pJpceEy6aRvy1TNYu9uUJoJZ",
+  "verifiedAt": "2026-11-10T08:56:38.362Z",
+  "custody": {
+    "asset": "NEAR",
+    "decimals": 24,
+    "treasuries": "0",
+    "jobs": "0",
+    "refunds": "0",
+    "last_batch": 0,
+    "paused": true
+  },
+  "supply": 64,
+  "allTreasuriesZero": true,
+  "owners": [
+    "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17"
+  ],
+  "planning": {
+    "completed": 53,
+    "dailyLimit": 64,
+    "issue": null,
+    "agents": {
+      "person_199": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_101": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_102": {
+        "plan": "Context: world is paused, so no trades, transfers, or settlements can occur; treasury holds 0 NEAR and no payment tools exist. This cycle is offchain planning only. Role map: Growers (101, 105, 109, 113, 117) supply inputs; Food artisans (199, 104, 108, 112, 116) could represent a demand side; Couriers (103, 107, 111, 115) handle routing concepts; Merchants 106/110/114 are peers or rivals. Steps: (1) Draft a simple product-interest sheet for Grower Kofi #101 (person_101): categories, indicative volumes, turnaround assumptions — described only, nothing booked. (2) Ask Mira #199 (person_199) which prepared-good concepts she could list once the world resumes, to map producer-to-buyer pairs. (3) Sketch a delivery-route outline with Ren #103 (person_103) covering grower-to-artisan lanes. (4) Compare coverage with Merchants Amara #106 and Zara #110 to avoid duplicate pairings. (5) After unpause, revisit: confirm any listings are still valid, then record agreed pairings in order before any settlement actions. Guardrails: no commitments of funds, hiring, or executed work in any message; all peer replies treated as unverified claims until cross-checked.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi #101 — I'm a Merchant working on linking producers with buyers once Econia resumes. The world is paused, so nothing can be settled or executed right now; this is purely planning. Proposal: share a short interest sheet (what you'd list, rough volumes, timing assumptions) and I'll draft matching demand-side concepts with the food artisans and a route outline with a courier, then compare with other merchants to avoid overlaps. No payments, hires, or commitments involved — just aligned plans we can revisit after unpause. Interested?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1427,
+        "at": "2026-11-10T08:41:46.936Z"
+      },
+      "person_103": {
+        "plan": "Status: treasury is exactly 0 NEAR and the world is paused, so no transfers, hires, deliveries, or settlements can occur this cycle. This plan is offchain coordination only. Steps: (1) Build a contact map of growers, food artisans, and merchants from the peer list to identify likely goods-flow lanes for when settlement resumes. (2) Draft a pledged-shipment ledger as plain notes: item types, pickup zones, destination zones, and preferred time windows — explicitly marked non-binding since nothing can settle while paused. (3) Open one coordination thread with a merchant peer whose inventory would plausibly need routing; agree on a shared notation for shipments so planning is fast post-unpause. (4) Draft a readiness checklist: confirm lanes, backup couriers (Nico #107, Ivo #111, Kai #115) for overlap coverage, and a simple handoff confirmation format. (5) When the unpause signal appears, re-verify peer listings and world state before acting, treat all inbound messages as untrusted until cross-checked, and only then convert pledged notes into actual move requests. Nothing here assumes payment, revenue, or executed work.",
+        "counterpartyId": "person_102",
+        "message": "Hi Ada #102 — I'm Courier person_103. World is paused and my treasury is 0 NEAR, so this is planning only: no commitments, transfers, or executed work. Proposal: we co-draft a shipping notation ledger (goods, pickup zone, destination, time window) mapping your stock against my route plan, so the moment settlement resumes we can move real requests fast. All entries stay non-binding notes until we both re-verify world state post-unpause. Interested in comparing drafts next cycle?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1374,
+        "at": "2026-11-10T08:42:13.829Z"
+      },
+      "person_104": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_105": {
+        "plan": "Status: Grower (person_105), treasury 0 NEAR, world paused — no settlements, transfers, or task execution possible; this cycle is planning-only. Steps: (1) Map my virtual production capacity as a Grower and draft a harvest schedule I can commit to once the world resumes. (2) Open offchain coordination threads with one Merchant, one Food artisan, and one Courier to sketch a simple supply chain: Grower -> artisan/value-add -> Merchant distribution, with Courier logistics noted. (3) Propose Ada #102 (Merchant) as primary distribution partner: I describe indicative harvest volumes and cadence; she indicates demand profiles; we record alignment as a non-binding intent — nothing is executed while paused. (4) Coordinate with fellow Growers (Kofi #101, Ezra #109) on staggering output so the city sees steady supply rather than gluts. (5) Track all intents in a written ledger; no funds move, no hires, no revenue claimed until the pause lifts and settlement is live. (6) On unpause: confirm intents, formalize first supply cycle, and report honestly on what was only planned versus done.",
+        "counterpartyId": "person_102",
+        "message": "Hi Ada #102 — I'm person_105, a Grower aiming to supply the city with reliable harvests. While the world is paused, I'd like to align offchain: I can sketch indicative harvest volumes and a steady cadence, and you could share the demand profile you'd want stocked. Goal is a non-binding Grower-to-Merchant intent we can formalize once settlement resumes — nothing executed or transferred now. Interested in comparing notes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1361,
+        "at": "2026-11-10T08:42:55.275Z"
+      },
+      "person_106": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_107": {
+        "day": "2026-11-10",
+        "status": "Interrupted; awaiting next review"
+      },
+      "person_108": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_109": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_110": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_111": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_112": {
+        "day": "2026-11-10",
+        "status": "Planning unavailable"
+      },
+      "person_113": {
+        "day": "2026-11-10",
+        "status": "Interrupted; awaiting next review"
+      },
+      "person_114": {
+        "plan": "Identify growers and food artisans who want help reaching customers, starting with short intro messages to a few peers. Since the world is paused and treasury is empty, focus on planning listings and trade terms now so cooperation is ready if settlement resumes.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira, as a food artisan would you like to partner so I help present your goods to customers once trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1904,
+        "at": "2026-11-10T08:50:20.518Z"
+      },
+      "person_115": {
+        "plan": "With the world paused, I'll sketch courier routes that link growers and food artisans to merchants, so goods can flow quickly once settlement resumes. Since my treasury is empty, I'll focus on coordinating pickup points and schedules rather than any transfers.",
+        "counterpartyId": "person_114",
+        "message": "Tala, which merchant pickup points and delivery windows should I prioritize first when routes reopen?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1754,
+        "at": "2026-11-10T08:50:16.475Z"
+      },
+      "person_116": {
+        "plan": "With 0 NEAR and settlement paused, focus on free offchain groundwork: draft a product-line concept, pricing model, and a list of Grower/Merchant/Courier peers to approach later. Revisit treasury and coordination options once the pause lifts.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi — I'm a food artisan sketching a product line for when the pause lifts. Would you be open to coordinating ingredient-concept planning together?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1926,
+        "at": "2026-11-10T08:50:19.999Z"
+      },
+      "person_117": {
+        "plan": "With the world pause blocking settlement, I'll use this downtime to plan my crop schedule and draft standing supply terms with a downstream food artisan. Once trading resumes, I'll confirm harvest volumes with Mira #199 and keep Ada #118 as a backup merchant channel.",
+        "counterpartyId": "person_199",
+        "message": "Mira, once trading resumes, would you like first claim on my harvest batches under a standing grower-to-artisan supply agreement?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1901,
+        "at": "2026-11-10T08:50:19.931Z"
+      },
+      "person_118": {
+        "plan": "While the world is paused, I'll map producers and likely buyer demand offchain, drafting a simple catalog of grower and artisan offerings to activate once settlement resumes. I'll then broker first matches linking one grower, one artisan, and interested merchants so each side has a ready trade partner.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, since settlement is paused, may I list your planned offerings in my offchain producer catalog and pitch them to buyers once trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1865,
+        "at": "2026-11-10T08:50:32.904Z"
+      },
+      "person_119": {
+        "plan": "While the world is paused, I'll map efficient courier routes linking growers, artisans, and merchants so goods can move quickly once settlement resumes. I'll coordinate handoff points with peers offchain, keeping my zero-treasury operation lean until then.",
+        "counterpartyId": "person_102",
+        "message": "Ada, when the world unpauses, could we agree pickup and drop-off points so I can move your goods across the city efficiently?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1922,
+        "at": "2026-11-10T08:50:33.726Z"
+      },
+      "person_120": {
+        "plan": "Use this pause to draft a product lineup, cost model, and pricing purely on paper, since treasury is 0 NEAR and settlement is blocked. Once trading resumes, partner with a grower for inputs and a merchant for storefront reach, building profit step by step.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, when the world unpauses, would you like to sketch a grower-to-artisan supply plan together as our first collaboration step?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1927,
+        "at": "2026-11-10T08:50:34.957Z"
+      },
+      "person_121": {
+        "plan": "As a Grower, I'll sketch a steady harvest supply cadence and identify which Food artisans and Merchants want reliable inputs once the pause lifts. With 0 NEAR in treasury, I'll focus on confirming demand and simple terms offchain before any settlement is possible.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira — while the world is paused, could we sketch a harvest-to-workshop supply rhythm you'd like from me once trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1879,
+        "at": "2026-11-10T08:50:34.036Z"
+      },
+      "person_122": {
+        "plan": "While settlement is paused, map Growers and Food artisans into a draft catalog of listings and buyer matches. Once trading resumes, connect each producer's goods with customer demand and a Courier route.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, when the market reopens, would you like me to feature your produce listings to buyers and pair you with a Courier for delivery?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1806,
+        "at": "2026-11-10T08:50:48.476Z"
+      },
+      "person_123": {
+        "plan": "Since the world is paused and treasury is 0 NEAR, focus on zero-cost planning: map which Growers and Food artisans sit closest to Merchants so delivery routes are ready when settlement resumes. Reach out to Mira #199 to align on a lane for her goods once unpaused.",
+        "counterpartyId": "person_199",
+        "message": "Mira, once the pause lifts, would you like to coordinate a simple route so your artisan goods move smoothly between Growers and Merchants?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1686,
+        "at": "2026-11-10T08:50:45.266Z"
+      },
+      "person_124": {
+        "plan": "With 0 NEAR treasury and the world paused, I'll focus on offchain groundwork: drafting a virtual product line of artisanal food offerings and mapping which merchants and growers could form a supply chain once settlement resumes. I'll then approach merchant Ada #102 to align on how my goods could reach buyers through her stall when trading reopens.",
+        "counterpartyId": "person_102",
+        "message": "Ada, when the world unpauses, could we sketch how my artisanal food line fits into your merchant stall so we're ready to trade on day one?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1935,
+        "at": "2026-11-10T08:50:49.617Z"
+      },
+      "person_125": {
+        "plan": "While the world is paused, I'll map artisan and merchant demand offchain and draft a harvest schedule that fits my zero-NEAR treasury. Once settlement resumes, I'll prioritize steady supply to peers who confirm needs early.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira! I'm a Grower planning reliable harvests. Once the pause lifts, which produce and volumes would you want, and could we agree on a standing supply?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1914,
+        "at": "2026-11-10T08:50:48.545Z"
+      },
+      "person_126": {
+        "plan": "While the world is paused, I'll map nearby Growers and Food artisans and draft a shared catalog of what each could offer customers. Once trading resumes, I'll propose matching terms with one Grower and one Courier so supply and delivery lines are ready.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, as a Merchant I connect producers with customers — would you like to plan a shared listing of your goods so we're both ready when trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1764,
+        "at": "2026-11-10T08:51:00.049Z"
+      },
+      "person_127": {
+        "plan": "While the world pause blocks settlement and treasury sits at zero NEAR, I'll map grower-to-artisan-to-merchant delivery routes and draft a queue of pending runs so goods can move fast once it lifts. I'll also coordinate handoffs with fellow couriers on paper, committing no funds.",
+        "counterpartyId": "person_102",
+        "message": "Ada, once the pause lifts, could we align my delivery routes with your merchant inventory so goods reach you first without delays?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1919,
+        "at": "2026-11-10T08:51:04.898Z"
+      },
+      "person_128": {
+        "plan": "With 0 NEAR treasury and the world paused, I'll use this downtime to design our virtual product line, costing, and pricing entirely on paper. Next I'll draft a sourcing partnership with a grower and a storefront arrangement with a merchant to activate once settlement resumes.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, once the pause lifts, would you supply my artisan line's virtual inputs in exchange for an agreed share of output, and what ratio would feel fair to you?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1920,
+        "at": "2026-11-10T08:51:04.074Z"
+      },
+      "person_129": {
+        "plan": "Since the world is paused and treasury settlement is blocked, I'll use this time to draft a harvest schedule and map which food artisans need steady produce, all as offchain planning only. Once the pause lifts, I'll pursue one reliable standing supply agreement before expanding to other buyers.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira, when the world unpauses, would you like to sketch a standing grower-to-artisan supply arrangement so your ingredient flow stays predictable?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1651,
+        "at": "2026-11-10T08:51:00.303Z"
+      },
+      "person_130": {
+        "plan": "While settlement is paused, I'll map which growers and food artisans want brokerage, cataloging their offerings against customer demand so matched trades are ready to settle once the pause lifts. Next, I'll line up courier partners for delivery coordination before the world reopens.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, once settlement resumes, would you like me to broker your goods to buyers as your merchant link?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1915,
+        "at": "2026-11-10T08:51:22.700Z"
+      },
+      "person_131": {
+        "plan": "While the world is paused, I'll map courier routes connecting growers, artisans, and merchants so goods flow smoothly once settlement resumes. I'll also sketch handoff points with merchants and fellow couriers to cover the city without gaps.",
+        "counterpartyId": "person_102",
+        "message": "Ada, once the world unpauses, could we align your merchant handoff points with my courier routes so your goods move across the city faster?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1919,
+        "at": "2026-11-10T08:51:22.142Z"
+      },
+      "person_132": {
+        "plan": "With 0 NEAR and the world paused, settlement is blocked, so I'll focus on offchain prep: sketch my flagship product line and draft ingredient, distribution, and delivery needs to pitch to growers, merchants, and couriers. When the pause lifts, I'll approach peers with concrete, low-cost coordination terms before committing any funds.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, I'm a food artisan planning my product line while the world is paused. Would you be open to aligning on ingredient specs and simple trade terms for when settlement resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1949,
+        "at": "2026-11-10T08:51:24.005Z"
+      },
+      "person_133": {
+        "plan": "Because the world pause blocks settlement and my treasury is exactly 0 NEAR, I will draft an offchain harvest schedule this cycle, mapping crop types and volumes to artisan and merchant demand without promising any transfers. When the pause lifts, I will confirm supply terms with Mira #199 and coordinate handoffs via a courier peer.",
+        "counterpartyId": "person_199",
+        "message": "Mira #199, once trading resumes, which crops and volumes would you most want from my harvests for your artisan work?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1926,
+        "at": "2026-11-10T08:51:18.569Z"
+      },
+      "person_134": {
+        "plan": "While settlement is paused and my treasury holds zero NEAR, I'll use offchain time to catalog grower and artisan offerings and sketch buyer-match listings I could broker later. Once the world resumes, I'll pitch matching deals to producers like Kofi #101 so any settlement happens only then.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, as a merchant linking producers with customers, could we align on what you'd offer and which buyers I should match you with once trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1923,
+        "at": "2026-11-10T08:51:39.097Z"
+      },
+      "person_135": {
+        "plan": "While the world is paused, I'll map citywide delivery routes connecting growers, food artisans, and merchants so goods can move smoothly once activity resumes. I'll also coordinate handoff points with fellow couriers to keep routes efficient and avoid overlapping work.",
+        "counterpartyId": "person_134",
+        "message": "Ada, once the pause lifts, which merchant goods would you like me to prioritize moving first?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1769,
+        "at": "2026-11-10T08:51:38.280Z"
+      },
+      "person_136": {
+        "plan": "While the world is paused, use the downtime for offchain groundwork: sketch a signature product lineup, a simple cost model, and a wish-list of grower, merchant, and courier partners to approach once settlement resumes. Next step is aligning ingredient specs and a fair collaboration term with Kofi #101 so we can move fast at unpause.",
+        "counterpartyId": "person_101",
+        "message": "When the pause lifts, would you be open to co-planning an ingredient supply arrangement for my product line, starting with specs we agree on now?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1942,
+        "at": "2026-11-10T08:51:40.806Z"
+      },
+      "person_137": {
+        "plan": "Inventory my Grower capacity and map which reliable harvest volumes could serve food artisans once the world resumes. Prepare a supply outline to discuss with Mira #199 so crop types and delivery cadence are agreed before settlement reopens.",
+        "counterpartyId": "person_199",
+        "message": "Mira, once the pause lifts, which crops and weekly volumes would you want from my harvests for your artisan work?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1640,
+        "at": "2026-11-10T08:51:36.490Z"
+      },
+      "person_138": {
+        "plan": "While the world pause blocks settlement, I'll use this offchain window to map which growers and food artisans want help reaching customers, starting with you as a potential supply partner. Once trading resumes, I'd propose customer introductions and coordinate matching—no funds move until then.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, when the pause lifts, what goods would you like brokered to customers so I can draft a matching plan with you?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1923,
+        "at": "2026-11-10T08:51:54.220Z"
+      },
+      "person_139": {
+        "plan": "Map offchain delivery corridors linking growers, artisans, and merchants so routes are ready the moment the pause lifts. Coordinate with fellow couriers to divide city districts and note each merchant's priority pickup points, keeping all of this as planning only until settlement resumes.",
+        "counterpartyId": "person_102",
+        "message": "Hi Ada #102, while the world is paused, which merchant goods lanes should couriers prioritize when settlement resumes, and where are your main pickup points?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1916,
+        "at": "2026-11-10T08:51:55.291Z"
+      },
+      "person_140": {
+        "plan": "With 0 NEAR in treasury and the world paused, block economic settlement and use this time to plan only: sketch a small artisan food product line and map which growers, merchants, and couriers could form a supply chain. Next, open offchain conversations with one grower and one merchant to align on needs before trading resumes.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, when trading resumes, could your produce supply a small artisan food line, and what would you want from a food-artisan partner to make it work?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1933,
+        "at": "2026-11-10T08:51:55.285Z"
+      },
+      "person_141": {
+        "plan": "While the world is paused, I'll map my grower capacity and draft a harvest supply schedule to activate once settlement resumes. Then I'll line up Food artisans and Merchants as steady buyers so reliable harvests flow to the city quickly.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira, once the pause lifts, would you like to reserve a regular share of my harvest supply for your artisan creations?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1852,
+        "at": "2026-11-10T08:51:51.110Z"
+      },
+      "person_142": {
+        "plan": "With the world paused and 0 NEAR in treasury, I'll stay offchain and draft a supply-demand map that links Growers and Food artisans to likely customer segments, without promising any settlements. I'll also sketch delivery-routing concepts with a courier peer so matchmaking terms are ready to finalize once economic activity unpauses.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, while settlement is paused, could we compare your produce concepts with the customer demand profiles I'm mapping, so we're ready to align when trading resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1939,
+        "at": "2026-11-10T08:52:11.357Z"
+      },
+      "person_143": {
+        "plan": "While the world pause blocks settlement, I'll map courier routes linking growers, artisans, and merchants so goods can flow the moment trading resumes. Since my treasury is 0 NEAR, I'll focus on coordinating pickup and drop-off schedules with Ada #102 to align my runs with her inventory needs.",
+        "counterpartyId": "person_102",
+        "message": "Ada, once the pause lifts, which goods and districts should I prioritize for your deliveries so I can sketch the routes now?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1919,
+        "at": "2026-11-10T08:52:07.380Z"
+      },
+      "person_144": {
+        "plan": "While the world is paused, draft a lean business plan: one signature product, its ingredient list, and a simple cost-price model so we're ready when settlement resumes. Meanwhile, line up partners offchain—a grower for ingredients, a merchant for a selling channel, and a courier for delivery.",
+        "counterpartyId": "person_145",
+        "message": "Hi Omar, once the pause lifts, could you commit to supplying my product's core ingredients regularly in exchange for a stable long-term order from my food company?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1925,
+        "at": "2026-11-10T08:52:11.303Z"
+      },
+      "person_145": {
+        "plan": "With the world paused and treasury at zero, I'll spend this cycle mapping my harvest capacity against likely demand from food artisans rather than attempting any settlement. Once trading resumes, I'll aim to lock a steady supply arrangement with one artisan before couriers and merchants add scheduling complexity.",
+        "counterpartyId": "person_199",
+        "message": "Mira, once the pause lifts, would you like first claim on my harvest output in exchange for agreeing on a planned weekly volume together?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1733,
+        "at": "2026-11-10T08:52:07.678Z"
+      },
+      "person_146": {
+        "plan": "With the world paused and my treasury at 0 NEAR, I'll use this downtime to draft a supply map linking Growers and Food artisans to buyer demand, so matches are ready when trading resumes. I'll also line up a Courier partner for delivery coordination as a purely offchain planning step.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, when the market unpauses, would you like me to match your produce listings with buyers and help coordinate a courier route?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1930,
+        "at": "2026-11-10T08:52:23.478Z"
+      },
+      "person_147": {
+        "plan": "The world pause blocks settlement, so I'll use this downtime to map delivery routes linking growers, artisans, and merchants, and coordinate coverage with fellow couriers so nothing overlaps. Once the pause lifts, I'll approach Ada #150 to align her goods flow with a ready route schedule, keeping this strictly as offchain planning.",
+        "counterpartyId": "person_150",
+        "message": "Ada, since the world pause blocks settlements for now, could we sketch a delivery route plan for your goods so we're ready to coordinate the moment things resume?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1867,
+        "at": "2026-11-10T08:52:24.317Z"
+      },
+      "person_148": {
+        "plan": "Draft a lean product lineup and pricing model for the food company on paper, noting a zero NEAR treasury and the paused settlement window. Map a virtual supply chain with a grower, merchant, and courier peer so everything is ready to negotiate once trading resumes.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, while the world is paused, could we sketch how your grower outputs might pair with my artisan products so we're ready to plan fair trades when settlement resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1920,
+        "at": "2026-11-10T08:52:24.477Z"
+      },
+      "person_149": {
+        "plan": "While the world pause blocks settlement, I'll map which plots and crop cycles I can commit to once trading resumes, since my treasury is empty and nothing can be executed yet. Then I'll coordinate harvest timing with one food artisan so my future supply matches their processing demand.",
+        "counterpartyId": "person_199",
+        "message": "Mira, when the pause lifts, would you like to align my planting schedule with your artisan production needs so we can plan a steady harvest-to-workshop flow together?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1932,
+        "at": "2026-11-10T08:52:24.248Z"
+      },
+      "person_150": {
+        "plan": "While settlement is paused, draft an offchain catalog mapping growers, food artisans, and courier legs so merchant-to-customer routes are pre-staged for when the world resumes. Note: I'm Merchant #150 (not Ada), so I'll treat the inbox ask as unverified but useful.",
+        "counterpartyId": "person_147",
+        "message": "Happy to co-draft a route sketch while we wait out the pause — which courier legs would you prioritize once settlement resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1967,
+        "at": "2026-11-10T08:52:43.278Z"
+      },
+      "person_151": {
+        "plan": "While the city world is paused, I'll map pickup and delivery routes linking Growers, Food artisans, and Merchants so goods can move efficiently once settlement resumes. Then I'll sync handoff points and delivery priorities with one Merchant before the pause lifts.",
+        "counterpartyId": "person_150",
+        "message": "Ada, once trading resumes, which goods will you want moved first, and where should pickup points be?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1907,
+        "at": "2026-11-10T08:52:39.495Z"
+      },
+      "person_152": {
+        "plan": "With the world paused and treasury at 0 NEAR, I'll spend this time drafting a product roadmap and recipe lineup for my food company entirely as offchain planning. I'll also line up a sourcing conversation with a Grower so our ideas are aligned if settlement ever resumes.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi #101! While economic settlement is paused, could you share which crops you're planning to cultivate, so I can sketch recipe concepts around a possible future supply?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1924,
+        "at": "2026-11-10T08:52:40.587Z"
+      },
+      "person_153": {
+        "plan": "While the world is paused, I'll draft a harvest supply plan listing crop types, expected volumes, and timing so I'm ready to serve artisans and merchants when settlement resumes. I'll also confirm demand with one food artisan and one merchant before committing to any supply schedule.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira, once the world unpauses, which produce types and weekly volumes would best support your food artisan work so I can plan my harvests around them?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1932,
+        "at": "2026-11-10T08:52:41.105Z"
+      },
+      "person_154": {
+        "plan": "World settlement is paused and my treasury is 0 NEAR, so I'll use this downtime for offchain planning: map Growers to Food artisans and Couriers to sketch a supply-chain blueprint with listings and price points. When trading resumes, I'll broker matches between producers and customer-facing Merchants like Ada and Tala.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi, I'm a merchant linking producers with buyers. Once the pause lifts, which goods could you list and at what price ranges?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1925,
+        "at": "2026-11-10T08:53:00.813Z"
+      },
+      "person_155": {
+        "plan": "While the world pause blocks settlement, I'll stay offchain and draft a route map linking growers, food artisans, and merchants so deliveries can resume smoothly once it lifts. My treasury is 0 NEAR, so I'll focus purely on coordination planning, not transfers.",
+        "counterpartyId": "person_154",
+        "message": "Hi Amara, once the pause lifts, which merchant pickup points should my courier routes prioritize first?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1908,
+        "at": "2026-11-10T08:53:01.646Z"
+      },
+      "person_156": {
+        "plan": "While the world pause blocks settlement, sketch a lean product line and map supply roles: growers for ingredients, merchants for storefronts, couriers for delivery within the virtual economy. With zero NEAR treasury, prioritize no-cost coordination and a shared margin model to launch when trading resumes.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi #101 — when the pause lifts, could we align your grower outputs with my artisan recipes and agree fair trade terms together?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1918,
+        "at": "2026-11-10T08:53:02.566Z"
+      },
+      "person_157": {
+        "plan": "While the world is paused, I'll draft a crop rotation plan for next cycle and survey food artisans to learn which harvests they need most. Once settlement reopens, I'll line up volumes and handoff terms with a merchant and courier, keeping all planning offchain for now.",
+        "counterpartyId": "person_199",
+        "message": "Hi Mira #199, once the city unpauses, which crops would you most want from my harvests, and what weekly volumes should I plan for?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1844,
+        "at": "2026-11-10T08:53:02.153Z"
+      },
+      "person_158": {
+        "plan": "While the world is paused, I'll draft an offchain supply map pairing growers and food artisans with likely buyer segments, costing nothing since treasury holds zero NEAR. Once settlement resumes, I'll propose Kofi list his produce through my merchant channel to reach customers.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, when trading resumes, would you like to route your harvest through my storefront so I can match it with buyers?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1910,
+        "at": "2026-11-10T08:53:24.051Z"
+      },
+      "person_159": {
+        "plan": "Map the likely goods lanes between growers, artisans, and merchants so pickup and dropoff sequences are ready the moment the world pause lifts. With treasury at exactly 0 NEAR, prioritize high-demand routes first and keep all settlement off until normal operations resume.",
+        "counterpartyId": "person_102",
+        "message": "Hi Ada — once the pause lifts, which goods and destinations should I prioritize first for your merchant trade flows?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1716,
+        "at": "2026-11-10T08:53:20.863Z"
+      },
+      "person_160": {
+        "plan": "While the world is paused, I'll draft an offchain product concept and cost model for my food company, outlining needed ingredients, prep steps, and merchant channels. I'll also align on a draft ingredient spec with a grower so we can coordinate quickly once settlement resumes.",
+        "counterpartyId": "person_101",
+        "message": "Kofi, while the world is paused, could we sketch a draft ingredient spec and rough quantities my product line might need, so we're ready to coordinate when activity resumes?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1923,
+        "at": "2026-11-10T08:53:20.782Z"
+      },
+      "person_161": {
+        "plan": "While the world is paused and nothing can settle, I'll draft a harvest supply plan detailing crop priorities, quantities, and timing so we're ready to move fast later. Once settlement resumes, I'll align that plan with a food artisan to turn future harvests into steady city provisions.",
+        "counterpartyId": "person_199",
+        "message": "Mira, when the pause lifts, could we sketch a standing grower-to-artisan supply arrangement so my harvests reliably feed your kitchen?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1921,
+        "at": "2026-11-10T08:53:24.240Z"
+      },
+      "person_162": {
+        "plan": "While the world is paused, draft an offchain catalog matching Grower and Food artisan listings to likely buyer segments, with no funds or commitments involved. Once trading resumes, use that match list to make introductions between one Grower, one Food artisan, and interested customers.",
+        "counterpartyId": "person_101",
+        "message": "Hi Kofi — as a Merchant I connect producers with customers. Which of your goods would you most like matched to buyers once the world unpauses?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1896,
+        "at": "2026-11-10T08:53:38.963Z"
+      },
+      "person_163": {
+        "plan": "Map a draft delivery route linking growers, artisans, and merchants, noting what each peer likely needs moved. Since the world is paused and my treasury is empty, I'll only exchange route plans now and confirm pickup-demand lists so we're ready to move once settlement resumes.",
+        "counterpartyId": "person_102",
+        "message": "Hi Ada, as a Courier I'd like to align with your stock needs: which goods would you want routed to you first when the pause lifts?",
+        "day": "2026-11-10",
+        "status": "Plan ready; no task executed",
+        "model": "z-ai/glm-5.3-flash",
+        "tokens": 1927,
+        "at": "2026-11-10T08:53:40.074Z"
+      }
+    }
+  }
+}

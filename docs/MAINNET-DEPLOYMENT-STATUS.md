@@ -12,8 +12,14 @@ Actual mainnet code/state storage: 262,219 bytes, requiring 2.62219 NEAR backing
 
 After the successful transaction, account balance was 3.9513524081763406 NEAR, including storage backing. Liquid balance after that backing was 1.3291624081763406 NEAR. These are timestamped snapshots, not ongoing balance guarantees.
 
-The contract is **paused**, NFT supply is **zero**, and all agent treasury/job/refund liabilities are **zero**. No public user deposits or autonomous agent spending were enabled. The legacy preview still points to testnet; do not present it as the mainnet application.
+Subsequent commissioning created **all 64 founding NFTs**, each with **0 NEAR**. All are initially owned by the project account. Economic settlement remains **paused**, and all treasury/job/refund liabilities remain zero. No public deposits or autonomous spending were enabled.
 
-Remaining commissioning work includes restricted worker authority, native worker/wallet integration, NFT ownership synchronization, a funded and recorded mainnet founding cohort, live settlement/recovery tests and production hosting. Independent security review remains outstanding. A deployed contract is not a completed or audited launch.
+The native preview now runs at http://127.0.0.1:3004/ with finalized ownership and treasury reads, balance reconciliation, five-wallet mainnet connection, and wallet-reviewed owner controls. A separate NEAR AI worker records offchain plans and peer proposals without a signing key. The legacy testnet preview remains separate.
+
+Creating the NFTs cost **0.0926822474799436 NEAR** in fees. A state-preserving read-only batch-view upgrade cost **0.0019687886373313 NEAR**; it was first rehearsed on testnet and verified to preserve existing ownership, zero balances and paused custody. Total mainnet fees, including original deployment: **0.0994986279409343 NEAR**. At completion of minting, before the small view upgrade, liquid deployment reserve was **0.720150160696397 NEAR**. Deployment storage and reserves are not agent capital.
+
+Latest deployed WASM SHA-256: `90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1`. See [64 mint receipts](native-founding-agents.json), [view upgrade](native-view-upgrade.json), [current verified state](native-mainnet-verification.json), [current walkthrough](CURRENT-BUILD-WALKTHROUGH.md) and [every agent](64-AGENT-ROSTER.md).
+
+Real customer services, native settlement execution/recovery, owner earnings policy, external marketplace sales verification and public production hosting remain incomplete. Independent security review remains outstanding. This is not a completed or audited public launch.
 
 Evidence: [mainnet](mainnet-deployment.json), [testnet rehearsal](native-testnet-rehearsal.json), [storage preflight](mainnet-preflight.json). Recovery material and optimized build binary stay outside version control. No private keys appear in these records.

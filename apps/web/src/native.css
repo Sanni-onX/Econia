@@ -1,0 +1,371 @@
+.native-app {
+  background: #f5f3eb;
+  color: #263f37;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+}
+.native-app button,
+.native-app input,
+.native-app select {
+  font: inherit;
+}
+.native-app button {
+  cursor: pointer;
+  border: 1px solid #ced7cb;
+  border-radius: 9px;
+  background: #fffdf6;
+  color: #264b3a;
+  padding: 11px 16px;
+}
+.native-app button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.native-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 5%;
+  border-bottom: 1px solid #dddcd0;
+}
+.native-brand {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: inherit;
+  text-decoration: none;
+  margin-right: auto;
+}
+.native-brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin: 4px 0 0 27px;
+}
+.native-network {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #537a55;
+}
+.native-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 40px 5% 30px;
+}
+.native-intro h1 {
+  font-size: clamp(27px, 3vw, 43px);
+  font-weight: 500;
+  letter-spacing: -1.5px;
+  margin: 10px 0;
+}
+.native-intro p {
+  color: #627366;
+  line-height: 1.7;
+}
+.native-intro small,
+.native-detail > small {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.native-stats {
+  display: flex;
+  gap: 30px;
+}
+.native-stats span {
+  font-size: 11px;
+  color: #697b6d;
+}
+.native-stats b {
+  display: block;
+  font-size: 26px;
+  font-weight: 500;
+  color: #2a513e;
+  margin-bottom: 8px;
+}
+.native-world {
+  position: relative;
+  height: 560px;
+  margin: 0 3%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #d5dccd;
+}
+.native-world-note {
+  position: absolute;
+  bottom: 26px;
+  left: 26px;
+  background: #fffcf0e8;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  max-width: 70%;
+  line-height: 1.7;
+}
+.native-world-note small {
+  font-size: 10px;
+  color: #637a6d;
+}
+.native-reset {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.native-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 36px;
+  padding: 36px 5%;
+}
+.native-list-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.native-app h2 {
+  font-weight: 500;
+  letter-spacing: -0.6px;
+  font-size: 25px;
+}
+.native-app a {
+  color: #386752;
+}
+.native-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.native-filters input {
+  flex: 1;
+  min-width: 0;
+}
+.native-app input,
+.native-app select {
+  border: 1px solid #cfd8c9;
+  background: #fffef8;
+  border-radius: 9px;
+  padding: 12px;
+  color: #334b3e;
+}
+.native-agent-list {
+  max-height: 640px;
+  overflow: auto;
+  padding-right: 5px;
+}
+.native-agent {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  text-align: left;
+  margin: 6px 0;
+}
+.native-agent.selected {
+  border-color: #618568;
+  background: #e6edde;
+}
+.native-agent span small {
+  display: block;
+  font-size: 10px;
+  color: #657a6a;
+  margin-top: 6px;
+}
+.native-agent strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.native-agent-balance {
+  margin-left: auto;
+  text-align: right;
+  font-size: 12px;
+}
+.native-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #dce7c8;
+  font-size: 13px;
+  font-weight: 600;
+  color: #496f45;
+}
+.native-detail {
+  border: 1px solid #d6decd;
+  background: #fffdf6;
+  border-radius: 14px;
+  padding: 28px;
+  align-self: start;
+  line-height: 1.65;
+}
+.native-detail p {
+  font-size: 13px;
+  color: #5f7264;
+}
+.native-detail dl {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 12px;
+  font-size: 12px;
+  padding: 20px 0;
+  border-block: 1px solid #e1e4d8;
+}
+.native-detail dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.native-detail dt {
+  color: #6e7e6e;
+}
+.native-detail h3 {
+  font-size: 14px;
+  margin-top: 25px;
+}
+.native-detail form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.native-detail form input {
+  width: 50%;
+  min-width: 0;
+}
+.native-detail summary {
+  cursor: pointer;
+  font-size: 12px;
+}
+.native-detail details {
+  margin-top: 24px;
+}
+.native-proposal {
+  background: #eef1e4;
+  padding: 16px;
+  border-radius: 10px;
+}
+.native-proposal small {
+  font-size: 10px;
+  color: #5b7858;
+}
+.native-detail > small {
+  letter-spacing: 1px;
+}
+.native-explainer {
+  padding: 20px 5% 50px;
+  border-top: 1px solid #dddccd;
+  line-height: 1.7;
+}
+.native-explainer > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+}
+.native-explainer h3 {
+  font-size: 15px;
+}
+.native-explainer p {
+  font-size: 12px;
+  color: #607564;
+}
+.native-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #17291f99;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.native-wallet {
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fffdf4;
+  padding: 28px;
+  border-radius: 16px;
+}
+.native-close {
+  float: right;
+}
+.native-alert {
+  padding: 16px;
+  background: #f9dfaa;
+  margin: 0;
+}
+.native-loading {
+  padding: 12vh 10%;
+  background: #f5f3eb;
+  min-height: 100vh;
+}
+.native-list-title a {
+  font-size: 12px;
+}
+.native-explainer {
+  scroll-margin-top: 20px;
+}
+@media (max-width: 760px) {
+  .native-header {
+    gap: 10px;
+    padding: 16px;
+  }
+  .native-brand {
+    font-size: 17px;
+  }
+  .native-network {
+    font-size: 9px;
+  }
+  .native-header button {
+    font-size: 11px;
+    padding: 10px;
+  }
+  .native-intro {
+    display: block;
+    padding: 26px 5%;
+  }
+  .native-stats {
+    margin-top: 22px;
+    gap: 25px;
+  }
+  .native-world {
+    height: 440px;
+    margin: 0 12px;
+  }
+  .native-world-note {
+    left: 12px;
+    bottom: 20px;
+    padding: 9px;
+    max-width: 90%;
+    font-size: 10px;
+  }
+  .native-reset {
+    font-size: 10px !important;
+  }
+  .native-workspace {
+    grid-template-columns: 1fr;
+    padding: 25px 5%;
+    gap: 20px;
+  }
+  .native-agent-list {
+    max-height: 370px;
+  }
+  .native-detail {
+    padding: 20px;
+  }
+  .native-explainer > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .native-brand small {
+    font-size: 7px;
+    margin-left: 20px;
+  }
+  .native-intro h1 {
+    letter-spacing: -1px;
+  }
+  .native-filters select {
+    max-width: 35%;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "network": "testnet",
+  "contract": "econia-native-6c690b0eaa.testnet",
+  "wasmSha256": "90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1",
+  "hash": "2b1bpdesLWkE4rEQ5hbYVp8y8renDu7u7qTNxVisgs3z",
+  "feesYocto": "1968788637331300000000",
+  "status": {
+    "SuccessValue": ""
+  },
+  "verified": true,
+  "supply": 1,
+  "custody": {
+    "asset": "NEAR",
+    "decimals": 24,
+    "treasuries": "0",
+    "jobs": "0",
+    "refunds": "0",
+    "last_batch": 0,
+    "paused": true
+  },
+  "verifiedAt": "2026-11-10T08:49:01.454Z"
+}

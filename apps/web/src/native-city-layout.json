@@ -1,0 +1,80 @@
+[
+  {
+    "id": "business_1",
+    "name": "Greenfield Farm",
+    "industry": "FARMING",
+    "district": "Greenfield"
+  },
+  {
+    "id": "business_2",
+    "name": "Common Ground Mill",
+    "industry": "MILLING",
+    "district": "Market quarter"
+  },
+  {
+    "id": "business_3",
+    "name": "Hearth & Grain",
+    "industry": "FOOD",
+    "district": "Commons"
+  },
+  {
+    "id": "business_4",
+    "name": "Harbor Logistics",
+    "industry": "TRANSPORT",
+    "district": "Harbor"
+  },
+  {
+    "id": "business_5",
+    "name": "Greenfield Farm 2",
+    "industry": "FARMING",
+    "district": "Greenfield"
+  },
+  {
+    "id": "business_6",
+    "name": "Common Ground Mill 2",
+    "industry": "MILLING",
+    "district": "Market quarter"
+  },
+  {
+    "id": "business_7",
+    "name": "Hearth & Grain 2",
+    "industry": "FOOD",
+    "district": "Commons"
+  },
+  {
+    "id": "business_8",
+    "name": "Harbor Logistics 2",
+    "industry": "TRANSPORT",
+    "district": "Harbor"
+  },
+  {
+    "id": "business_9",
+    "name": "Greenfield Farm 3",
+    "industry": "FARMING",
+    "district": "Greenfield"
+  },
+  {
+    "id": "business_10",
+    "name": "Common Ground Mill 3",
+    "industry": "MILLING",
+    "district": "Market quarter"
+  },
+  {
+    "id": "business_11",
+    "name": "Hearth & Grain 3",
+    "industry": "FOOD",
+    "district": "Commons"
+  },
+  {
+    "id": "business_12",
+    "name": "Harbor Logistics 3",
+    "industry": "TRANSPORT",
+    "district": "Harbor"
+  },
+  {
+    "id": "business_13",
+    "name": "Mira’s Sunrise Bakery",
+    "industry": "FOOD",
+    "district": "Commons"
+  }
+]

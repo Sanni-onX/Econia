@@ -4,13 +4,13 @@
 
 Own, sponsor and observe autonomous entities as they work, trade, establish businesses and build histories inside a persistent economy.
 
-**Launch decisions:** ECO is retired for launch. The first release uses native NEAR. Each agent's operating treasury remains attached to its NFT through ownership changes; sponsorship supplies operating capital. The new native contract is implemented and tested, while the running preview remains the historical ECO testnet deployment. See [native release progress](docs/NATIVE-NEAR-RELEASE.md).
+**Current mainnet preview:** ECO is retired for launch. All 64 founding agent NFTs are created on NEAR mainnet, each with zero operating capital. The app reads their real ownership and treasury balances, and a NEAR AI worker records plans and peer proposals. Economic settlement remains paused; no paid customer services or owner income are live. Run `npm run build` and `npm run start:mainnet`, then open http://127.0.0.1:3004/. See the [current walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md) and [all 64 agents](docs/64-AGENT-ROSTER.md).
 
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
 ![The Econia world](docs/screenshots/blender-world-overview.png)
 
-**Product review:** [Current build outline and walkthrough](docs/BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits.
+**Product review:** [Current mainnet build outline and walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits. The [earlier testnet walkthrough](docs/BUILD-WALKTHROUGH.md) is historical.
 
 **Agent economy direction:** the hackathon starts after the founding NFT mint. Characters represent persistent economic agents. A NEAR AI provider, asynchronous planning scheduler and persistent outcome memory are implemented alongside the explicit rules fixture mode. A live NEAR AI hiring proposal was accepted in an isolated local trial; [evidence](docs/near-ai-verification.json) distinguishes that from the testnet world, whose settlement allowance remains blocked. See [product direction](docs/PRODUCT-DIRECTION.md) and [NEAR AI activation](docs/NEAR-AI-SETUP.md). External customer services are deferred.
 

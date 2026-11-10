@@ -2501,4 +2501,12 @@ function App() {
     </WorldContext.Provider>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+function Boot(){
+  const [mode,setMode]=useState(null),[issue,setIssue]=useState('');
+  useEffect(()=>{fetch('/api/config').then(async r=>{if(r.status===404)return {mode:'legacy'};if(!r.ok)throw Error('World configuration unavailable');return r.json();}).then(c=>setMode(c.mode)).catch(e=>setIssue(e.message));},[]);
+  if(issue)return <p role="alert">{issue}. Reload to retry.</p>;
+  if(!mode)return <p>Opening Econia…</p>;
+  return mode==='mainnet'?<React.Suspense fallback={<p>Opening mainnet…</p>}><NativeApp/></React.Suspense>:<App/>;
+}
+const NativeApp=React.lazy(()=>import('./NativeApp.jsx'));
+createRoot(document.getElementById("root")).render(<Boot />);

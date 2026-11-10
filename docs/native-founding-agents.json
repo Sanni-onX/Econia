@@ -1,0 +1,397 @@
+{
+  "network": "mainnet",
+  "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "capitalPerAgent": "0",
+  "minted": [
+    {
+      "id": "person_199",
+      "name": "Mira #199",
+      "hash": "5sWJ6Y3oXXgq1XKUxPuRJGL2dp9UEtFk1ZPpxszEpycy",
+      "feesYocto": "1134694226452500000000"
+    },
+    {
+      "id": "person_101",
+      "name": "Kofi #101",
+      "hash": "9vZ3gAzMtXS28vTC64fP2vFwg7znSDasGQUei6T11oGq",
+      "feesYocto": "1176236801242000000000"
+    },
+    {
+      "id": "person_102",
+      "name": "Ada #102",
+      "hash": "CFzfXP71wctSiCVpfis7rq6dA3gF4ugWYoGYadQmgnf1",
+      "feesYocto": "1300834630062100000000"
+    },
+    {
+      "id": "person_103",
+      "name": "Ren #103",
+      "hash": "7Qf66kUYhicbne4PeTMv382tde87MXuixkhM9ULXBANY",
+      "feesYocto": "1229909227577400000000"
+    },
+    {
+      "id": "person_104",
+      "name": "Sana #104",
+      "hash": "9JAcFGcuSk3quhNRNrzY1LvTjA5BsSYJcXVbRnZbMTTZ",
+      "feesYocto": "1351874686118100000000"
+    },
+    {
+      "id": "person_105",
+      "name": "Leo #105",
+      "hash": "GiKb7HoM6Lqu7pZMdak7Mu5QAQt9gseYCzWg2yWe5Xgp",
+      "feesYocto": "1356658092931100000000"
+    },
+    {
+      "id": "person_106",
+      "name": "Amara #106",
+      "hash": "D7Ctt3jJANTCGgnB9GJyk1hd7Rpj4dcKUHt8Rk3ensbL",
+      "feesYocto": "1352004983276400000000"
+    },
+    {
+      "id": "person_107",
+      "name": "Nico #107",
+      "hash": "625nsqLnvFsZBGkYyFJpiGSbRZmxLb2pSCue11Z5c48R",
+      "feesYocto": "1280137977468600000000"
+    },
+    {
+      "id": "person_108",
+      "name": "Yuki #108",
+      "hash": "AbFcg2GBShraGSPF9YY1Db4ma8jZt6D4YRuYRPYSzhKa",
+      "feesYocto": "1402111350359800000000"
+    },
+    {
+      "id": "person_109",
+      "name": "Ezra #109",
+      "hash": "EpNVBpLifrh6psDemafsNqcxRoFmrVAr8MuCT4cwzWdr",
+      "feesYocto": "1406948714073500000000"
+    },
+    {
+      "id": "person_110",
+      "name": "Zara #110",
+      "hash": "5JDqQ1ZyrWpx7KoMLTKALxuj57w1LQCTH6JLUUQZeLq5",
+      "feesYocto": "1400404170212600000000"
+    },
+    {
+      "id": "person_111",
+      "name": "Ivo #111",
+      "hash": "5MhqgHfxBNWJmDy3QPKhNLD4t8v4rU42KDkZZgT4zKKv",
+      "feesYocto": "1406406112912800000000"
+    },
+    {
+      "id": "person_112",
+      "name": "Lena #112",
+      "hash": "8LAubqrMApKipDJPZmmk52Vhz4eDWzeLgbef4Zcpqyxd",
+      "feesYocto": "1402107730233400000000"
+    },
+    {
+      "id": "person_113",
+      "name": "Omar #113",
+      "hash": "83DpnLocPC5sRWfaMQtw31Y2M7DMTmKSM7CESDhQdMsu",
+      "feesYocto": "1406945093947100000000"
+    },
+    {
+      "id": "person_114",
+      "name": "Tala #114",
+      "hash": "DjjUoZPfgA6UDrSR4TBGLVMUmzCqynji8x76rojtWKMX",
+      "feesYocto": "1402235410465400000000"
+    },
+    {
+      "id": "person_115",
+      "name": "Kai #115",
+      "hash": "4CuU5pnBq3Cb5uDVqWXwviTRW5R81EqN7TWfgwYQGJno",
+      "feesYocto": "1330412175276800000000"
+    },
+    {
+      "id": "person_116",
+      "name": "Mira #116",
+      "hash": "CytQ8mqrbxjPLpkjR4aS3MkjoX1cmH7THTz3uwdoxgGv",
+      "feesYocto": "1451888394475100000000"
+    },
+    {
+      "id": "person_117",
+      "name": "Kofi #117",
+      "hash": "2sVCYVqJkEqUvjEAyTvdfJxbhZcnd1mdmvYs6e3XinMN",
+      "feesYocto": "1458245570983200000000"
+    },
+    {
+      "id": "person_118",
+      "name": "Ada #118",
+      "hash": "pYujNcWQaTKA7Bv2CqAKKWFwFPHJW8yAnxN6L9E8dX5",
+      "feesYocto": "1453833673103200000000"
+    },
+    {
+      "id": "person_119",
+      "name": "Ren #119",
+      "hash": "3ZwSRB7JqZU7o5rGzfnmibXNS31Qt2Ea1yY8PnCed2i4",
+      "feesYocto": "1458850210075300000000"
+    },
+    {
+      "id": "person_120",
+      "name": "Sana #120",
+      "hash": "7AQTwn1bYZ6AigLHeFtnXp1pc7wNbrhufE8m8TZpjAGh",
+      "feesYocto": "1451877534095900000000"
+    },
+    {
+      "id": "person_121",
+      "name": "Leo #121",
+      "hash": "EprJemyhvSHbxqhG3cKNuJua4Qg527yuBufjQ4rbeXfN",
+      "feesYocto": "1457547929126500000000"
+    },
+    {
+      "id": "person_122",
+      "name": "Amara #122",
+      "hash": "CMgAgunx6JJ2WQTeeVjGFtBMY4x5odTwZnW3aYzpU9HF",
+      "feesYocto": "1453839071507000000000"
+    },
+    {
+      "id": "person_123",
+      "name": "Nico #123",
+      "hash": "431BiLcDQ2KMxYhFjKMTjoPnFna7o5yG2eNN1ujhAYjZ",
+      "feesYocto": "1458933621640800000000"
+    },
+    {
+      "id": "person_124",
+      "name": "Yuki #124",
+      "hash": "HV16M46ttX3Kh8Apo2MapiHebfXoZty2qbmEY34VjGqx",
+      "feesYocto": "1453712394475100000000"
+    },
+    {
+      "id": "person_125",
+      "name": "Ezra #125",
+      "hash": "AkDdMYUFa4W7hVLDV8JGJu9PRrLtUmq63KhSPBUzuXWj",
+      "feesYocto": "1458473570983200000000"
+    },
+    {
+      "id": "person_126",
+      "name": "Zara #126",
+      "hash": "8AywGjTtLXtnbioM9HchoSdm73A1x4qFyjdRjhpoxUPd",
+      "feesYocto": "1453840074707100000000"
+    },
+    {
+      "id": "person_127",
+      "name": "Ivo #127",
+      "hash": "9q7bPzc9QPp4FcBebyEA4tsuGjHvK6isX46jb1NnWUcT",
+      "feesYocto": "1458850210075300000000"
+    },
+    {
+      "id": "person_128",
+      "name": "Lena #128",
+      "hash": "J64pgCJvBi7Jq4Z97jVivfQjQiXSR1BBktBt5sAWNK7q",
+      "feesYocto": "1453712394475100000000"
+    },
+    {
+      "id": "person_129",
+      "name": "Omar #129",
+      "hash": "4LaoKskuWhaSAkDGUUsR4bRZaqVnLDJ5z1mgqrEqyX1F",
+      "feesYocto": "1458473570983200000000"
+    },
+    {
+      "id": "person_130",
+      "name": "Tala #130",
+      "hash": "FXHC19F7h8heSaCbZqFe8w3gMoGCM1ifxdb8MqHbzZi8",
+      "feesYocto": "1452005214327900000000"
+    },
+    {
+      "id": "person_131",
+      "name": "Kai #131",
+      "hash": "E8Yh5jodjCoEhUmR1swBssBJ67yXNMS5jkHBBqE5wm7j",
+      "feesYocto": "1381021412060100000000"
+    },
+    {
+      "id": "person_132",
+      "name": "Mira #132",
+      "hash": "62vpHQD8nUFd1X87LWr84PvU2qWNHCao2P9gt9NAz97h",
+      "feesYocto": "1503713818464000000000"
+    },
+    {
+      "id": "person_133",
+      "name": "Kofi #133",
+      "hash": "2zo6EfcaVa2DBkxBUMebAWiPzANXrzuKMFpEvVQwHBxk",
+      "feesYocto": "1508688679017700000000"
+    },
+    {
+      "id": "person_134",
+      "name": "Ada #134",
+      "hash": "E96jZtQnrSBmauSdviPmCtut1dWAJG7esHkJ9ySrTUuL",
+      "feesYocto": "1504291097092100000000"
+    },
+    {
+      "id": "person_135",
+      "name": "Ren #135",
+      "hash": "6qqqWdyqmzzo9bYmNhYp8rDUY57LvXXBgCwSz6NQntMR",
+      "feesYocto": "1509293318109800000000"
+    },
+    {
+      "id": "person_136",
+      "name": "Sana #136",
+      "hash": "8CCkrKQe1YCPd33Jhw2Qyr7dMpzBpLsy1X8oT7z5DiSq",
+      "feesYocto": "1504173438590400000000"
+    },
+    {
+      "id": "person_137",
+      "name": "Leo #137",
+      "hash": "551mv7QNbhgctdK3SRjFHvw1r4zpxGRheJoc67HvZqYx",
+      "feesYocto": "1508913897540200000000"
+    },
+    {
+      "id": "person_138",
+      "name": "Amara #138",
+      "hash": "Dn7NnrASoPJY4WhWeQas6bCaah5FSh7P9GkCB1vrswQg",
+      "feesYocto": "1504303735748700000000"
+    },
+    {
+      "id": "person_139",
+      "name": "Nico #139",
+      "hash": "GdJj2xVecGDoKcupJi8nbSNKeVfSHf5BuMXpTFi6uMdx",
+      "feesYocto": "1509398285882500000000"
+    },
+    {
+      "id": "person_140",
+      "name": "Yuki #140",
+      "hash": "5gdSThRpzgw7BSEGRX8BeCRxR8EJF6G1ANBbTZp22Ad1",
+      "feesYocto": "1502338578211200000000"
+    },
+    {
+      "id": "person_141",
+      "name": "Ezra #141",
+      "hash": "98NrTbvYBb5MpsVXRLbQwqz5YbZeBkmvvTaezagPcUUW",
+      "feesYocto": "1508001058891300000000"
+    },
+    {
+      "id": "person_142",
+      "name": "Zara #142",
+      "hash": "X1cYyw28QjYZhraBySNDEbGLo3LVGXV9o214yDozZva",
+      "feesYocto": "1504297498696000000000"
+    },
+    {
+      "id": "person_143",
+      "name": "Ivo #143",
+      "hash": "3Bqr8rATy1YxehmszVERAqQyKznDZK12TgzFUGf36sP6",
+      "feesYocto": "1509293318109800000000"
+    },
+    {
+      "id": "person_144",
+      "name": "Lena #144",
+      "hash": "4eWZ5W9oeSVypzVzCaWcuTXC9rXh9QxewWUwdDpit7Y5",
+      "feesYocto": "1504173438590400000000"
+    },
+    {
+      "id": "person_145",
+      "name": "Omar #145",
+      "hash": "ArwJAysU6GmUjvRcuREi4mnKyTWGfJ38u5kB9kUc539q",
+      "feesYocto": "1508920299144100000000"
+    },
+    {
+      "id": "person_146",
+      "name": "Tala #146",
+      "hash": "BkX6LyxdGN8MUVB1kcDGG8QBRefwQCkvDVsscs2Bvgjr",
+      "feesYocto": "1504301118822400000000"
+    },
+    {
+      "id": "person_147",
+      "name": "Kai #147",
+      "hash": "5n1b2rqf7MnMeHmD5REPWLkAhbxsRU4djSeBGz3X9FkT",
+      "feesYocto": "1509377568324200000000"
+    },
+    {
+      "id": "person_148",
+      "name": "Mira #148",
+      "hash": "3rfxsVMXT2hxKKgEkwEcAXMtZK9JppcnhFqMuLkXm7Tb",
+      "feesYocto": "1503721058716800000000"
+    },
+    {
+      "id": "person_149",
+      "name": "Kofi #149",
+      "hash": "EfbFHpztxPTkQes5UrywxGPJVR85XsehEjvsqZuDZon3",
+      "feesYocto": "1508695919270500000000"
+    },
+    {
+      "id": "person_150",
+      "name": "Ada #150",
+      "hash": "HqhraoZtsTKFFcVRKtBBjaH9hXVzUoYjacNxg937mdtz",
+      "feesYocto": "1502459856839300000000"
+    },
+    {
+      "id": "person_151",
+      "name": "Ren #151",
+      "hash": "HQGmvcJqT69xBWHKrgbC6ufwhfTm8xQDrFLdxDLiPDZR",
+      "feesYocto": "1508377697983400000000"
+    },
+    {
+      "id": "person_152",
+      "name": "Sana #152",
+      "hash": "CKo7MA7ta4q2tqTECXVaCu3AvEcC47XoZJQgn84K4d5P",
+      "feesYocto": "1504169818464000000000"
+    },
+    {
+      "id": "person_153",
+      "name": "Leo #153",
+      "hash": "6GM2tFQBu2SEvp74V4yzrrsothVWeiBzLhbwV5E71GeN",
+      "feesYocto": "1508910277413800000000"
+    },
+    {
+      "id": "person_154",
+      "name": "Amara #154",
+      "hash": "C5VNdhhNEiUKc7r1HjPhrhyi77XdVGuvpDS1hAVuxiUg",
+      "feesYocto": "1504300115622300000000"
+    },
+    {
+      "id": "person_155",
+      "name": "Nico #155",
+      "hash": "GmCTCdYj7SReNbEXhS19pPKPrgERabXTGB5iTC47b8zM",
+      "feesYocto": "1509394665756100000000"
+    },
+    {
+      "id": "person_156",
+      "name": "Yuki #156",
+      "hash": "5VU9H8RMbgqcENLmL8e6os8pLPX3GcBWAwmMyg6WEvLE",
+      "feesYocto": "1504173438590400000000"
+    },
+    {
+      "id": "person_157",
+      "name": "Ezra #157",
+      "hash": "25XGAickuJTqqpNp6krGsgRdTUyW3i8exFDb9ighx3HT",
+      "feesYocto": "1508920299144100000000"
+    },
+    {
+      "id": "person_158",
+      "name": "Zara #158",
+      "hash": "4usya1id5L7K7z6nJK6TifZRJChGauQM8VHSkKjsZfhz",
+      "feesYocto": "1504301118822400000000"
+    },
+    {
+      "id": "person_159",
+      "name": "Ivo #159",
+      "hash": "6SxvY2bMxXL1JAfPRPTmnFzfuPRJHKZcoZyyd5KbMLog",
+      "feesYocto": "1509296938236200000000"
+    },
+    {
+      "id": "person_160",
+      "name": "Lena #160",
+      "hash": "66jgxoMsQVoE1NVA8UhiTWoxKSkSqLVZAKf2BSiRaAXq",
+      "feesYocto": "1502338578211200000000"
+    },
+    {
+      "id": "person_161",
+      "name": "Omar #161",
+      "hash": "Bwnvq7JNW6WJb7BHURn75THqBvgcoR9w4VrpvseoYC28",
+      "feesYocto": "1508001058891300000000"
+    },
+    {
+      "id": "person_162",
+      "name": "Tala #162",
+      "hash": "85Gvx3xZt7rUDMDLTGBbp2UbRn4M3UXg666NtewSCwUv",
+      "feesYocto": "1504297498696000000000"
+    },
+    {
+      "id": "person_163",
+      "name": "Kai #163",
+      "hash": "4PeQ9dZTNpLAvb4xesJ8VM8xpPykuJeSWMMPextuC42d",
+      "feesYocto": "1432383760347400000000"
+    }
+  ],
+  "feesYocto": "92682247479943600000000",
+  "supply": "64",
+  "storageBytes": 313852,
+  "liquidYocto": "720150160696397000000000",
+  "verifiedAt": "2026-11-10T08:46:15.652Z"
+}

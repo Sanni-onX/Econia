@@ -1,0 +1,19 @@
+{
+  "network": "testnet",
+  "contract": "econia-native-6c690b0eaa.testnet",
+  "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "capitalPerAgent": "0",
+  "minted": [
+    {
+      "id": "person_199",
+      "name": "Mira #199",
+      "hash": "3HPd61qMRVz48HdsqmTttAG69uQyBi7SRbf7eaEUUyLq",
+      "feesYocto": "347402891767700000000"
+    }
+  ],
+  "feesYocto": "347402891767700000000",
+  "supply": "1",
+  "storageBytes": 263120,
+  "liquidYocto": "7366026896611655000000000",
+  "verifiedAt": "2026-11-10T08:30:41.836Z"
+}

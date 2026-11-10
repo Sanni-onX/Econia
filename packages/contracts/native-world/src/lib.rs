@@ -164,6 +164,10 @@ impl EconiaNativeWorld {
     pub fn get_agent(&self, agent_id: String) -> Option<Agent> {
         self.agents.get(&agent_id)
     }
+    pub fn get_agents(&self, agent_ids: Vec<String>) -> HashMap<String, Agent> {
+        require!(agent_ids.len() <= 100, "At most 100 identities per view");
+        agent_ids.into_iter().filter_map(|id| self.agents.get(&id).map(|agent| (id, agent))).collect()
+    }
     pub fn custody(&self) -> near_sdk::serde_json::Value {
         near_sdk::serde_json::json!({"asset":"NEAR","decimals":24,"treasuries":self.treasury_total.to_string(),"jobs":self.job_total.to_string(),"refunds":self.refund_total.to_string(),"last_batch":self.last_batch,"paused":self.paused})
     }
@@ -535,6 +539,15 @@ mod tests {
             Err(PromiseError::Failed),
         );
         assert_eq!(w.refund_total, amount.0);
+    }
+    #[test]
+    fn batch_view_preserves_identity_and_custody() {
+        let w = fixture();
+        let before = w.custody();
+        let records = w.get_agents(vec!["mira".into(), "leo".into(), "unknown".into()]);
+        assert_eq!(records.len(), 2);
+        assert_eq!(records["mira"].treasury.0, 0);
+        assert_eq!(w.custody(), before);
     }
     #[test]
     fn settlement_conserves_native_treasuries() {

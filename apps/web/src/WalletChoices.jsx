@@ -11,6 +11,7 @@ export function WalletChoices({
   onDisconnect,
   onAccount,
   error,
+  network = "testnet",
 }) {
   const [, refresh] = useState(0);
   useEffect(() => {
@@ -21,11 +22,13 @@ export function WalletChoices({
   return (
     <div className="wallet-choices">
       <div className="wallet-network">
-        <i /> NEAR TESTNET <span>Test assets only</span>
+        <i /> NEAR {network.toUpperCase()}{" "}
+        <span>
+          {network === "mainnet" ? "Native NEAR" : "Test assets only"}
+        </span>
       </div>
       <p className="wallet-network-help">
-        Choose NEAR and Testnet inside your wallet. Mainnet balances and other
-        chains won’t appear in this preview.
+        Choose NEAR {network} inside your wallet.
       </p>
       {connection.account && (
         <section className="wallet-connected-card">

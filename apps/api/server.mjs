@@ -22,6 +22,11 @@ import {
 } from "../../packages/economy/marketplace.mjs";
 export async function createApplication(options = {}) {
   const mode = process.env.SETTLEMENT_MODE || "sandbox";
+  if (mode === "mainnet") {
+    const {createNativeApplication} = await import('./native-server.mjs');
+    const {createNativePlanner} = await import('../../packages/agent-sdk/native-planner.mjs');
+    return createNativeApplication({...options,planner:options.planner??await createNativePlanner()});
+  }
   if (!["sandbox", "testnet"].includes(mode))
     throw new Error("Unsupported settlement mode");
   const repo = options.repository || (await openRepository());
