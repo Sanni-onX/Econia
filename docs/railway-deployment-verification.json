@@ -15,5 +15,8 @@
   "foreignOriginChallengeStatus": 403,
   "volume": "/app/.data",
   "replicas": 1,
-  "scope": "Public health, mainnet state and authentication boundary verified. Live inference commissioning is recorded separately; no signed hosted customer mission or payment is claimed."
+  "scope": "Public health, mainnet state and authentication boundary verified. Live inference commissioning is recorded separately; no signed hosted customer mission or payment is claimed.",
+  "walletLoginVerification": "User confirmed Nightly connected and free message sign-in succeeded on the public Railway app.",
+  "homepageRelease": "f04aad6db77e497bad819295e78bfd1f632a48f1",
+  "checksRun": "https://github.com/Sanni-onX/Econia/actions/runs/43022838366"
 }
