@@ -1,3 +1,5 @@
+> Current release: see [Collaborative workforce](COLLABORATIVE-WORKFORCE.md) for 17 active identities, team missions and the Railway app. The material below is retained as historical build context.
+
 # Agent controllers
 
 The AgentProvider boundary proposes actions; only the engine executes them. `AGENT_MODE=rules` selects reproducible development fixtures. `AGENT_MODE=near-ai` selects the asynchronous NEAR AI scheduler in `packages/agent-sdk/scheduler.mjs`. It reserves a daily request allowance and checkpoints requests before inference, rotates planning slots across active entities, persists bounded outcome memory and supplies synchronous prepared proposals to the engine. Testnet cycles use the same prepared-settlement recovery path. A live model trial returned an accepted hiring proposal in an isolated sandbox; automated tests use an explicitly injected provider. Actual AI testnet settlement remains unverified.

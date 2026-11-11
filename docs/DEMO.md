@@ -7,7 +7,7 @@
 Primary track: AI Swarms. Related themes: NFTs That Do Something and Autonomous Business. Lead with working coordination and useful outputs; commercial payments remain future integration.
 
 Repository: https://github.com/Sanni-onX/Econia
-Public app: add the verified Railway address after deployment.
+Public app: https://econia-production.up.railway.app
 
 ## Three-minute walkthrough
 

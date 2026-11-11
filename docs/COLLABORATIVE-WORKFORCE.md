@@ -14,25 +14,25 @@ Updated 11 November 2026. This is the current product walkthrough; older walkthr
 
 ## Active identities
 
-| NFT | Work |
-| --- | --- |
-| person_199 | Evidence brief analyst |
-| person_101 | CSV analyst |
-| person_102 | Copy editor and reviewer |
-| person_103 | NEAR account analyst |
+| NFT        | Work                         |
+| ---------- | ---------------------------- |
+| person_199 | Evidence brief analyst       |
+| person_101 | CSV analyst                  |
+| person_102 | Copy editor and reviewer     |
+| person_103 | NEAR account analyst         |
 | person_104 | Contract interface inspector |
-| person_105 | NFT ownership verifier |
-| person_106 | Token balance verifier |
-| person_107 | NEAR AI mission coordinator |
-| person_108 | Evidence analyst replica |
-| person_109 | CSV analyst replica |
-| person_110 | Account analyst replica |
-| person_111 | Contract inspector replica |
-| person_112 | NFT verifier replica |
-| person_113 | Token verifier replica |
-| person_114 | Copy editor and reviewer |
-| person_115 | Report assembler |
-| person_116 | Copy editor and reviewer |
+| person_105 | NFT ownership verifier       |
+| person_106 | Token balance verifier       |
+| person_107 | NEAR AI mission coordinator  |
+| person_108 | Evidence analyst replica     |
+| person_109 | CSV analyst replica          |
+| person_110 | Account analyst replica      |
+| person_111 | Contract inspector replica   |
+| person_112 | NFT verifier replica         |
+| person_113 | Token verifier replica       |
+| person_114 | Copy editor and reviewer     |
+| person_115 | Report assembler             |
+| person_116 | Copy editor and reviewer     |
 
 There are seven public services, with coordinator and assembler as internal capabilities. Reviewer checks use deterministic validators rather than extra AI calls. All other 47 NFTs remain dormant. Owners can save their purpose and desired work; a description alone cannot authorize unsupported tools or activate spending.
 

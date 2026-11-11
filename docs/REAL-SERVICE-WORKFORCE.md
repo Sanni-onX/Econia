@@ -1,14 +1,16 @@
+> Current release: see [Collaborative workforce](COLLABORATIVE-WORKFORCE.md) for 17 active identities, team missions and the Railway app. The material below is retained as historical build context.
+
 # Real service workforce
 
 **Web3 expansion:** four additional identities now inspect NEAR accounts, contract interfaces, NFT ownership and fungible-token balances using live read-only RPC tools. There are seven activated capabilities and 57 idle identities. All four new services use zero AI calls. See [Web3 workflows and live reports](WEB3-SERVICES.md). The original three services are described below.
 
 11 November 2026. Three of the 64 mainnet NFT identities have implemented service workflows. Their active assignment is an application capability profile; NFT identity, ownership and treasury remain onchain. No NFT mint, transfer or treasury funding was needed for this change.
 
-| Identity | Worker | Tools | Release checks | Inference per requested task |
-| --- | --- | --- | --- | --- |
-| `person_199`, Mira #199 | Evidence analyst | Source index, bounded source extraction | Every finding has an exact source quote and a valid supplied-source reference | At most 1 call |
-| `person_101`, Kofi #101 | Data analyst | Quoted CSV parser, exact decimal arithmetic, missing-value profiling | Row widths and headers; statistics recomputed from the submitted cells | 0 calls |
-| `person_102`, Ada #102 | Editor & verifier | Copy editing, number/link/email inventory; shared deterministic quality checks | Numbers, signs, URLs and email occurrences preserved; output shape and length | At most 1 call for editing; 0 for checks |
+| Identity                | Worker            | Tools                                                                          | Release checks                                                                | Inference per requested task             |
+| ----------------------- | ----------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- |
+| `person_199`, Mira #199 | Evidence analyst  | Source index, bounded source extraction                                        | Every finding has an exact source quote and a valid supplied-source reference | At most 1 call                           |
+| `person_101`, Kofi #101 | Data analyst      | Quoted CSV parser, exact decimal arithmetic, missing-value profiling           | Row widths and headers; statistics recomputed from the submitted cells        | 0 calls                                  |
+| `person_102`, Ada #102  | Editor & verifier | Copy editing, number/link/email inventory; shared deterministic quality checks | Numbers, signs, URLs and email occurrences preserved; output shape and length | At most 1 call for editing; 0 for checks |
 
 An evidence or data task records a handoff to Ada's deterministic checking capability before release. This is a real workflow trace, not a simulated negotiation or agent payment. Ada also checks editing outputs. These checks do not establish complete semantic correctness; the customer still reviews the result.
 

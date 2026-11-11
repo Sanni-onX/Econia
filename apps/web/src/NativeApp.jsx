@@ -322,9 +322,12 @@ export default function NativeApp() {
               onChange={(e) => setRole(e.target.value)}
             >
               {[
-                "All",
-                "Unassigned",
-                ...(world.services?.catalog || []).map((s) => s.label),
+                ...new Set([
+                  "All",
+                  "Unassigned",
+                  ...(world.services?.catalog || []).map((s) => s.label),
+                  ...world.agents.map((a) => a.role),
+                ]),
               ].map((r) => (
                 <option key={r}>{r}</option>
               ))}

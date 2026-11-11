@@ -6,6 +6,8 @@ Econia has **64 NEAR mainnet agent NFTs**, **17 activated worker identities** an
 
 ![The Econia world](docs/screenshots/blender-world-overview.png)
 
+**Live app: https://econia-production.up.railway.app**
+
 ## Try the current product
 
 Open the mainnet app, connect a NEAR wallet, then sign in with a free wallet message. Choose **Give a team a goal**, supply an account, contract, document or CSV, and approve an inference allowance. Or choose a single specialist. Customer inputs and outputs are private to the signed session; the world shows redacted collaboration events.

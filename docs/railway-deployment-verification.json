@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-11-11T12:39:59.7930527Z",
+  "url": "https://econia-production.up.railway.app",
+  "projectId": "bc30f001-1d19-44b4-b918-e4fcecc982d3",
+  "serviceId": "ea8d8d5b-f16d-45dd-aa4b-95b0f76d100e",
+  "initialDeploymentId": "da8f1a9b-7c62-4fff-8862-ffa77f0143a3",
+  "commit": "b1015d435ba3bca05cca3fde6bf6d0ecdbcbf112",
+  "agentCount": 64,
+  "activeIdentities": 17,
+  "aiConfigured": true,
+  "settlementPaused": true,
+  "treasuriesYocto": "0",
+  "privateMissionStatus": 401,
+  "sameOriginChallengeStatus": 200,
+  "foreignOriginChallengeStatus": 403,
+  "volume": "/app/.data",
+  "replicas": 1,
+  "scope": "Public health, mainnet state and authentication boundary verified. Live inference commissioning is recorded separately; no signed hosted customer mission or payment is claimed."
+}

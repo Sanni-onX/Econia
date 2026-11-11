@@ -4,11 +4,11 @@ Prepare a factual Econia project review: inspect the project account and contrac
 
 ## Coordination
 
-Plan uses the full 1-call budget on this coordination step, so no source-brief or copy-edit calls are possible; specialist delegation tools cost 0. Each supplied source maps to exactly one approved specialist: near-account inspects the project account, near-contract inspects the deployed contract, near-nft verifies Mira NFT ownership for the token, and near-token reconciles the wrap.near balance. Four independent steps, no overlap, and the assembler merges all checked outputs into the factual Econia review.
+Coordinator plan for the factual Econia review. Budget: maxAiCalls=1 is consumed by this planning call, so only zero-cost specialist delegations are used; no source-brief or copy-edit calls. The four targets are independent, so each is delegated once to its matching specialist with no overlap: account inspection, contract inspection, Mira NFT ownership verification, and wrap.near balance reconciliation. The assembler automatically combines all outputs into the final review; no assembly step is
 
 ## Specialist 1: near-account
 
-Agent: person_103. Task: 4af12759-4891-4e83-9d24-a71aabbd6fd2. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: 12a35377704c31cbe7d979c54ecd33c965b51e01621ca939a27235262bdd06b0.
+Agent: person_110. Task: a4f0d78b-db49-4010-9856-791123c8f45e. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: 684f0e24e21fcb741d5b975fb6bcdaa64394018bf86274c4eb66f2de6e0fecfe.
 
 # NEAR account analyst
 
@@ -18,9 +18,9 @@ Finalized NEAR mainnet snapshot.
 {
   "network": "mainnet",
   "service": "near-account",
-  "blockHeight": 224065211,
-  "blockHash": "DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt",
-  "generatedAt": "2026-11-11T12:27:06.574Z",
+  "blockHeight": 224066468,
+  "blockHash": "5xGmC65JPnyRBXqXpjucXdXLFCAzAj2qSRh3P426a4Qu",
+  "generatedAt": "2026-11-11T12:39:19.897Z",
   "data": {
     "accountId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
     "amountYocto": "3856701372059065700000000",
@@ -54,7 +54,7 @@ A point-in-time account inventory, not a complete portfolio, security verdict or
 
 ## Specialist 2: near-contract
 
-Agent: person_104. Task: e8544af3-22de-476b-a47f-439e73e3e7bc. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: d926667bc72894eb9f3c14ae89b1494aa23d00529453b88594636fd9707199da.
+Agent: person_111. Task: 85b0614c-e283-4e07-bcc2-96a567215626. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: 4bfa3c3730a5279cf9e8c1c1ab26fe0be2a6cfb6cf3c645a87b9d0fbf2439bfb.
 
 # Contract interface inspector
 
@@ -64,9 +64,9 @@ Finalized NEAR mainnet snapshot.
 {
   "network": "mainnet",
   "service": "near-contract",
-  "blockHeight": 224065207,
-  "blockHash": "BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori",
-  "generatedAt": "2026-11-11T12:27:04.429Z",
+  "blockHeight": 224066465,
+  "blockHash": "4bF6vknCkwaE5Pyqx3GrRBPYj79haduNpruzhuz7tiTv",
+  "generatedAt": "2026-11-11T12:39:18.081Z",
   "data": {
     "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
     "hasContract": true,
@@ -219,7 +219,7 @@ Interface inspection only. Export names do not establish permissions, mutability
 
 ## Specialist 3: near-nft
 
-Agent: person_105. Task: 41ffcd5c-c9a6-44c1-a9fd-4d935693ffb0. Source SHA-256: 765e79683c531b23c142aa2a80ecbe41742bc6e54fde5a654ff5b4f6c2273341. Artifact SHA-256: f23b800f4f6a6cd4a3d554a35046cb875a85331c5afe9e205e68356225580866.
+Agent: person_112. Task: 9747e424-55f3-45a0-9ad8-6b50fa75f9bb. Source SHA-256: 765e79683c531b23c142aa2a80ecbe41742bc6e54fde5a654ff5b4f6c2273341. Artifact SHA-256: a60bfa268e16e7e000b4ebeac8c1154228ad8f568f3d05f24b477258cbe7d4b6.
 
 # NFT ownership verifier
 
@@ -229,9 +229,9 @@ Finalized NEAR mainnet snapshot.
 {
   "network": "mainnet",
   "service": "near-nft",
-  "blockHeight": 224065204,
-  "blockHash": "B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1",
-  "generatedAt": "2026-11-11T12:27:02.316Z",
+  "blockHeight": 224066462,
+  "blockHash": "NcwnWvNCy9jkvHNbAfdogX5oNFnTwVGdSzvf4g97uTJ",
+  "generatedAt": "2026-11-11T12:39:16.196Z",
   "data": {
     "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
     "tokenId": "person_199",
@@ -250,7 +250,7 @@ The queried collection reports this ownership. This does not authenticate artwor
 
 ## Specialist 4: near-token
 
-Agent: person_106. Task: 7b5b8a80-c1d0-4243-b09a-2834139f259e. Source SHA-256: cc94c77cddba5eaac402ce80e927a492e06723ae8fe4ff8ca27a5a161d073b80. Artifact SHA-256: 0256292da3fb1b0d881e708213b86aedddff2fdc001a26e424a6c5ac2a7c7636.
+Agent: person_113. Task: c7ac8252-b406-4d73-9b01-43e330d77b62. Source SHA-256: cc94c77cddba5eaac402ce80e927a492e06723ae8fe4ff8ca27a5a161d073b80. Artifact SHA-256: d4fc725b0a37ed1b8f4863224db678e77ee251ad6516cee177a70bf7b00757c7.
 
 # Token balance verifier
 
@@ -260,9 +260,9 @@ Finalized NEAR mainnet snapshot.
 {
   "network": "mainnet",
   "service": "near-token",
-  "blockHeight": 224065201,
-  "blockHash": "ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF",
-  "generatedAt": "2026-11-11T12:27:00.536Z",
+  "blockHeight": 224066459,
+  "blockHash": "5AGpX2KBqvHLvrCuMbgb5BB86PzS3R3bPzmTJn1tzxtf",
+  "generatedAt": "2026-11-11T12:39:14.717Z",
   "data": {
     "contract": "wrap.near",
     "accountId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",

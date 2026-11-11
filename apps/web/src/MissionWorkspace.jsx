@@ -318,6 +318,16 @@ export function MissionWorkspace({
           Actual assignment and check events. Customer inputs and deliverables
           remain private.
         </p>
+        <p>
+          <a
+            href="https://github.com/Sanni-onX/Econia/blob/main/docs/service-examples/team-mission.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View a verified commissioning example ↗
+          </a>{" "}
+          One live NEAR AI plan, four mainnet specialists and a combined report.
+        </p>
         {!(world.services.activity || []).length && (
           <p>No assignments yet. Idle agents make no inference calls.</p>
         )}

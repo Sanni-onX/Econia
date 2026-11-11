@@ -1,3 +1,5 @@
+> Current release: see [Collaborative workforce](COLLABORATIVE-WORKFORCE.md) for 17 active identities, team missions and the Railway app. The material below is retained as historical build context.
+
 # Econia current build and walkthrough
 
 **Web3 expansion:** the worker now has seven activated capabilities, including four live-chain NEAR services that use zero inference calls. The other 57 identities stay idle. See [the current Web3 service guide](WEB3-SERVICES.md).
