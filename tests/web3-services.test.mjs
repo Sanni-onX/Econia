@@ -175,7 +175,7 @@ test("Every Web3 worker completes the durable checked-artifact workflow with zer
     }
     assert.equal(aiCalls, 0);
     assert.equal(w.status().aiCallsReserved, 0);
-    assert.equal(w.status().activeCapacity, 7);
+    assert.equal(w.status().activeCapacity, 17);
   } finally {
     await w.close();
   }

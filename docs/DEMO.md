@@ -1,16 +1,46 @@
-# Demo walkthrough
+# Econia demo and submission package
 
-1. Open the world overview. Confirm the cycle advances and actual production/trading events appear.
-2. Search Mira #199; inspect cash, skills, goal, employment, minimum reserve and decision inputs.
-3. In local mode, sponsor 100 simulation units from the demo account. The modal explicitly identifies the local mode.
-4. Wait for several cycles. The agent can found a food company when capital, skills and quoted margins meet policy. It buys inputs and hires from the actual labor pool. Success is not scripted.
-5. Open the new bakery; inspect its worker, cash, stock and production decisions. Show the recorded pre-action inputs in Why did you do that?
-6. Open the Chronicle and its source event. Explore goods stock/price histories and wealth rankings.
-7. Acquire an available local Living Asset and verify its identity, skills, employment and history persist.
-8. Separately show public deployment evidence and real testnet contract calls. Do not describe the sandbox sponsorship as an ECO transfer.
+## Positioning
 
-## Suggested narration
+**Econia — NFT-owned agents that collaborate on useful work.**
 
-“Econia is a city of autonomous economic entities. Humans provide capital and boundaries; entities choose their next move. Every trade has a counterparty and every decision changes a finite economy. Here is Mira: strong cooking skill, limited cash. We provide an opportunity. The engine validates her own choices, and her decisions become the city’s history.”
+Primary track: AI Swarms. Related themes: NFTs That Do Something and Autonomous Business. Lead with working coordination and useful outputs; commercial payments remain future integration.
 
-The commissioned testnet instance now supports the same sponsorship-to-autonomy story with actual ECO. `scripts/demo-testnet.mjs` records real sponsorship and business formation evidence; `scripts/marketplace-testnet.mjs` verifies a real ownership sale without resetting economic state. Record only behavior actually observed. Explain that the web service runs locally until public hosting is configured.
+Repository: https://github.com/Sanni-onX/Econia
+Public app: add the verified Railway address after deployment.
+
+## Three-minute walkthrough
+
+**0:00–0:25:** Show the 3D world. Explain that each character is a persistent NEAR mainnet NFT identity. Seventeen workers are activated; dormant identities consume no inference credits.
+
+**0:25–0:50:** Open the service workspace, connect a mainnet wallet and sign the free login message. Explain that customer inputs stay private.
+
+**0:50–1:25:** Give the team a goal to inspect an account and contract. Supply the public Econia contract as both targets. Choose one inference call. Show that the NEAR AI coordinator creates a plan and commissions specialist jobs.
+
+**1:25–2:05:** Show worker assignments, reviewer handoffs and completed tool traces. Open the assembled report and download its Markdown artifact. Explain that finalized chain data and hashes make results traceable. Use the committed live commissioning report if a wallet signature or public daily allowance prevents a fresh run; label that replay clearly.
+
+**2:05–2:30:** Show document/CSV inputs and the single-specialist alternative. Larger documents split into jobs; replicas share queues and no identity executes two jobs at once.
+
+**2:30–2:50:** Explain optional account-change follow-up, the 24-hour/three-run limit and stop control. Show owner-defined purpose for dormant identities.
+
+**2:50–3:00:** State the honest release scope: 64 mainnet NFTs, NEAR AI coordination, real tools, checked deliverables, Railway hosting. Trial work is free and paid settlement remains paused.
+
+## Submission description
+
+Econia is a persistent world of NFT-owned agents on NEAR. Customers submit goals and bounded inputs. A NEAR AI coordinator commissions specialist agents, the dispatcher shares work across available identities, reviewers check outputs, and an assembler creates a traceable deliverable. Live tools cover NEAR account analysis, contract interface inspection, NFT ownership, token balances, source-backed document briefs, CSV analysis and copy editing.
+
+The founding collection contains 64 mainnet NFTs, with 17 activated identities and 47 dormant identities that spend no inference credits. Ownership and agent treasuries live on NEAR; treasury custody follows the NFT. Optional account-change monitoring can commission follow-up work within customer consent, expiry and budget limits. The app runs on Railway with durable task records and private wallet-authenticated artifacts.
+
+This release demonstrates project-funded service trials. NEAR payment settlement remains paused; it does not claim commercial revenue, owner returns or unrestricted tool execution.
+
+## Draft X post
+
+Meet Econia: NFT-owned agents collaborating on real work on NEAR. One goal becomes a specialist plan, agent-to-agent tasks, checked outputs and one traceable report. Built with NEAR AI, 64 mainnet agent NFTs and real Web3 tools. @NEARProtocol #NEARHackathon
+
+Attach current screenshots or a demo video, plus the verified app and repository links. This is a draft; it has not been posted.
+
+## Final submission items
+
+The hackathon website asks for a public repository and an X demo post tagging @NEARProtocol with #NEARHackathon. The post can contain video or screenshots. Prepare the app URL, repo URL and demo-post URL for the submission form. The X post and final form are not submitted by this package.
+
+Source: https://nearhackathon.com/ (checked 11 November 2026).

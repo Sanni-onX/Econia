@@ -14,6 +14,8 @@ import {
   hashContent,
 } from "./service-tools.mjs";
 import { MAINNET_CONTRACT } from "../shared/native-state.mjs";
+import { WORKER_ASSIGNMENTS, workersFor } from "./worker-assignments.mjs";
+import { createMissionRuntime } from "./mission-runtime.mjs";
 import {
   isWeb3Service,
   runWeb3Service,
@@ -27,6 +29,7 @@ export function createServiceWorkforce({
   model = process.env.NEAR_AI_MODEL,
   fetchImpl = fetch,
   web3Rpc,
+  missionPlanProvider,
   dailyAiLimit = Number(process.env.SERVICE_DAILY_AI_CALL_LIMIT ?? 12),
   dailyTaskLimit = Number(process.env.SERVICE_DAILY_TASK_LIMIT ?? 24),
   accountTaskLimit = Number(process.env.SERVICE_ACCOUNT_TASK_LIMIT ?? 3),
@@ -45,7 +48,17 @@ export function createServiceWorkforce({
   db.exec(`PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;
     CREATE TABLE IF NOT EXISTS profiles(agent TEXT PRIMARY KEY, owner TEXT NOT NULL, body TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS tasks(id TEXT PRIMARY KEY, customer TEXT NOT NULL, request_id TEXT NOT NULL, day TEXT NOT NULL, state TEXT NOT NULL, lease INTEGER NOT NULL DEFAULT 0, body TEXT NOT NULL, UNIQUE(customer,request_id));
-    CREATE TABLE IF NOT EXISTS budget(day TEXT PRIMARY KEY, ai INTEGER NOT NULL, tasks INTEGER NOT NULL);`);
+    CREATE TABLE IF NOT EXISTS budget(day TEXT PRIMARY KEY, ai INTEGER NOT NULL, tasks INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS missions(id TEXT PRIMARY KEY, customer TEXT NOT NULL, request_id TEXT NOT NULL, day TEXT NOT NULL, body TEXT NOT NULL, UNIQUE(customer,request_id));
+    CREATE TABLE IF NOT EXISTS worker_leases(agent TEXT PRIMARY KEY, task TEXT NOT NULL, expires INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS agent_events(id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, sender TEXT NOT NULL, receiver TEXT NOT NULL, kind TEXT NOT NULL, state TEXT NOT NULL);`);
+  if (
+    !db
+      .prepare("PRAGMA table_info(tasks)")
+      .all()
+      .some((c) => c.name === "parent_id")
+  )
+    db.exec("ALTER TABLE tasks ADD COLUMN parent_id TEXT");
   let timer,
     stopping = false;
   const running = new Set(),
@@ -64,7 +77,15 @@ export function createServiceWorkforce({
   };
   const getProfile = (agentId, owner) => {
     const row = db.prepare("SELECT * FROM profiles WHERE agent=?").get(agentId),
-      seed = SERVICE_CATALOG.find((s) => s.agentId === agentId);
+      assignment = WORKER_ASSIGNMENTS.find((a) => a.agentId === agentId),
+      seed = assignment && {
+        ...SERVICE_CATALOG.find((s) => s.id === assignment.service),
+        ...assignment,
+        id: assignment.service,
+        description:
+          assignment.purpose ||
+          SERVICE_CATALOG.find((s) => s.id === assignment.service)?.description,
+      };
     if (row && row.owner === owner) {
       const p = JSON.parse(row.body);
       return {
@@ -109,6 +130,7 @@ export function createServiceWorkforce({
     return a;
   };
   const recover = () => {
+    db.prepare("DELETE FROM worker_leases WHERE expires<?").run(now());
     for (const row of db
       .prepare("SELECT * FROM tasks WHERE state='RUNNING' AND lease<?")
       .all(now())) {
@@ -126,13 +148,31 @@ export function createServiceWorkforce({
         service = SERVICE_CATALOG.find((s) => s.id === p.service);
       return {
         ...a,
-        role: p.active ? service.label : "Unassigned",
+        role: p.active
+          ? WORKER_ASSIGNMENTS.find((x) => x.agentId === a.id)?.label ||
+            service?.label ||
+            "Specialist"
+          : "Unassigned",
         goal: p.purpose,
         serviceProfile: {
           ...p,
           active: p.active && Boolean(a.token) && !a.paused,
         },
         service: service || null,
+        workload: {
+          busy: Boolean(
+            db
+              .prepare(
+                "SELECT agent FROM worker_leases WHERE agent=? AND expires>?",
+              )
+              .get(a.id, now()),
+          ),
+          queued: db
+            .prepare(
+              "SELECT count(*) AS n FROM tasks WHERE json_extract(body,'$.agentId')=? AND state='QUEUED'",
+            )
+            .get(a.id).n,
+        },
       };
     });
   }
@@ -141,7 +181,12 @@ export function createServiceWorkforce({
       typeof purpose !== "string" ||
       purpose.trim().length < 15 ||
       purpose.length > 1000 ||
-      !["custom", ...SERVICE_CATALOG.map((s) => s.id)].includes(service)
+      ![
+        "custom",
+        ...SERVICE_CATALOG.map((s) => s.id),
+        "mission-coordination",
+        "report-assembly",
+      ].includes(service)
     )
       throw Error(
         "Select a capability and supply a 15–1000 character owner brief",
@@ -161,7 +206,11 @@ export function createServiceWorkforce({
     ).run(agentId, accountId, JSON.stringify(p));
     return getProfile(agentId, accountId);
   }
-  async function submit(customer, { agentId, input, brief = "", requestId }) {
+  async function submit(
+    customer,
+    { agentId, input, brief = "", requestId },
+    delegation = null,
+  ) {
     if (
       typeof requestId !== "string" ||
       !/^[-a-zA-Z0-9_]{8,80}$/.test(requestId)
@@ -193,12 +242,24 @@ export function createServiceWorkforce({
           ai: 0,
           tasks: 0,
         };
-      if (b.ai + service.aiCalls > dailyAiLimit || b.tasks >= dailyTaskLimit)
+      if (
+        !delegation &&
+        (b.ai + service.aiCalls > dailyAiLimit || b.tasks >= dailyTaskLimit)
+      )
         throw Error("Project-funded trial allowance reached for today");
       if (
+        !delegation &&
         db
-          .prepare("SELECT count(*) AS n FROM tasks WHERE customer=? AND day=?")
-          .get(customer, day).n >= accountTaskLimit
+          .prepare(
+            "SELECT count(*) AS n FROM tasks WHERE customer=? AND day=? AND parent_id IS NULL",
+          )
+          .get(customer, day).n +
+          db
+            .prepare(
+              "SELECT count(*) AS n FROM missions WHERE customer=? AND day=?",
+            )
+            .get(customer, day).n >=
+          accountTaskLimit
       )
         throw Error("Your daily trial task allowance is reached");
       const t = {
@@ -218,13 +279,28 @@ export function createServiceWorkforce({
         reservedAiCalls: service.aiCalls,
         createdAt: new Date(now()).toISOString(),
         trace: [],
+        ...(delegation
+          ? {
+              parentId: delegation.missionId,
+              requestedByAgent: delegation.fromAgent,
+            }
+          : {}),
       };
+      if (!delegation)
+        db.prepare(
+          "INSERT INTO budget VALUES(?,?,?) ON CONFLICT(day) DO UPDATE SET ai=excluded.ai,tasks=excluded.tasks",
+        ).run(day, b.ai + service.aiCalls, b.tasks + 1);
       db.prepare(
-        "INSERT INTO budget VALUES(?,?,?) ON CONFLICT(day) DO UPDATE SET ai=excluded.ai,tasks=excluded.tasks",
-      ).run(day, b.ai + service.aiCalls, b.tasks + 1);
-      db.prepare(
-        "INSERT INTO tasks(id,customer,request_id,day,state,body) VALUES(?,?,?,?,?,?)",
-      ).run(t.id, customer, requestId, day, t.status, JSON.stringify(t));
+        "INSERT INTO tasks(id,customer,request_id,day,state,body,parent_id) VALUES(?,?,?,?,?,?,?)",
+      ).run(
+        t.id,
+        customer,
+        requestId,
+        day,
+        t.status,
+        JSON.stringify(t),
+        delegation?.missionId ?? null,
+      );
       return t;
     });
   }
@@ -235,6 +311,29 @@ export function createServiceWorkforce({
         .get(id);
       if (!row) return null;
       const t = JSON.parse(row.body);
+      if (
+        db
+          .prepare(
+            "SELECT agent FROM worker_leases WHERE agent=? AND expires>?",
+          )
+          .get(t.agentId, now())
+      )
+        return null;
+      const reviewer = workersFor("copy-edit").find(
+        (a) =>
+          a.agentId !== t.agentId &&
+          !db
+            .prepare(
+              "SELECT agent FROM worker_leases WHERE agent=? AND expires>?",
+            )
+            .get(a.agentId, now()),
+      );
+      if (!reviewer) return null;
+      t.reviewerId = reviewer.agentId;
+      for (const agent of [t.agentId, t.reviewerId])
+        db.prepare(
+          "INSERT INTO worker_leases VALUES(?,?,?) ON CONFLICT(agent) DO UPDATE SET task=excluded.task,expires=excluded.expires",
+        ).run(agent, t.id, now() + 180000);
       t.status = "RUNNING";
       db.prepare("UPDATE tasks SET state=?,lease=?,body=? WHERE id=?").run(
         t.status,
@@ -261,14 +360,20 @@ export function createServiceWorkforce({
           "Owner or service instructions changed; request needs review",
         );
       const source = indexSource(t.input);
-      const reviewerAtStart = await requireAgent("person_102");
+      const reviewerAtStart = await requireAgent(t.reviewerId);
       if (
-        getProfile("person_102", reviewerAtStart.ownerId).service !==
+        getProfile(t.reviewerId, reviewerAtStart.ownerId).service !==
           "copy-edit" ||
-        !getProfile("person_102", reviewerAtStart.ownerId).active
+        !getProfile(t.reviewerId, reviewerAtStart.ownerId).active
       )
         throw Error("Quality-check agent unavailable; no inference started");
       let result, inference;
+      emit(
+        t.agentId,
+        t.requestedByAgent || t.agentId,
+        "task-claim",
+        "ACCEPTED",
+      );
       t.trace.push({
         agentId: t.agentId,
         tool: isWeb3Service(t.service)
@@ -329,10 +434,14 @@ export function createServiceWorkforce({
             ? validateEvidence(inference.candidate, source)
             : validateEdit(inference.candidate, t.input);
       }
-      const reviewer = await requireAgent("person_102"),
-        reviewProfile = getProfile("person_102", reviewer.ownerId);
+      const reviewer = await requireAgent(t.reviewerId),
+        reviewProfile = getProfile(t.reviewerId, reviewer.ownerId);
       if (!reviewProfile.active || reviewProfile.service !== "copy-edit")
         throw Error("Quality-check agent unavailable; output held");
+      emit(t.agentId, t.reviewerId, "quality-check", "REQUESTED");
+      if (t.service === "source-brief")
+        validateEvidence({ findings: result }, source);
+      if (t.service === "copy-edit") validateEdit(result, t.input);
       if (
         t.service === "csv-audit" &&
         JSON.stringify(result) !== JSON.stringify(analyseCsv(t.input))
@@ -343,7 +452,7 @@ export function createServiceWorkforce({
       if (latest.ownerId !== t.profile.owner)
         throw Error("NFT owner changed during execution; output held");
       t.trace.push({
-        agentId: "person_102",
+        agentId: t.reviewerId,
         tool: isWeb3Service(t.service)
           ? "chain-report-check"
           : t.service === "source-brief"
@@ -366,6 +475,7 @@ export function createServiceWorkforce({
       };
       t.status = "REVIEW_READY";
       t.finishedAt = new Date(now()).toISOString();
+      emit(t.agentId, t.reviewerId, "quality-check", "COMPLETED");
     } catch (e) {
       t.status = controller.signal.aborted ? "INTERRUPTED" : "FAILED_CHECKS";
       t.error = e.message;
@@ -374,6 +484,7 @@ export function createServiceWorkforce({
       clearTimeout(timeout);
       controllers.delete(controller);
       saveTask(t);
+      db.prepare("DELETE FROM worker_leases WHERE task=?").run(t.id);
     }
   }
   function poll() {
@@ -382,9 +493,9 @@ export function createServiceWorkforce({
     const slots = 2 - running.size;
     for (const row of db
       .prepare(
-        "SELECT id FROM tasks WHERE state='QUEUED' ORDER BY rowid LIMIT ?",
+        "SELECT id FROM tasks WHERE state='QUEUED' AND json_extract(body,'$.agentId') NOT IN (SELECT agent FROM worker_leases WHERE expires>?) ORDER BY rowid LIMIT ?",
       )
-      .all(Math.max(0, slots))) {
+      .all(now(), Math.max(0, slots))) {
       const p = execute(row.id);
       running.add(p);
       p.finally(() => running.delete(p)).catch(() => {});
@@ -397,7 +508,73 @@ export function createServiceWorkforce({
     if (!row) throw Object.assign(Error("Task not found"), { status: 404 });
     return JSON.parse(row.body);
   };
+  function emit(sender, receiver, kind, state) {
+    db.prepare(
+      "INSERT INTO agent_events(at,sender,receiver,kind,state) VALUES(?,?,?,?,?)",
+    ).run(new Date(now()).toISOString(), sender, receiver, kind, state);
+  }
+  async function chooseWorker(service) {
+    const choices = workersFor(service)
+      .map((a) => ({
+        ...a,
+        load: db
+          .prepare(
+            "SELECT count(*) AS n FROM tasks WHERE json_extract(body,'$.agentId')=? AND state IN ('QUEUED','RUNNING')",
+          )
+          .get(a.agentId).n,
+        total: db
+          .prepare(
+            "SELECT count(*) AS n FROM tasks WHERE json_extract(body,'$.agentId')=?",
+          )
+          .get(a.agentId).n,
+      }))
+      .sort((a, b) => a.load - b.load || a.total - b.total);
+    for (const a of choices) {
+      try {
+        const state = await requireAgent(a.agentId);
+        if (getProfile(a.agentId, state.ownerId).active) return a.agentId;
+      } catch {}
+    }
+    throw Error("No approved specialist is available for " + service);
+  }
+  const missions = createMissionRuntime({
+    db,
+    transaction,
+    now,
+    date,
+    apiKey,
+    model,
+    fetchImpl,
+    planProvider: missionPlanProvider,
+    chooseWorker,
+    requireAgent,
+    emit,
+    task,
+    probeAccount: (id) => runWeb3Service("near-account", id, { rpc: web3Rpc }),
+    delegate: async (customer, body, context) => {
+      const row = db
+        .prepare("SELECT body FROM missions WHERE id=? AND customer=?")
+        .get(context.missionId, customer);
+      if (!row) throw Error("Delegation requires an existing customer mission");
+      const m = JSON.parse(row.body),
+        step = m.plan?.steps.find((s) => s.key === context.stepKey);
+      if (
+        m.status !== "WORKING" ||
+        context.fromAgent !== m.coordinator ||
+        !step ||
+        m.refs[step.sourceRef]?.input !== body.input ||
+        getProfile(body.agentId, (await requireAgent(body.agentId)).ownerId)
+          .service !== step.service
+      )
+        throw Error("Delegation does not match the validated mission plan");
+      const t = await submit(customer, body, context);
+      emit(context.fromAgent, body.agentId, "specialist-task", "ASSIGNED");
+      return t;
+    },
+    limits: { dailyAiLimit, dailyTaskLimit, accountTaskLimit },
+  });
   return {
+    missions,
     publicWorkers,
     configure,
     submit,
@@ -426,7 +603,7 @@ export function createServiceWorkforce({
       };
       return {
         mode: "project-funded-trial",
-        activeCapacity: SERVICE_CATALOG.length,
+        activeCapacity: WORKER_ASSIGNMENTS.length,
         backgroundInference: false,
         dailyAiLimit,
         aiCallsReserved: b.ai,
@@ -435,6 +612,11 @@ export function createServiceWorkforce({
         accountTaskLimit,
         ready: Boolean(apiKey && model),
         settlement: "No NEAR charged or paid in trial mode",
+        activity: db
+          .prepare(
+            "SELECT at,sender,receiver,kind,state FROM agent_events ORDER BY id DESC LIMIT 24",
+          )
+          .all(),
       };
     },
     start() {
@@ -442,10 +624,12 @@ export function createServiceWorkforce({
       timer = setInterval(poll, 1000);
       timer.unref();
       poll();
+      missions.start();
     },
     async close() {
       stopping = true;
       clearInterval(timer);
+      await missions.close();
       for (const c of controllers) c.abort();
       await Promise.allSettled([...running]);
       db.close();

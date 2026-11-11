@@ -1,0 +1,601 @@
+{
+  "verifiedAt": "2026-11-11T12:27:08.038Z",
+  "scope": "One live NEAR AI coordinator call; real finalized mainnet reads; internal commissioning request, no customer signature or payment",
+  "verified": true,
+  "mission": {
+    "id": "0ccfc49a-f7a7-4018-9762-ff0922abacef",
+    "customer": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+    "requestId": "commission-team-64a1159b-66c9-4ad4-ad8b-5a8b2e044078",
+    "goal": "Prepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.",
+    "inputs": {
+      "accounts": [
+        "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17"
+      ],
+      "contracts": [
+        "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17"
+      ],
+      "nfts": [
+        {
+          "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+          "tokenId": "person_199",
+          "claimedOwner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17"
+        }
+      ],
+      "tokens": [
+        {
+          "contract": "wrap.near",
+          "accountId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17"
+        }
+      ]
+    },
+    "refs": {
+      "accounts-0": {
+        "input": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "services": [
+          "near-account"
+        ]
+      },
+      "contracts-0": {
+        "input": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "services": [
+          "near-contract"
+        ]
+      },
+      "nfts-0": {
+        "input": "{\"contract\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\"tokenId\":\"person_199\",\"claimedOwner\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\"}",
+        "services": [
+          "near-nft"
+        ]
+      },
+      "tokens-0": {
+        "input": "{\"contract\":\"wrap.near\",\"accountId\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\"}",
+        "services": [
+          "near-token"
+        ]
+      }
+    },
+    "fingerprint": "d337570aa5693341291cc2afb4bc2a6ab275f0435654206b955f2ae4c7321606",
+    "maxAiCalls": 1,
+    "coordinator": "person_107",
+    "status": "REVIEW_READY",
+    "children": {
+      "s1": "4af12759-4891-4e83-9d24-a71aabbd6fd2",
+      "s2": "e8544af3-22de-476b-a47f-439e73e3e7bc",
+      "s3": "41ffcd5c-c9a6-44c1-a9fd-4d935693ffb0",
+      "s4": "7b5b8a80-c1d0-4243-b09a-2834139f259e"
+    },
+    "createdAt": "2026-11-11T12:26:39.090Z",
+    "reservedTaskSlots": 8,
+    "priceNear": "0",
+    "funding": "PROJECT_FUNDED_TRIAL",
+    "planningStartedAt": 1794399999094,
+    "plan": {
+      "summary": "Plan uses the full 1-call budget on this coordination step, so no source-brief or copy-edit calls are possible; specialist delegation tools cost 0. Each supplied source maps to exactly one approved specialist: near-account inspects the project account, near-contract inspects the deployed contract, near-nft verifies Mira NFT ownership for the token, and near-token reconciles the wrap.near balance. Four independent steps, no overlap, and the assembler merges all checked outputs into the factual Econia review.",
+      "steps": [
+        {
+          "key": "s1",
+          "service": "near-account",
+          "sourceRef": "accounts-0",
+          "reason": "Account specialist inspects the Econia project account data; this is the only source supporting near-account."
+        },
+        {
+          "key": "s2",
+          "service": "near-contract",
+          "sourceRef": "contracts-0",
+          "reason": "Contract specialist reviews the project contract; matches goal item 2 and the contracts-0 source."
+        },
+        {
+          "key": "s3",
+          "service": "near-nft",
+          "sourceRef": "nfts-0",
+          "reason": "NFT specialist verifies Mira NFT ownership using the token and claimed-owner data in nfts-0."
+        },
+        {
+          "key": "s4",
+          "service": "near-token",
+          "sourceRef": "tokens-0",
+          "reason": "Token specialist reconciles the wrap.near balance for the project account recorded in tokens-0."
+        }
+      ],
+      "inferenceReservation": 1,
+      "model": "z-ai/glm-5.3-flash",
+      "tokens": 1354
+    },
+    "assembler": "person_115",
+    "output": {
+      "artifact": "# Econia team mission\n\nPrepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.\n\n## Coordination\n\nPlan uses the full 1-call budget on this coordination step, so no source-brief or copy-edit calls are possible; specialist delegation tools cost 0. Each supplied source maps to exactly one approved specialist: near-account inspects the project account, near-contract inspects the deployed contract, near-nft verifies Mira NFT ownership for the token, and near-token reconciles the wrap.near balance. Four independent steps, no overlap, and the assembler merges all checked outputs into the factual Econia review.\n\n## Specialist 1: near-account\n\nAgent: person_103. Task: 4af12759-4891-4e83-9d24-a71aabbd6fd2. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: 12a35377704c31cbe7d979c54ecd33c965b51e01621ca939a27235262bdd06b0.\n\n# NEAR account analyst\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-account\",\n  \"blockHeight\": 224065211,\n  \"blockHash\": \"DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt\",\n  \"generatedAt\": \"2026-11-11T12:27:06.574Z\",\n  \"data\": {\n    \"accountId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"amountYocto\": \"3856701372059065700000000\",\n    \"amountNear\": \"3.8567013720590657\",\n    \"lockedYocto\": \"0\",\n    \"lockedNear\": \"0\",\n    \"totalYocto\": \"3856701372059065700000000\",\n    \"totalNear\": \"3.8567013720590657\",\n    \"storageBytes\": 319796,\n    \"storageCostPerByteYocto\": \"10000000000000000000\",\n    \"storageBackingYocto\": \"3197960000000000000000000\",\n    \"availableEstimateYocto\": \"658741372059065700000000\",\n    \"availableEstimateNear\": \"0.6587413720590657\",\n    \"codeHash\": \"Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6\",\n    \"permissions\": [\n      {\n        \"publicKey\": \"ed25519:Gr1ving7Hk9vCFqxWQTynR6G7My18vngEtiyuAeDjHEv\",\n        \"type\": \"FullAccess\"\n      }\n    ],\n    \"keyListMayBePartial\": false,\n    \"note\": \"Available estimate excludes in-flight transactions, gas-key balances and application-held treasury liabilities. Token holdings require a specified token contract.\"\n  }\n}\n```\n\n\nA point-in-time account inventory, not a complete portfolio, security verdict or investment recommendation.\n\n---\n\n## Specialist 2: near-contract\n\nAgent: person_104. Task: e8544af3-22de-476b-a47f-439e73e3e7bc. Source SHA-256: 6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936. Artifact SHA-256: d926667bc72894eb9f3c14ae89b1494aa23d00529453b88594636fd9707199da.\n\n# Contract interface inspector\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-contract\",\n  \"blockHeight\": 224065207,\n  \"blockHash\": \"BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori\",\n  \"generatedAt\": \"2026-11-11T12:27:04.429Z\",\n  \"data\": {\n    \"contract\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"hasContract\": true,\n    \"codeHash\": \"Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6\",\n    \"sha256\": \"90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1\",\n    \"wasmBytes\": 267591,\n    \"exports\": [\n      {\n        \"name\": \"memory\",\n        \"kind\": \"memory\"\n      },\n      {\n        \"name\": \"accept_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"contract_source_metadata\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"custody\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"deliver_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_agent\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_agents\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"mint_agent\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"new\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_approve\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_is_approved\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_metadata\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_resolve_transfer\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_revoke\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_revoke_all\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_supply_for_owner\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_token\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_tokens\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_tokens_for_owner\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_total_supply\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_transfer\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_transfer_call\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"post_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"provide_capital\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"refund_expired_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"resolve_refund\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"set_agent_paused\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"set_world_paused\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"settle_batch\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"withdraw_refund\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"__data_end\",\n        \"kind\": \"global\"\n      },\n      {\n        \"name\": \"__heap_base\",\n        \"kind\": \"global\"\n      }\n    ],\n    \"executionPerformed\": false\n  }\n}\n```\n\n\nInterface inspection only. Export names do not establish permissions, mutability, source equivalence or freedom from vulnerabilities.\n\n---\n\n## Specialist 3: near-nft\n\nAgent: person_105. Task: 41ffcd5c-c9a6-44c1-a9fd-4d935693ffb0. Source SHA-256: 765e79683c531b23c142aa2a80ecbe41742bc6e54fde5a654ff5b4f6c2273341. Artifact SHA-256: f23b800f4f6a6cd4a3d554a35046cb875a85331c5afe9e205e68356225580866.\n\n# NFT ownership verifier\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-nft\",\n  \"blockHeight\": 224065204,\n  \"blockHash\": \"B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1\",\n  \"generatedAt\": \"2026-11-11T12:27:02.316Z\",\n  \"data\": {\n    \"contract\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"tokenId\": \"person_199\",\n    \"ownerId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"approvals\": {},\n    \"claimedOwner\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"ownerMatchesClaim\": true\n  }\n}\n```\n\n\nThe queried collection reports this ownership. This does not authenticate artwork, issuer legitimacy, provenance history or sale value.\n\n---\n\n## Specialist 4: near-token\n\nAgent: person_106. Task: 7b5b8a80-c1d0-4243-b09a-2834139f259e. Source SHA-256: cc94c77cddba5eaac402ce80e927a492e06723ae8fe4ff8ca27a5a161d073b80. Artifact SHA-256: 0256292da3fb1b0d881e708213b86aedddff2fdc001a26e424a6c5ac2a7c7636.\n\n# Token balance verifier\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-token\",\n  \"blockHeight\": 224065201,\n  \"blockHash\": \"ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF\",\n  \"generatedAt\": \"2026-11-11T12:27:00.536Z\",\n  \"data\": {\n    \"contract\": \"wrap.near\",\n    \"accountId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"tokenName\": \"Wrapped NEAR fungible token\",\n    \"symbol\": \"wNEAR\",\n    \"decimals\": 24,\n    \"balanceRaw\": \"0\",\n    \"balanceFormatted\": \"0\",\n    \"note\": \"Metadata and balance are claims of the queried contract.\"\n  }\n}\n```\n\n\nBalance reported by the specified contract; no price, issuer legitimacy, liquidity or transferability is established.",
+      "sha256": "b32a12bc5d980e4c5a68eb3a84cae88de6cd9fcc15932423c3c8927cce0361d3",
+      "checks": [
+        "Every specialist delivered a checked result",
+        "Source and artifact hashes rechecked before assembly"
+      ],
+      "review": "Review the combined specialist reports. Trial acceptance does not transfer NEAR."
+    },
+    "finishedAt": "2026-11-11T12:27:08.028Z"
+  },
+  "children": [
+    {
+      "id": "4af12759-4891-4e83-9d24-a71aabbd6fd2",
+      "customer": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "requestId": "delegate-0ccfc49a-f7a7-4018-9762-ff0922abacef-s1",
+      "agentId": "person_103",
+      "service": "near-account",
+      "input": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "brief": "Prepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.\nAccount specialist inspects the Econia project account data; this is the only source supporting near-account.",
+      "profile": {
+        "agentId": "person_103",
+        "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "service": "near-account",
+        "purpose": "Inspect native balances, storage backing and access-key permissions at a finalized block.",
+        "active": true,
+        "status": "AVAILABLE"
+      },
+      "sourceHash": "6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936",
+      "fingerprint": "e7ace46e9d12ff09ec3b01a9015c4d6ae634112d62eff570c2ca884063c07d6a",
+      "status": "REVIEW_READY",
+      "funding": "PROJECT_FUNDED_TRIAL",
+      "priceNear": "0",
+      "reservedAiCalls": 0,
+      "createdAt": "2026-11-11T12:26:56.133Z",
+      "trace": [
+        {
+          "agentId": "person_103",
+          "tool": "web3-input-check",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_103",
+          "tool": "finalized-account",
+          "status": "PASSED",
+          "blockHash": "DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt"
+        },
+        {
+          "agentId": "person_103",
+          "tool": "storage-backing",
+          "status": "PASSED",
+          "blockHash": "DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt"
+        },
+        {
+          "agentId": "person_103",
+          "tool": "access-key-inventory",
+          "status": "PASSED",
+          "blockHash": "DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "chain-report-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "parentId": "0ccfc49a-f7a7-4018-9762-ff0922abacef",
+      "requestedByAgent": "person_107",
+      "reviewerId": "person_102",
+      "output": {
+        "artifact": "# NEAR account analyst\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-account\",\n  \"blockHeight\": 224065211,\n  \"blockHash\": \"DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt\",\n  \"generatedAt\": \"2026-11-11T12:27:06.574Z\",\n  \"data\": {\n    \"accountId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"amountYocto\": \"3856701372059065700000000\",\n    \"amountNear\": \"3.8567013720590657\",\n    \"lockedYocto\": \"0\",\n    \"lockedNear\": \"0\",\n    \"totalYocto\": \"3856701372059065700000000\",\n    \"totalNear\": \"3.8567013720590657\",\n    \"storageBytes\": 319796,\n    \"storageCostPerByteYocto\": \"10000000000000000000\",\n    \"storageBackingYocto\": \"3197960000000000000000000\",\n    \"availableEstimateYocto\": \"658741372059065700000000\",\n    \"availableEstimateNear\": \"0.6587413720590657\",\n    \"codeHash\": \"Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6\",\n    \"permissions\": [\n      {\n        \"publicKey\": \"ed25519:Gr1ving7Hk9vCFqxWQTynR6G7My18vngEtiyuAeDjHEv\",\n        \"type\": \"FullAccess\"\n      }\n    ],\n    \"keyListMayBePartial\": false,\n    \"note\": \"Available estimate excludes in-flight transactions, gas-key balances and application-held treasury liabilities. Token holdings require a specified token contract.\"\n  }\n}\n```\n",
+        "sha256": "12a35377704c31cbe7d979c54ecd33c965b51e01621ca939a27235262bdd06b0",
+        "result": {
+          "network": "mainnet",
+          "service": "near-account",
+          "blockHeight": 224065211,
+          "blockHash": "DxRTJmQHcUT8gZtxSHUQBk2VR5BhD1MmStMpqE6Wsubt",
+          "generatedAt": "2026-11-11T12:27:06.574Z",
+          "data": {
+            "accountId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "amountYocto": "3856701372059065700000000",
+            "amountNear": "3.8567013720590657",
+            "lockedYocto": "0",
+            "lockedNear": "0",
+            "totalYocto": "3856701372059065700000000",
+            "totalNear": "3.8567013720590657",
+            "storageBytes": 319796,
+            "storageCostPerByteYocto": "10000000000000000000",
+            "storageBackingYocto": "3197960000000000000000000",
+            "availableEstimateYocto": "658741372059065700000000",
+            "availableEstimateNear": "0.6587413720590657",
+            "codeHash": "Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6",
+            "permissions": [
+              {
+                "publicKey": "ed25519:Gr1ving7Hk9vCFqxWQTynR6G7My18vngEtiyuAeDjHEv",
+                "type": "FullAccess"
+              }
+            ],
+            "keyListMayBePartial": false,
+            "note": "Available estimate excludes in-flight transactions, gas-key balances and application-held treasury liabilities. Token holdings require a specified token contract."
+          }
+        },
+        "checks": [
+          "All reads pinned to one finalized block",
+          "Balance arithmetic reconciled using protocol storage cost"
+        ],
+        "review": "A point-in-time account inventory, not a complete portfolio, security verdict or investment recommendation."
+      },
+      "finishedAt": "2026-11-11T12:27:07.310Z"
+    },
+    {
+      "id": "e8544af3-22de-476b-a47f-439e73e3e7bc",
+      "customer": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "requestId": "delegate-0ccfc49a-f7a7-4018-9762-ff0922abacef-s2",
+      "agentId": "person_104",
+      "service": "near-contract",
+      "input": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "brief": "Prepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.\nContract specialist reviews the project contract; matches goal item 2 and the contracts-0 source.",
+      "profile": {
+        "agentId": "person_104",
+        "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "service": "near-contract",
+        "purpose": "Verify deployed code hashes and list WASM exports without executing the contract.",
+        "active": true,
+        "status": "AVAILABLE"
+      },
+      "sourceHash": "6252be0771c3967126cb9a88ca517f55c93275cc590e8623169ee890e9575936",
+      "fingerprint": "3cb6ccca154ef28e51db60faa1673ded033c087c609eb92baad39def55ca5b1b",
+      "status": "REVIEW_READY",
+      "funding": "PROJECT_FUNDED_TRIAL",
+      "priceNear": "0",
+      "reservedAiCalls": 0,
+      "createdAt": "2026-11-11T12:26:57.225Z",
+      "trace": [
+        {
+          "agentId": "person_104",
+          "tool": "web3-input-check",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_104",
+          "tool": "finalized-contract-code",
+          "status": "PASSED",
+          "blockHash": "BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori"
+        },
+        {
+          "agentId": "person_104",
+          "tool": "code-hash-match",
+          "status": "PASSED",
+          "blockHash": "BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori"
+        },
+        {
+          "agentId": "person_104",
+          "tool": "wasm-export-inspection",
+          "status": "PASSED",
+          "blockHash": "BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "chain-report-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "parentId": "0ccfc49a-f7a7-4018-9762-ff0922abacef",
+      "requestedByAgent": "person_107",
+      "reviewerId": "person_102",
+      "output": {
+        "artifact": "# Contract interface inspector\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-contract\",\n  \"blockHeight\": 224065207,\n  \"blockHash\": \"BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori\",\n  \"generatedAt\": \"2026-11-11T12:27:04.429Z\",\n  \"data\": {\n    \"contract\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"hasContract\": true,\n    \"codeHash\": \"Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6\",\n    \"sha256\": \"90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1\",\n    \"wasmBytes\": 267591,\n    \"exports\": [\n      {\n        \"name\": \"memory\",\n        \"kind\": \"memory\"\n      },\n      {\n        \"name\": \"accept_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"contract_source_metadata\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"custody\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"deliver_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_agent\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_agents\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"get_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"mint_agent\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"new\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_approve\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_is_approved\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_metadata\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_resolve_transfer\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_revoke\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_revoke_all\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_supply_for_owner\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_token\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_tokens\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_tokens_for_owner\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_total_supply\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_transfer\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"nft_transfer_call\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"post_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"provide_capital\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"refund_expired_job\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"resolve_refund\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"set_agent_paused\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"set_world_paused\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"settle_batch\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"withdraw_refund\",\n        \"kind\": \"function\"\n      },\n      {\n        \"name\": \"__data_end\",\n        \"kind\": \"global\"\n      },\n      {\n        \"name\": \"__heap_base\",\n        \"kind\": \"global\"\n      }\n    ],\n    \"executionPerformed\": false\n  }\n}\n```\n",
+        "sha256": "d926667bc72894eb9f3c14ae89b1494aa23d00529453b88594636fd9707199da",
+        "result": {
+          "network": "mainnet",
+          "service": "near-contract",
+          "blockHeight": 224065207,
+          "blockHash": "BfpknccfbLX52k7yCqUEQpmR2gG3thn62VXKtbDFaori",
+          "generatedAt": "2026-11-11T12:27:04.429Z",
+          "data": {
+            "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "hasContract": true,
+            "codeHash": "Ai6rpeitnJoQN7t1vJtnmEAdfVvu1DCs4D575WdsJMj6",
+            "sha256": "90409ecb869f7482f8dc1ae928d52cc4dc03d71d2ab4c381e59e8e8213bcd9e1",
+            "wasmBytes": 267591,
+            "exports": [
+              {
+                "name": "memory",
+                "kind": "memory"
+              },
+              {
+                "name": "accept_job",
+                "kind": "function"
+              },
+              {
+                "name": "contract_source_metadata",
+                "kind": "function"
+              },
+              {
+                "name": "custody",
+                "kind": "function"
+              },
+              {
+                "name": "deliver_job",
+                "kind": "function"
+              },
+              {
+                "name": "get_agent",
+                "kind": "function"
+              },
+              {
+                "name": "get_agents",
+                "kind": "function"
+              },
+              {
+                "name": "get_job",
+                "kind": "function"
+              },
+              {
+                "name": "mint_agent",
+                "kind": "function"
+              },
+              {
+                "name": "new",
+                "kind": "function"
+              },
+              {
+                "name": "nft_approve",
+                "kind": "function"
+              },
+              {
+                "name": "nft_is_approved",
+                "kind": "function"
+              },
+              {
+                "name": "nft_metadata",
+                "kind": "function"
+              },
+              {
+                "name": "nft_resolve_transfer",
+                "kind": "function"
+              },
+              {
+                "name": "nft_revoke",
+                "kind": "function"
+              },
+              {
+                "name": "nft_revoke_all",
+                "kind": "function"
+              },
+              {
+                "name": "nft_supply_for_owner",
+                "kind": "function"
+              },
+              {
+                "name": "nft_token",
+                "kind": "function"
+              },
+              {
+                "name": "nft_tokens",
+                "kind": "function"
+              },
+              {
+                "name": "nft_tokens_for_owner",
+                "kind": "function"
+              },
+              {
+                "name": "nft_total_supply",
+                "kind": "function"
+              },
+              {
+                "name": "nft_transfer",
+                "kind": "function"
+              },
+              {
+                "name": "nft_transfer_call",
+                "kind": "function"
+              },
+              {
+                "name": "post_job",
+                "kind": "function"
+              },
+              {
+                "name": "provide_capital",
+                "kind": "function"
+              },
+              {
+                "name": "refund_expired_job",
+                "kind": "function"
+              },
+              {
+                "name": "resolve_refund",
+                "kind": "function"
+              },
+              {
+                "name": "set_agent_paused",
+                "kind": "function"
+              },
+              {
+                "name": "set_world_paused",
+                "kind": "function"
+              },
+              {
+                "name": "settle_batch",
+                "kind": "function"
+              },
+              {
+                "name": "withdraw_refund",
+                "kind": "function"
+              },
+              {
+                "name": "__data_end",
+                "kind": "global"
+              },
+              {
+                "name": "__heap_base",
+                "kind": "global"
+              }
+            ],
+            "executionPerformed": false
+          }
+        },
+        "checks": [
+          "Local WASM hash matches the account hash when local code is present",
+          "Code is never instantiated or executed"
+        ],
+        "review": "Interface inspection only. Export names do not establish permissions, mutability, source equivalence or freedom from vulnerabilities."
+      },
+      "finishedAt": "2026-11-11T12:27:05.140Z"
+    },
+    {
+      "id": "41ffcd5c-c9a6-44c1-a9fd-4d935693ffb0",
+      "customer": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "requestId": "delegate-0ccfc49a-f7a7-4018-9762-ff0922abacef-s3",
+      "agentId": "person_105",
+      "service": "near-nft",
+      "input": "{\"contract\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\"tokenId\":\"person_199\",\"claimedOwner\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\"}",
+      "brief": "Prepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.\nNFT specialist verifies Mira NFT ownership using the token and claimed-owner data in nfts-0.",
+      "profile": {
+        "agentId": "person_105",
+        "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "service": "near-nft",
+        "purpose": "Verify a specific NFT owner and its approval records from the collection contract.",
+        "active": true,
+        "status": "AVAILABLE"
+      },
+      "sourceHash": "765e79683c531b23c142aa2a80ecbe41742bc6e54fde5a654ff5b4f6c2273341",
+      "fingerprint": "a9886edc59ca15edd7fed491b3559122060692f8f9d1f2f4af36b03ca4f78648",
+      "status": "REVIEW_READY",
+      "funding": "PROJECT_FUNDED_TRIAL",
+      "priceNear": "0",
+      "reservedAiCalls": 0,
+      "createdAt": "2026-11-11T12:26:58.275Z",
+      "trace": [
+        {
+          "agentId": "person_105",
+          "tool": "web3-input-check",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_105",
+          "tool": "nep171-token-view",
+          "status": "PASSED",
+          "blockHash": "B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1"
+        },
+        {
+          "agentId": "person_105",
+          "tool": "nft-owner-comparison",
+          "status": "PASSED",
+          "blockHash": "B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1"
+        },
+        {
+          "agentId": "person_105",
+          "tool": "approval-inventory",
+          "status": "PASSED",
+          "blockHash": "B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "chain-report-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "parentId": "0ccfc49a-f7a7-4018-9762-ff0922abacef",
+      "requestedByAgent": "person_107",
+      "reviewerId": "person_102",
+      "output": {
+        "artifact": "# NFT ownership verifier\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-nft\",\n  \"blockHeight\": 224065204,\n  \"blockHash\": \"B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1\",\n  \"generatedAt\": \"2026-11-11T12:27:02.316Z\",\n  \"data\": {\n    \"contract\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"tokenId\": \"person_199\",\n    \"ownerId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"approvals\": {},\n    \"claimedOwner\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"ownerMatchesClaim\": true\n  }\n}\n```\n",
+        "sha256": "f23b800f4f6a6cd4a3d554a35046cb875a85331c5afe9e205e68356225580866",
+        "result": {
+          "network": "mainnet",
+          "service": "near-nft",
+          "blockHeight": 224065204,
+          "blockHash": "B67ommJJi63shdBgHRGRU9EcWs7MB5VMj3m7iHosax1",
+          "generatedAt": "2026-11-11T12:27:02.316Z",
+          "data": {
+            "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "tokenId": "person_199",
+            "ownerId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "approvals": {},
+            "claimedOwner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "ownerMatchesClaim": true
+          }
+        },
+        "checks": [
+          "Token ID matches the requested identity",
+          "Owner and approval data validated at the same finalized block"
+        ],
+        "review": "The queried collection reports this ownership. This does not authenticate artwork, issuer legitimacy, provenance history or sale value."
+      },
+      "finishedAt": "2026-11-11T12:27:03.035Z"
+    },
+    {
+      "id": "7b5b8a80-c1d0-4243-b09a-2834139f259e",
+      "customer": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+      "requestId": "delegate-0ccfc49a-f7a7-4018-9762-ff0922abacef-s4",
+      "agentId": "person_106",
+      "service": "near-token",
+      "input": "{\"contract\":\"wrap.near\",\"accountId\":\"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\"}",
+      "brief": "Prepare a factual Econia project review: inspect the project account and contract, verify Mira NFT ownership, and reconcile the wrapped NEAR balance. Delegate each supplied target to the appropriate specialist and combine their evidence.\nToken specialist reconciles the wrap.near balance for the project account recorded in tokens-0.",
+      "profile": {
+        "agentId": "person_106",
+        "owner": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+        "service": "near-token",
+        "purpose": "Read NEP-141 token balances and metadata with exact decimal formatting.",
+        "active": true,
+        "status": "AVAILABLE"
+      },
+      "sourceHash": "cc94c77cddba5eaac402ce80e927a492e06723ae8fe4ff8ca27a5a161d073b80",
+      "fingerprint": "6b134f787c92961f0a60f533227342623c2deff94c205d18c57016d99a22b590",
+      "status": "REVIEW_READY",
+      "funding": "PROJECT_FUNDED_TRIAL",
+      "priceNear": "0",
+      "reservedAiCalls": 0,
+      "createdAt": "2026-11-11T12:26:59.314Z",
+      "trace": [
+        {
+          "agentId": "person_106",
+          "tool": "web3-input-check",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_106",
+          "tool": "nep141-balance-view",
+          "status": "PASSED",
+          "blockHash": "ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF"
+        },
+        {
+          "agentId": "person_106",
+          "tool": "token-metadata",
+          "status": "PASSED",
+          "blockHash": "ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF"
+        },
+        {
+          "agentId": "person_106",
+          "tool": "exact-token-decimals",
+          "status": "PASSED",
+          "blockHash": "ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "chain-report-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "parentId": "0ccfc49a-f7a7-4018-9762-ff0922abacef",
+      "requestedByAgent": "person_107",
+      "reviewerId": "person_102",
+      "output": {
+        "artifact": "# Token balance verifier\n\nFinalized NEAR mainnet snapshot.\n\n```json\n{\n  \"network\": \"mainnet\",\n  \"service\": \"near-token\",\n  \"blockHeight\": 224065201,\n  \"blockHash\": \"ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF\",\n  \"generatedAt\": \"2026-11-11T12:27:00.536Z\",\n  \"data\": {\n    \"contract\": \"wrap.near\",\n    \"accountId\": \"eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17\",\n    \"tokenName\": \"Wrapped NEAR fungible token\",\n    \"symbol\": \"wNEAR\",\n    \"decimals\": 24,\n    \"balanceRaw\": \"0\",\n    \"balanceFormatted\": \"0\",\n    \"note\": \"Metadata and balance are claims of the queried contract.\"\n  }\n}\n```\n",
+        "sha256": "0256292da3fb1b0d881e708213b86aedddff2fdc001a26e424a6c5ac2a7c7636",
+        "result": {
+          "network": "mainnet",
+          "service": "near-token",
+          "blockHeight": 224065201,
+          "blockHash": "ACXX99mazq6WEMnAejNVN46R7pM5K4LU2DTj4QEhnoF",
+          "generatedAt": "2026-11-11T12:27:00.536Z",
+          "data": {
+            "contract": "wrap.near",
+            "accountId": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+            "tokenName": "Wrapped NEAR fungible token",
+            "symbol": "wNEAR",
+            "decimals": 24,
+            "balanceRaw": "0",
+            "balanceFormatted": "0",
+            "note": "Metadata and balance are claims of the queried contract."
+          }
+        },
+        "checks": [
+          "Balance is a valid unsigned 128-bit integer",
+          "Metadata and balance read at the same finalized block"
+        ],
+        "review": "Balance reported by the specified contract; no price, issuer legitimacy, liquidity or transferability is established."
+      },
+      "finishedAt": "2026-11-11T12:27:01.246Z"
+    }
+  ]
+}

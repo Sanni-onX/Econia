@@ -351,9 +351,13 @@ export default function NativeApp() {
                   <small>
                     {world.plans.agents[a.id]?.plan
                       ? "AI plan ready"
-                      : a.serviceProfile?.active
-                        ? "Ready for tasks"
-                        : "Idle · no service assigned"}
+                      : a.workload?.busy
+                        ? "Working"
+                        : a.workload?.queued
+                          ? "Queued: " + a.workload.queued
+                          : a.serviceProfile?.active
+                            ? "Ready for tasks"
+                            : "Idle · no service assigned"}
                   </small>
                 </span>
               </button>
@@ -489,7 +493,7 @@ export default function NativeApp() {
               <h2>Each identity has a story.</h2>
               <p>
                 Select a character in the city or the roster to see its owner,
-                treasury, AI plan, and earlier testnet role.
+                treasury and assigned service capability.
               </p>
             </>
           )}
@@ -510,9 +514,9 @@ export default function NativeApp() {
           <article>
             <h3>AI & collaboration</h3>
             <p>
-              Evidence analysis, CSV analysis and copy editing run on submitted
-              tasks. Tool checks run before output release. Unassigned
-              identities stay idle. Project-funded trials do not charge NEAR.
+              NEAR AI coordinators share goals among Web3, document and data
+              specialists. Reviewers check outputs before a team report is
+              released. Unassigned identities stay idle. Trials cost 0 NEAR.
             </p>
           </article>
           <article>

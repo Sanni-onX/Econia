@@ -187,6 +187,43 @@ export async function createNativeApplication(options = {}) {
             202,
             await workforce.submit(account, await readBody(req)),
           );
+        if (url.pathname === "/api/services/missions" && req.method === "GET")
+          return json(res, 200, workforce.missions.list(account));
+        if (url.pathname === "/api/services/missions" && req.method === "POST")
+          return json(
+            res,
+            202,
+            await workforce.missions.submit(account, await readBody(req)),
+          );
+        const missionMatch = url.pathname.match(
+          /^\/api\/services\/missions\/([a-f0-9-]{36})(\/accept|\/artifact|\/stop-watch)?$/,
+        );
+        if (missionMatch) {
+          const m = workforce.missions.get(account, missionMatch[1]);
+          if (missionMatch[2] === "/accept" && req.method === "POST")
+            return json(res, 200, workforce.missions.accept(account, m.id));
+          if (missionMatch[2] === "/stop-watch" && req.method === "POST")
+            return json(res, 200, workforce.missions.stopWatch(account, m.id));
+          if (missionMatch[2] === "/artifact" && req.method === "GET") {
+            if (
+              !m.output ||
+              !["REVIEW_READY", "ACCEPTED_TRIAL"].includes(m.status)
+            )
+              throw Error("A checked team report is not ready");
+            res.writeHead(200, {
+              "Content-Type": "text/markdown; charset=utf-8",
+              "Content-Disposition": `attachment; filename="econia-team-${m.id}.md"`,
+              "Cache-Control": "no-store",
+              "X-Content-Type-Options": "nosniff",
+            });
+            return res.end(m.output.artifact);
+          }
+          if (!missionMatch[2] && req.method === "GET")
+            return json(res, 200, {
+              ...m,
+              tasks: workforce.missions.children(account, m.id),
+            });
+        }
         if (url.pathname === "/api/services/profile" && req.method === "PUT")
           return json(
             res,

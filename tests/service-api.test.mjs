@@ -32,6 +32,19 @@ test("Authenticated task API runs a trial with chain settlement paused and prote
     workforce = createServiceWorkforce({
       path: ":memory:",
       resolveAgent: async () => ({ ownerId: MAINNET_CONTRACT, paused: false }),
+      apiKey: "fixture",
+      model: "fixture",
+      missionPlanProvider: () => ({
+        summary: "Delegate exact CSV analysis.",
+        steps: [
+          {
+            key: "s1",
+            service: "csv-audit",
+            sourceRef: "csv",
+            reason: "Check supplied data.",
+          },
+        ],
+      }),
     });
   const app = await createNativeApplication({
     rpc,
@@ -108,6 +121,43 @@ test("Authenticated task API runs a trial with chain settlement paused and prote
     ).json();
     assert.equal(accepted.status, "ACCEPTED_TRIAL");
     assert.equal(accepted.priceNear, "0");
+    assert.equal((await fetch(url + "/api/services/missions")).status, 401);
+    const missionResponse = await send(
+      "missions",
+      {
+        goal: "Review this dataset and prepare a checked report.",
+        inputs: { csv: "product,amount\nNotebook,0.10\nPen,0.20\nFolder,0.30" },
+        maxAiCalls: 1,
+        requestId: "http-mission-001",
+      },
+      session.token,
+    );
+    const mission = await missionResponse.json();
+    assert.equal(missionResponse.status, 202, JSON.stringify(mission));
+    await workforce.missions.settle();
+    await workforce.missions.settle();
+    for (const child of workforce.missions.children(
+      "customer.near",
+      mission.id,
+    ))
+      await workforce.execute(child.id);
+    await workforce.missions.settle();
+    const teamArtifact =
+      url + "/api/services/missions/" + mission.id + "/artifact";
+    assert.equal((await fetch(teamArtifact)).status, 401);
+    const teamDownload = await fetch(teamArtifact, {
+      headers: { Authorization: "Bearer " + session.token },
+    });
+    assert.equal(teamDownload.status, 200);
+    assert.match(await teamDownload.text(), /Artifact SHA-256/);
+    assert.equal(
+      (
+        await (
+          await send("missions/" + mission.id + "/accept", {}, session.token)
+        ).json()
+      ).status,
+      "ACCEPTED_TRIAL",
+    );
   } finally {
     await app.close();
   }

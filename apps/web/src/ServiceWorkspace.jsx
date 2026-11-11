@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { nonceFromChallenge } from "./wallets.mjs";
 import "./services.css";
+import { MissionWorkspace } from "./MissionWorkspace.jsx";
 export function ServiceWorkspace({
   world,
   selector,
@@ -13,6 +14,7 @@ export function ServiceWorkspace({
   const [session, setSession] = useState(null),
     [agentId, setAgentId] = useState("person_103"),
     [serviceGroup, setServiceGroup] = useState("web3"),
+    [workspaceMode, setWorkspaceMode] = useState("team"),
     [input, setInput] = useState(""),
     [brief, setBrief] = useState(""),
     [jobs, setJobs] = useState([]),
@@ -159,11 +161,14 @@ export function ServiceWorkspace({
       setBusy(false);
     }
   }
-  async function download(t) {
+  async function download(t, kind = "tasks") {
     try {
-      const r = await fetch("/api/services/tasks/" + t.id + "/artifact", {
-        headers: { Authorization: "Bearer " + session.token },
-      });
+      const r = await fetch(
+        "/api/services/" + kind + "/" + t.id + "/artifact",
+        {
+          headers: { Authorization: "Bearer " + session.token },
+        },
+      );
       if (!r.ok) throw Error("Artifact download failed");
       const url = URL.createObjectURL(await r.blob()),
         a = document.createElement("a");
@@ -183,7 +188,7 @@ export function ServiceWorkspace({
           <small>THE FIRST WORKFORCE</small>
           <h2>Give an agent real work.</h2>
           <p>
-            {world.services.activeCapacity} activated capabilities. Tasks run on
+            {world.services.activeCapacity} activated identities. Tasks run on
             the hosted worker; idle agents make no AI calls.
           </p>
         </div>
@@ -193,55 +198,75 @@ export function ServiceWorkspace({
             : "Sign in with wallet"}
         </button>
       </div>
-      <div className="service-actions" aria-label="Service categories">
-        {["web3", "digital"].map((group) => (
+      <div className="service-actions" aria-label="Work assignment mode">
+        {["team", "single"].map((mode) => (
           <button
-            key={group}
-            aria-pressed={serviceGroup === group}
-            onClick={() => {
-              setServiceGroup(group);
-              setAgentId(
-                catalog.find(
-                  (s) => (s.category === "web3") === (group === "web3"),
-                )?.agentId,
-              );
-              setRequestId(null);
-            }}
+            key={mode}
+            aria-pressed={workspaceMode === mode}
+            onClick={() => setWorkspaceMode(mode)}
           >
-            {group === "web3" ? "Web3 services" : "Documents & data"}
+            {mode === "team"
+              ? "Give a team a goal"
+              : "Choose a single specialist"}
           </button>
         ))}
       </div>
-      <div
-        className={
-          "service-catalog " + (serviceGroup === "web3" ? "web3-catalog" : "")
-        }
-      >
-        {catalog
-          .filter((s) => (s.category === "web3") === (serviceGroup === "web3"))
-          .map((s) => (
-            <button
-              key={s.id}
-              className={agentId === s.agentId ? "selected" : ""}
-              onClick={() => {
-                setAgentId(s.agentId);
-                setRequestId(null);
-              }}
-            >
-              <strong>{s.label}</strong>
-              <p>{s.description}</p>
-              <small>
-                {s.aiCalls
-                  ? "Up to 1 AI call per task"
-                  : "0 AI calls · deterministic tools"}{" "}
-                ·{" "}
-                {workers.some((a) => a.id === s.agentId)
-                  ? "Available"
-                  : "Unavailable"}
-              </small>
-            </button>
-          ))}
-      </div>
+      {workspaceMode === "single" && (
+        <>
+          <div className="service-actions" aria-label="Service categories">
+            {["web3", "digital"].map((group) => (
+              <button
+                key={group}
+                aria-pressed={serviceGroup === group}
+                onClick={() => {
+                  setServiceGroup(group);
+                  setAgentId(
+                    catalog.find(
+                      (s) => (s.category === "web3") === (group === "web3"),
+                    )?.agentId,
+                  );
+                  setRequestId(null);
+                }}
+              >
+                {group === "web3" ? "Web3 services" : "Documents & data"}
+              </button>
+            ))}
+          </div>
+          <div
+            className={
+              "service-catalog " +
+              (serviceGroup === "web3" ? "web3-catalog" : "")
+            }
+          >
+            {catalog
+              .filter(
+                (s) => (s.category === "web3") === (serviceGroup === "web3"),
+              )
+              .map((s) => (
+                <button
+                  key={s.id}
+                  className={agentId === s.agentId ? "selected" : ""}
+                  onClick={() => {
+                    setAgentId(s.agentId);
+                    setRequestId(null);
+                  }}
+                >
+                  <strong>{s.label}</strong>
+                  <p>{s.description}</p>
+                  <small>
+                    {s.aiCalls
+                      ? "Up to 1 AI call per task"
+                      : "0 AI calls · deterministic tools"}{" "}
+                    ·{" "}
+                    {workers.some((a) => a.id === s.agentId)
+                      ? "Available"
+                      : "Unavailable"}
+                  </small>
+                </button>
+              ))}
+          </div>
+        </>
+      )}
       <div className="service-notice">
         <strong>Project-funded trial · 0 NEAR charged</strong>
         <p>
@@ -257,115 +282,127 @@ export function ServiceWorkspace({
           {error}
         </p>
       )}
-      <div className="service-columns">
-        <form onSubmit={submit}>
-          <h3>{service?.label || "Choose an available worker"}</h3>
-          <label>
-            {service?.inputLabel || "Task input"}
-            <textarea
-              aria-label="Service task input"
-              maxLength={16000}
-              minLength={service?.minInputLength || 40}
-              required
-              rows={9}
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                setRequestId(null);
-              }}
-              placeholder={
-                service?.placeholder ||
-                (service?.id === "csv-audit"
-                  ? "name,units,price\nNotebook,4,2.50\nPen,10,0.30"
-                  : "Paste the document or text you want this agent to work on.")
-              }
-            />
-          </label>
-          <label>
-            {service?.category === "web3"
-              ? "Optional notes (chain report fields are fixed)"
-              : "What should the output focus on?"}
-            <textarea
-              aria-label="Task instructions"
-              maxLength={1000}
-              rows={3}
-              value={brief}
-              onChange={(e) => {
-                setBrief(e.target.value);
-                setRequestId(null);
-              }}
-            />
-          </label>
-          <p className="service-small">
-            {service?.category === "web3"
-              ? "Public account and contract IDs are sent to the configured NEAR RPC. These tools use no AI; notes do not alter the read-only queries."
-              : "Document task input and instructions are sent to NEAR AI Cloud. CSV analysis stays in the worker."}{" "}
-            Your task and output are private to your signed-in account.
-          </p>
-          <button
-            disabled={busy || !signedIn || !agent?.serviceProfile?.active}
-          >
-            Submit {service?.aiCalls ? "AI-assisted" : "tool-based"} task
-          </button>
-          {!signedIn && <p>Sign in with your wallet before submitting.</p>}
-        </form>
-        <div className="service-jobs">
-          <h3>Your deliverables</h3>
-          {jobs.length === 0 && (
-            <p>Your submitted tasks and checked outputs will appear here.</p>
-          )}
-          {jobs.map((t) => (
-            <article className="service-job" key={t.id}>
-              <strong>
-                {catalog.find((c) => c.id === t.service)?.label} ·{" "}
-                {t.status.replaceAll("_", " ")}
-              </strong>
-              <small>
-                {t.id} · {new Date(t.createdAt).toLocaleString()}
-              </small>
-              <ol>
-                {t.trace.map((step, i) => (
-                  <li key={i}>
-                    {world.agents.find((a) => a.id === step.agentId)?.name ||
-                      "Release gate"}
-                    : {step.tool} — {step.status}
-                  </li>
-                ))}
-              </ol>
-              {t.error && <p role="alert">{t.error}</p>}
-              {t.output && (
-                <>
-                  <details>
-                    <summary>Read checked output</summary>
-                    <pre>{t.output.artifact}</pre>
-                  </details>
-                  <p>{t.output.review}</p>
-                  <ul>
-                    {t.output.checks.map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                  <small>SHA-256: {t.output.sha256}</small>
-                  <div className="service-actions">
-                    <button type="button" onClick={() => download(t)}>
-                      Download Markdown
-                    </button>
-                    {t.status === "REVIEW_READY" && (
-                      <button
-                        disabled={busy}
-                        type="button"
-                        onClick={() => accept(t.id)}
-                      >
-                        Accept trial deliverable
+      {workspaceMode === "team" && (
+        <MissionWorkspace
+          world={world}
+          request={request}
+          signedIn={signedIn}
+          busy={busy}
+          setBusy={setBusy}
+          download={download}
+        />
+      )}
+      {workspaceMode === "single" && (
+        <div className="service-columns">
+          <form onSubmit={submit}>
+            <h3>{service?.label || "Choose an available worker"}</h3>
+            <label>
+              {service?.inputLabel || "Task input"}
+              <textarea
+                aria-label="Service task input"
+                maxLength={16000}
+                minLength={service?.minInputLength || 40}
+                required
+                rows={9}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  setRequestId(null);
+                }}
+                placeholder={
+                  service?.placeholder ||
+                  (service?.id === "csv-audit"
+                    ? "name,units,price\nNotebook,4,2.50\nPen,10,0.30"
+                    : "Paste the document or text you want this agent to work on.")
+                }
+              />
+            </label>
+            <label>
+              {service?.category === "web3"
+                ? "Optional notes (chain report fields are fixed)"
+                : "What should the output focus on?"}
+              <textarea
+                aria-label="Task instructions"
+                maxLength={1000}
+                rows={3}
+                value={brief}
+                onChange={(e) => {
+                  setBrief(e.target.value);
+                  setRequestId(null);
+                }}
+              />
+            </label>
+            <p className="service-small">
+              {service?.category === "web3"
+                ? "Public account and contract IDs are sent to the configured NEAR RPC. These tools use no AI; notes do not alter the read-only queries."
+                : "Document task input and instructions are sent to NEAR AI Cloud. CSV analysis stays in the worker."}{" "}
+              Your task and output are private to your signed-in account.
+            </p>
+            <button
+              disabled={busy || !signedIn || !agent?.serviceProfile?.active}
+            >
+              Submit {service?.aiCalls ? "AI-assisted" : "tool-based"} task
+            </button>
+            {!signedIn && <p>Sign in with your wallet before submitting.</p>}
+          </form>
+          <div className="service-jobs">
+            <h3>Your deliverables</h3>
+            {jobs.length === 0 && (
+              <p>Your submitted tasks and checked outputs will appear here.</p>
+            )}
+            {jobs.map((t) => (
+              <article className="service-job" key={t.id}>
+                <strong>
+                  {catalog.find((c) => c.id === t.service)?.label} ·{" "}
+                  {t.status.replaceAll("_", " ")}
+                </strong>
+                <small>
+                  {t.id} · {new Date(t.createdAt).toLocaleString()}
+                </small>
+                <ol>
+                  {t.trace.map((step, i) => (
+                    <li key={i}>
+                      {world.agents.find((a) => a.id === step.agentId)?.name ||
+                        "Release gate"}
+                      : {step.tool} — {step.status}
+                    </li>
+                  ))}
+                </ol>
+                {t.error && <p role="alert">{t.error}</p>}
+                {t.output && (
+                  <>
+                    <details>
+                      <summary>Read checked output</summary>
+                      <pre>{t.output.artifact}</pre>
+                    </details>
+                    <p>{t.output.review}</p>
+                    <ul>
+                      {t.output.checks.map((c) => (
+                        <li key={c}>{c}</li>
+                      ))}
+                    </ul>
+                    <small>SHA-256: {t.output.sha256}</small>
+                    <div className="service-actions">
+                      <button type="button" onClick={() => download(t)}>
+                        Download Markdown
                       </button>
-                    )}
-                  </div>
-                </>
-              )}
-            </article>
-          ))}
+                      {t.status === "REVIEW_READY" && (
+                        <button
+                          disabled={busy}
+                          type="button"
+                          onClick={() => accept(t.id)}
+                        >
+                          Accept trial deliverable
+                        </button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <section className="service-owner">
         <h3>Define your agent’s purpose</h3>
         <p>
@@ -386,6 +423,14 @@ export function ServiceWorkspace({
                 <option value="custom">
                   Custom capability — review required
                 </option>
+                {owned.serviceProfile?.service &&
+                  !catalog.some(
+                    (s) => s.id === owned.serviceProfile.service,
+                  ) && (
+                    <option value={owned.serviceProfile.service}>
+                      {owned.role}
+                    </option>
+                  )}
                 {catalog.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.label}
