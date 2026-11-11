@@ -26,7 +26,7 @@ export async function createApplication(options = {}) {
     const {createNativeApplication} = await import('./native-server.mjs');
     // Virtual-city planning is retired. Real service workers must be activated
     // by an implemented, budgeted task workflow, never a population timer.
-    return createNativeApplication(options);
+    return createNativeApplication({...options,services:options.services??true});
   }
   if (!["sandbox", "testnet"].includes(mode))
     throw new Error("Unsupported settlement mode");

@@ -3,6 +3,12 @@ on: [push, pull_request]
 permissions:
   contents: read
 jobs:
+  production-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t econia-services .
+      - run: docker run --rm --mount type=volume,destination=/app/.data econia-services node scripts/smoke-container.mjs
   application:
     runs-on: ubuntu-latest
     services:

@@ -1,6 +1,10 @@
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
+import { JsonRpcProvider } from "near-api-js";
+import { createServiceAuth } from "../../packages/agent-sdk/service-auth.mjs";
+import { createServiceWorkforce } from "../../packages/agent-sdk/service-workforce.mjs";
+import { SERVICE_CATALOG } from "../../packages/agent-sdk/service-tools.mjs";
 import { readNativeState } from "../../packages/shared/native-state.mjs";
 import {
   operatingCapitalTransaction,
@@ -50,6 +54,65 @@ export async function createNativeApplication(options = {}) {
       return snapshot;
     })());
   await refresh();
+  const callAt = async (method_name, args, block_id) => {
+    const value = await rpc("query", {
+      request_type: "call_function",
+      account_id: snapshot.contract,
+      block_id,
+      method_name,
+      args_base64: Buffer.from(JSON.stringify(args)).toString("base64"),
+    });
+    return JSON.parse(Buffer.from(value.result).toString());
+  };
+  const workforce =
+    options.workforce ??
+    (options.services
+      ? createServiceWorkforce({
+          path: options.serviceDatabasePath,
+          resolveAgent: async (agentId) => {
+            const b = await rpc("block", { finality: "final" }),
+              id = b.header.hash;
+            const token = await callAt("nft_token", { token_id: agentId }, id),
+              state = await callAt("get_agent", { agent_id: agentId }, id);
+            return token && state
+              ? { ownerId: token.owner_id, paused: state.paused }
+              : null;
+          },
+        })
+      : null);
+  const auth =
+    options.serviceAuth ??
+    createServiceAuth({
+      provider: new JsonRpcProvider({
+        url:
+          process.env.NEAR_MAINNET_RPC_URL || "https://free.rpc.fastnear.com",
+      }),
+    });
+  const allowedOrigins = new Set(
+    (
+      process.env.ALLOWED_ORIGINS ||
+      process.env.APP_ORIGIN ||
+      (process.env.RAILWAY_PUBLIC_DOMAIN
+        ? "https://" + process.env.RAILWAY_PUBLIC_DOMAIN
+        : "")
+    )
+      .split(",")
+      .filter(Boolean),
+  );
+  const limits = new Map();
+  async function readBody(req) {
+    let body = "";
+    for await (const part of req) {
+      body += part;
+      if (Buffer.byteLength(body) > 70000)
+        throw Object.assign(Error("Request too large"), { status: 413 });
+    }
+    try {
+      return JSON.parse(body || "{}");
+    } catch {
+      throw Error("Invalid JSON request");
+    }
+  }
   const root = resolve(options.webRoot ?? "apps/web/dist");
   const json = (res, status, value) => {
     res.writeHead(status, {
@@ -60,13 +123,18 @@ export async function createNativeApplication(options = {}) {
   };
   const publicState = () => ({
     ...snapshot,
+    agents: workforce ? workforce.publicWorkers(snapshot) : snapshot.agents,
+    services: workforce
+      ? { ...workforce.status(), catalog: SERVICE_CATALOG }
+      : null,
     stale: Boolean(issue),
     issue,
     intelligence: {
-      mode: "idle",
-      scope:
-        "Awaiting a verified real-service workflow; virtual-role planning retired",
-      ready: false,
+      mode: workforce ? "task-driven" : "idle",
+      scope: workforce
+        ? "Real service tools run on authenticated task requests; virtual-role planning retired"
+        : "Awaiting a verified real-service workflow; virtual-role planning retired",
+      ready: workforce?.status().ready ?? false,
     },
     plans: options.planner?.publicState() ?? {
       agents: {},
@@ -79,6 +147,77 @@ export async function createNativeApplication(options = {}) {
   const server = http.createServer(async (req, res) => {
     try {
       const url = new URL(req.url, "http://localhost");
+      if (url.pathname.startsWith("/api/services/")) {
+        if (!workforce)
+          return json(res, 404, { error: "Service workspace is unavailable" });
+        if (req.method !== "GET") {
+          const origin = req.headers.origin;
+          if (
+            origin &&
+            !allowedOrigins.has(origin) &&
+            !/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origin)
+          )
+            return json(res, 403, { error: "Origin not allowed" });
+          const key = req.socket.remoteAddress,
+            now = Date.now(),
+            bucket = limits.get(key);
+          if (!bucket || now - bucket.at > 60000)
+            limits.set(key, { at: now, n: 1 });
+          else if (++bucket.n > 40)
+            return json(res, 429, { error: "Too many workspace requests" });
+        }
+        if (url.pathname === "/api/services/challenge" && req.method === "POST")
+          return json(
+            res,
+            200,
+            auth.challenge((await readBody(req)).accountId),
+          );
+        if (url.pathname === "/api/services/login" && req.method === "POST")
+          return json(res, 200, await auth.login(await readBody(req)));
+        const account = auth.require(req.headers.authorization);
+        if (url.pathname === "/api/services/logout" && req.method === "POST") {
+          auth.logout(req.headers.authorization);
+          return json(res, 200, { ok: true });
+        }
+        if (url.pathname === "/api/services/tasks" && req.method === "GET")
+          return json(res, 200, workforce.list(account));
+        if (url.pathname === "/api/services/tasks" && req.method === "POST")
+          return json(
+            res,
+            202,
+            await workforce.submit(account, await readBody(req)),
+          );
+        if (url.pathname === "/api/services/profile" && req.method === "PUT")
+          return json(
+            res,
+            200,
+            await workforce.configure(account, await readBody(req)),
+          );
+        const match = url.pathname.match(
+          /^\/api\/services\/tasks\/([a-f0-9-]{36})(\/accept|\/artifact)?$/,
+        );
+        if (match) {
+          const t = workforce.task(account, match[1]);
+          if (match[2] === "/accept" && req.method === "POST")
+            return json(res, 200, workforce.accept(account, t.id));
+          if (match[2] === "/artifact" && req.method === "GET") {
+            if (
+              !t.output ||
+              !["REVIEW_READY", "ACCEPTED_TRIAL"].includes(t.status)
+            )
+              throw Error("No checked artifact is available");
+            res.writeHead(200, {
+              "Content-Type": "text/markdown; charset=utf-8",
+              "Content-Disposition": `attachment; filename="econia-${t.id}.md"`,
+              "Cache-Control": "no-store",
+              "X-Content-Type-Options": "nosniff",
+            });
+            return res.end(t.output.artifact);
+          }
+          if (!match[2] && req.method === "GET") return json(res, 200, t);
+        }
+        return json(res, 404, { error: "Service route not found" });
+      }
       if (url.pathname === "/api/config")
         return json(res, 200, { mode: "mainnet", asset: "NEAR" });
       if (url.pathname === "/api/health")
@@ -177,12 +316,13 @@ export async function createNativeApplication(options = {}) {
       });
       res.end(req.method === "HEAD" ? undefined : body);
     } catch (e) {
-      json(res, 503, { error: e.message });
+      json(res, e.status || 503, { error: e.message });
     }
   });
   const timer = setInterval(() => refresh().catch(() => {}), 30000);
   timer.unref();
   options.planner?.start(() => snapshot);
+  workforce?.start();
   return {
     server,
     refresh,
@@ -192,6 +332,7 @@ export async function createNativeApplication(options = {}) {
     async close() {
       clearInterval(timer);
       options.planner?.stop();
+      await workforce?.close();
       await new Promise((r) => server.close(r));
     },
   };

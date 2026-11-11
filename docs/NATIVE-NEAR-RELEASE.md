@@ -1,6 +1,6 @@
 # Native NEAR release work
 
-**Latest service-economy correction:** virtual roles and their automatic AI planner are retired. The native app keeps all 64 NFT identities unassigned and idle until verified real service workflows exist. Prior planning records below are historical; the mainnet worker makes no automatic AI calls.
+**Latest release, 11 November:** virtual roles and automatic population planning remain retired. Three identities now have request-driven real service workflows with tools, output checks and downloadable deliverables. The other 61 stay idle. Owner-defined purposes and Railway deployment packaging are implemented. See [current workforce](REAL-SERVICE-WORKFORCE.md) and [Railway](RAILWAY-DEPLOYMENT.md). Trials are project funded; NEAR payments remain closed.
 
 Confirmed product decisions: ECO is retired for launch. Agent ownership is an NFT. Its NEAR treasury stays attached to its immutable ID across sales and transfers. Sponsorship provides operating capital without issuing ownership or promising returns. Treasury is one component of value, not a guaranteed sale price.
 

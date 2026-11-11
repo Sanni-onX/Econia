@@ -1,6 +1,6 @@
 # Econia: all 64 founding agents
 
-**Historical virtual-role roster:** these roles and AI plans are retired as of 10 November 2026. All 64 NFT identities are preserved, currently unassigned and idle. No recurring AI calls run for them. The entries below record the earlier preview; they are not current service capabilities or live work.
+**Historical virtual-role roster:** these roles and AI plans are retired. As of 11 November, Mira #199 is the evidence analyst, Kofi #101 the data analyst, and Ada #102 the editor/verifier. The other 61 identities remain idle and can receive owner-defined purposes. See the [real service workforce](REAL-SERVICE-WORKFORCE.md). The entries below record the earlier virtual preview, not current capabilities or revenue.
 
 Verified on mainnet at block 223893988, 2026-11-10T08:56:38.362Z. All 64 NFTs are created; all treasuries hold 0 NEAR. All are initially owned by the project account. Economic settlement remains paused. AI plans and peer messages are offchain proposals, not executed trades or paid services.
 

@@ -1,0 +1,174 @@
+{
+  "scope": "Live NEAR AI and real tools on supplied commissioning examples; no customer wallet session or NEAR payment",
+  "verifiedAt": "2026-11-11T05:03:20.743Z",
+  "tasks": [
+    {
+      "id": "15e81829-0f3f-4be0-bd2f-d79424bde9d6",
+      "agentId": "person_199",
+      "service": "source-brief",
+      "status": "REVIEW_READY",
+      "sourceHash": "e823d6d4519a7ae2e340acafaadb59ef65190876fe472973619b48b6664c3e40",
+      "trace": [
+        {
+          "agentId": "person_199",
+          "tool": "source-index",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_199",
+          "tool": "near-ai-source-brief",
+          "status": "RESPONDED",
+          "model": "z-ai/glm-5.3-flash",
+          "tokens": 944
+        },
+        {
+          "agentId": "person_102",
+          "tool": "quote-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "output": {
+        "artifact": "# Evidence brief\n\n## Inference credits gated by accepted customer request\n\n[S2] The pilot accepts a specific customer request before any document agent uses inference credits. Idle agents do not generate daily plans. Each document task reserves at most one AI request before execution.\n\n## Non-AI computation and verification before deliverable release\n\n[S3] The data analyst parses supplied CSV files and computes decimal statistics without an AI request. The editor and verifier checks the outputs before a deliverable is released for customer review.\n\n## No NEAR charges; treasury balances separate from API credits\n\n[S4] This trial does not charge NEAR. A customer must review and accept the deliverable. Native treasury balances and deployment reserves are separate from API credits.\n",
+        "sha256": "16abe80293c06f3141e56c960996894e3a3a2c1985443ad3827965a138fea8ed",
+        "result": [
+          {
+            "heading": "Inference credits gated by accepted customer request",
+            "sourceId": "S2",
+            "quote": "The pilot accepts a specific customer request before any document agent uses inference credits. Idle agents do not generate daily plans. Each document task reserves at most one AI request before execution."
+          },
+          {
+            "heading": "Non-AI computation and verification before deliverable release",
+            "sourceId": "S3",
+            "quote": "The data analyst parses supplied CSV files and computes decimal statistics without an AI request. The editor and verifier checks the outputs before a deliverable is released for customer review."
+          },
+          {
+            "heading": "No NEAR charges; treasury balances separate from API credits",
+            "sourceId": "S4",
+            "quote": "This trial does not charge NEAR. A customer must review and accept the deliverable. Native treasury balances and deployment reserves are separate from API credits."
+          }
+        ],
+        "checks": [
+          "Every finding quotes the supplied source exactly",
+          "All source references resolve"
+        ],
+        "review": "Source evidence is checked; interpretation and completeness still need customer review."
+      }
+    },
+    {
+      "id": "0e560cc2-5d92-452c-bdd2-41436fffd695",
+      "agentId": "person_101",
+      "service": "csv-audit",
+      "status": "REVIEW_READY",
+      "sourceHash": "2a7dd1a01ba562d3777b5c5ab2f537b25fde1e6c782c29bcec5ddc6facf50046",
+      "trace": [
+        {
+          "agentId": "person_101",
+          "tool": "csv-parser",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_101",
+          "tool": "decimal-statistics",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "table-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "output": {
+        "artifact": "# CSV data audit\n\n```json\n{\n  \"rowCount\": 3,\n  \"columnCount\": 3,\n  \"columns\": [\n    {\n      \"name\": \"item\",\n      \"missing\": 0,\n      \"present\": 3,\n      \"numericCount\": 0\n    },\n    {\n      \"name\": \"units\",\n      \"missing\": 0,\n      \"present\": 3,\n      \"numericCount\": 3,\n      \"sum\": \"20\",\n      \"min\": \"4\",\n      \"max\": \"10\",\n      \"mean\": \"6.666666\",\n      \"meanPrecision\": \"truncated toward zero to 6 decimals\",\n      \"scope\": \"all non-empty cells\"\n    },\n    {\n      \"name\": \"unit_price\",\n      \"missing\": 0,\n      \"present\": 3,\n      \"numericCount\": 3,\n      \"sum\": \"4\",\n      \"min\": \"0.3\",\n      \"max\": \"2.5\",\n      \"mean\": \"1.333333\",\n      \"meanPrecision\": \"truncated toward zero to 6 decimals\",\n      \"scope\": \"all non-empty cells\"\n    }\n  ]\n}\n```\n",
+        "sha256": "f4773d47d342f56b56a77dfcf1954e92c4a4a0149e1c151e9ebc37138abde0e3",
+        "result": {
+          "rowCount": 3,
+          "columnCount": 3,
+          "columns": [
+            {
+              "name": "item",
+              "missing": 0,
+              "present": 3,
+              "numericCount": 0
+            },
+            {
+              "name": "units",
+              "missing": 0,
+              "present": 3,
+              "numericCount": 3,
+              "sum": "20",
+              "min": "4",
+              "max": "10",
+              "mean": "6.666666",
+              "meanPrecision": "truncated toward zero to 6 decimals",
+              "scope": "all non-empty cells"
+            },
+            {
+              "name": "unit_price",
+              "missing": 0,
+              "present": 3,
+              "numericCount": 3,
+              "sum": "4",
+              "min": "0.3",
+              "max": "2.5",
+              "mean": "1.333333",
+              "meanPrecision": "truncated toward zero to 6 decimals",
+              "scope": "all non-empty cells"
+            }
+          ]
+        },
+        "checks": [
+          "Quoted CSV cells and row widths validated",
+          "Statistics computed from the submitted cells using decimal arithmetic"
+        ],
+        "review": "Statistics describe the submitted data; they do not establish that the data is accurate."
+      }
+    },
+    {
+      "id": "26fc73cc-f7ee-4c21-b682-8a0773b05625",
+      "agentId": "person_102",
+      "service": "copy-edit",
+      "status": "REVIEW_READY",
+      "sourceHash": "757d86c11d375ab9ad013a8c1709c3c4af39831f57c44bf15d0d14d5255f0c6a",
+      "trace": [
+        {
+          "agentId": "person_102",
+          "tool": "source-index",
+          "status": "PASSED"
+        },
+        {
+          "agentId": "person_102",
+          "tool": "near-ai-copy-edit",
+          "status": "RESPONDED",
+          "model": "z-ai/glm-5.3-flash",
+          "tokens": 780
+        },
+        {
+          "agentId": "person_102",
+          "tool": "fact-preservation-check",
+          "status": "PASSED",
+          "inferenceCalls": 0
+        }
+      ],
+      "output": {
+        "artifact": "# Edited text\n\nOur pilot helps customers review their documents. Each request has 1 clear goal, and the result is checked before delivery. Please send feedback to team@example.com after reviewing the result.\n\n## Change notes\n\n- Removed \"to\" after \"helps\" for idiomatic phrasing (\"helps customers review\").\n- Tightened \"checked before it is delivered\" to \"checked before delivery\".\n- Verified number \"1\" appears exactly once and team@example.com appears exactly once, both unchanged; no URLs present in the source.",
+        "sha256": "ed771401bd366b37c1f38d99253b00d704756aac0ac2e7b8a636ad6f361286a2",
+        "result": {
+          "text": "Our pilot helps customers review their documents. Each request has 1 clear goal, and the result is checked before delivery. Please send feedback to team@example.com after reviewing the result.",
+          "notes": [
+            "Removed \"to\" after \"helps\" for idiomatic phrasing (\"helps customers review\").",
+            "Tightened \"checked before it is delivered\" to \"checked before delivery\".",
+            "Verified number \"1\" appears exactly once and team@example.com appears exactly once, both unchanged; no URLs present in the source."
+          ]
+        },
+        "checks": [
+          "Numbers, URLs and email addresses preserved",
+          "Output length and structure checked"
+        ],
+        "review": "Automated checks do not guarantee preservation of every nuance. Read and approve the revision."
+      }
+    }
+  ],
+  "verified": true
+}

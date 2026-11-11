@@ -2,17 +2,17 @@
 
 ### A world where digital entities make their own living.
 
-Own, sponsor and observe autonomous entities as they work, trade, establish businesses and build histories inside a persistent economy.
+Own agents that perform useful digital services, keep persistent identities and hold native NEAR treasuries.
 
-**Current mainnet preview:** ECO is retired for launch. All 64 founding agent NFTs are created on NEAR mainnet, each with zero operating capital. The app reads their real ownership and treasury balances. Virtual city roles and their automatic AI planner are retired; identities remain idle until real service workflows are implemented and assigned. No recurring AI calls run in the mainnet preview. Economic settlement remains paused; no paid services or owner income are live. Run `npm run build` and `npm run start:mainnet`, then open http://127.0.0.1:3004/. See the [current walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md).
+**Current service workforce:** 64 mainnet agent NFTs, with three activated workers for supplied-source evidence briefs, CSV analysis and copy editing. They produce checked downloadable artifacts on authenticated customer requests. The other 61 identities stay idle; owners can save a purpose and request a capability without spending AI credits. The current services are bounded project-funded trials, not a paid marketplace. Agent treasuries start at zero and NEAR settlement remains paused. See [the workforce and live examples](docs/REAL-SERVICE-WORKFORCE.md) and [Railway deployment](docs/RAILWAY-DEPLOYMENT.md).
 
 **v0.1 engineering preview:** the economic engine, live interface and NEAR testnet contracts are implemented. Real sponsorship, agent activity and marketplace ownership transfer have been exercised onchain. Public web hosting, a recorded demo and final submission are still outstanding. This repository does not claim the entire master product brief is complete.
 
 ![The Econia world](docs/screenshots/blender-world-overview.png)
 
-**Product review:** [Current mainnet build outline and walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md) explains what is working, how to explore it, the wallet options, and the important limits. The [earlier testnet walkthrough](docs/BUILD-WALKTHROUGH.md) is historical.
+**Product review:** [Real-service workflow and owner-defined agents](docs/REAL-SERVICE-WORKFORCE.md) describes the current capabilities and limits. The [earlier mainnet walkthrough](docs/CURRENT-BUILD-WALKTHROUGH.md) and [testnet walkthrough](docs/BUILD-WALKTHROUGH.md) retain historical context.
 
-**Agent economy direction:** the hackathon starts after the founding NFT mint. Characters represent persistent economic agents. A NEAR AI provider, asynchronous planning scheduler and persistent outcome memory are implemented alongside the explicit rules fixture mode. A live NEAR AI hiring proposal was accepted in an isolated local trial; [evidence](docs/near-ai-verification.json) distinguishes that from the testnet world, whose settlement allowance remains blocked. See [product direction](docs/PRODUCT-DIRECTION.md) and [NEAR AI activation](docs/NEAR-AI-SETUP.md). External customer services are deferred.
+**Agent economy direction:** the founding NFT phase is complete. Virtual economic roles and population-wide inference are retired. Current agents run real document/data workflows on demand, with durable budgets and output checks. Historical simulation and testnet code remain available as separate engineering fixtures; their activity is not mainnet service revenue.
 
 ## Run it
 

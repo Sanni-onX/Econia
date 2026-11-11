@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, Suspense } from "react";
 import { WalletChoices } from "./WalletChoices.jsx";
+import { ServiceWorkspace } from "./ServiceWorkspace.jsx";
 import {
   getWalletSelector,
   connectWallet,
@@ -86,7 +87,7 @@ export default function NativeApp() {
               ...world.agents.map((a) => ({
                 ...a,
                 type: "PERSON",
-                district: districts[a.legacyRole] || 'Commons',
+                district: districts[a.legacyRole] || "Commons",
                 status: "ACTIVE",
               })),
             ],
@@ -241,7 +242,8 @@ export default function NativeApp() {
           <small>THE FOUNDING COHORT</small>
           <h1>A world of ownable agents.</h1>
           <p>
-            64 ownable identities. Native NEAR treasuries. Real service capabilities next.
+            64 ownable identities. Three real service workers. Native NEAR
+            treasuries.
           </p>
         </div>
         <div className="native-stats">
@@ -249,7 +251,10 @@ export default function NativeApp() {
             <b>{minted}/64</b>NFTs created
           </span>
           <span>
-            <b>Idle</b>No background AI spending
+            <b>
+              {world.agents.filter((a) => a.serviceProfile?.active).length}/64
+            </b>
+            Service workers activated
           </span>
           <span>
             <b>{formatNear(world.custody.treasuries)}</b>NEAR operating capital
@@ -276,7 +281,7 @@ export default function NativeApp() {
           {world.custody.paused
             ? "Economic settlement paused"
             : "Economic settlement open"}{" "}
-          · Service workers idle
+          · Service workers run on request
           <br />
           <small>
             City scenery is visual only. Virtual work roles are retired.
@@ -289,6 +294,15 @@ export default function NativeApp() {
           View whole city
         </button>
       </section>
+      <ServiceWorkspace
+        world={world}
+        selector={selector}
+        connection={connection}
+        selected={selected}
+        onConnect={() => setWalletOpen(true)}
+        onNotify={setNotice}
+        onReload={reload}
+      />
       <section className="native-workspace">
         <div className="native-roster">
           <div className="native-list-title">
@@ -307,11 +321,13 @@ export default function NativeApp() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
-              {["All", "Unassigned"].map(
-                (r) => (
-                  <option key={r}>{r}</option>
-                ),
-              )}
+              {[
+                "All",
+                "Unassigned",
+                ...(world.services?.catalog || []).map((s) => s.label),
+              ].map((r) => (
+                <option key={r}>{r}</option>
+              ))}
             </select>
           </div>
           <div className="native-agent-list">
@@ -335,7 +351,9 @@ export default function NativeApp() {
                   <small>
                     {world.plans.agents[a.id]?.plan
                       ? "AI plan ready"
-                      : "Idle · no service assigned"}
+                      : a.serviceProfile?.active
+                        ? "Ready for tasks"
+                        : "Idle · no service assigned"}
                   </small>
                 </span>
               </button>
@@ -359,15 +377,18 @@ export default function NativeApp() {
                 </dd>
                 <dt>Economic status</dt>
                 <dd>{agent.status}</dd>
-                <dt>AI status</dt>
+                <dt>Service status</dt>
                 <dd>
                   {world.plans.agents[agent.id]?.status ||
-                    "Idle; awaiting real service assignment"}
+                    (agent.serviceProfile?.active
+                      ? "Available on request"
+                      : "Idle; awaiting service activation")}
                 </dd>
               </dl>
               <h3>Service capability</h3>
               <p>
                 {world.plans.agents[agent.id]?.plan ||
+                  agent.service?.description ||
                   "No verified real-service workflow is assigned yet. This identity is idle and does not make automatic AI calls."}
               </p>
               {world.plans.agents[agent.id]?.message && (
@@ -489,18 +510,17 @@ export default function NativeApp() {
           <article>
             <h3>AI & collaboration</h3>
             <p>
-              Automatic virtual-role planning is retired. Unassigned identities
-              stay idle. Real service workers will need implemented tools,
-              verified outputs and task budgets before activation.
+              Evidence analysis, CSV analysis and copy editing run on submitted
+              tasks. Tool checks run before output release. Unassigned
+              identities stay idle. Project-funded trials do not charge NEAR.
             </p>
           </article>
           <article>
             <h3>The next economic step</h3>
             <p>
-              Real paid services, job discovery, service delivery and owner
-              earnings withdrawals still need implementation. The contract has
-              task escrow primitives; this interface does not sell services yet.
-              NFT marketplace discovery and listings have not been verified.
+              Real services are available as bounded project-funded trials. Paid
+              task settlement and owner earnings withdrawals remain closed. NFT
+              marketplace discovery and listings have not been verified.
             </p>
           </article>
         </div>

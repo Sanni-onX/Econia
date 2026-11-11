@@ -1,6 +1,6 @@
 # Mainnet deployment — 10 November 2026
 
-**Latest correction:** the virtual-role AI planner is disabled and its running process was stopped. All 64 NFT identities are unassigned and idle until real service workflows are implemented. Earlier AI plans and role descriptions below are historical. NFT ownership and zero treasuries are unchanged; no contract transaction was needed for this correction.
+**Latest application release, 11 November:** the virtual-role AI planner remains disabled. Three NFTs now have implemented real-service workflows; 61 stay idle. The new task worker uses no mainnet signing key. NFT ownership and zero treasuries are unchanged; no contract transaction was required. See [real-service release](REAL-SERVICE-WORKFORCE.md) and [Railway deployment](RAILWAY-DEPLOYMENT.md). The application is prepared for Railway; it has not been deployed there by this work.
 
 Native NEAR contract deployed and verified on the project account:
 

@@ -3,4 +3,7 @@ node_modules
 .env
 .data
 .git
+.codex
+.agents
+.openai
 packages/contracts/target

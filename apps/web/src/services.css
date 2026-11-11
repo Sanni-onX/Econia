@@ -1,0 +1,157 @@
+.service-workspace {
+  margin: 32px 5%;
+  padding: 28px;
+  background: #fffdf6;
+  border: 1px solid #d6decd;
+  border-radius: 16px;
+  scroll-margin-top: 20px;
+}
+.service-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.service-heading small {
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+.service-workspace p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #5f7264;
+}
+.service-workspace h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.service-catalog {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 22px 0;
+}
+.native-app .service-catalog button {
+  text-align: left;
+  padding: 20px;
+}
+.service-catalog .selected {
+  background: #e5eddd;
+  border-color: #62876a;
+}
+.service-catalog small {
+  font-size: 11px;
+}
+.service-notice {
+  background: #edf1e4;
+  border-radius: 10px;
+  padding: 15px 20px;
+}
+.service-notice strong {
+  font-size: 13px;
+}
+.service-notice p {
+  margin-bottom: 0;
+}
+.service-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 25px 0;
+}
+.service-workspace label {
+  display: block;
+  font-size: 12px;
+  margin: 15px 0;
+}
+.service-workspace textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font: 13px/1.6 system-ui;
+  padding: 12px;
+  margin-top: 8px;
+  color: #334b3e;
+  background: #fafbf4;
+  border: 1px solid #cfd8c9;
+  border-radius: 9px;
+  resize: vertical;
+}
+.service-small {
+  font-size: 11px !important;
+}
+.service-job {
+  border: 1px solid #d6decd;
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 16px;
+  overflow-wrap: anywhere;
+}
+.service-job > small {
+  display: block;
+  font-size: 10px;
+  color: #65806c;
+  margin-top: 8px;
+}
+.service-job ol,
+.service-job ul {
+  padding-left: 20px;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.service-job pre {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  background: #f3f3e8;
+  padding: 15px;
+  font:
+    12px/1.7 ui-monospace,
+    monospace;
+}
+.service-job summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+.service-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+.service-actions button {
+  font-size: 11px;
+}
+.service-owner {
+  border-top: 1px solid #d6decd;
+  padding-top: 15px;
+}
+.service-owner form {
+  max-width: 700px;
+}
+.service-owner select {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+@media (max-width: 760px) {
+  .service-workspace {
+    margin: 25px 12px;
+    padding: 18px;
+  }
+  .service-heading {
+    display: block;
+  }
+  .service-heading button {
+    margin-top: 10px;
+  }
+  .service-catalog,
+  .service-columns {
+    grid-template-columns: 1fr;
+  }
+  .service-catalog {
+    gap: 10px;
+  }
+  .service-actions {
+    flex-wrap: wrap;
+  }
+}

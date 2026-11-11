@@ -22,7 +22,7 @@ test("Mainnet startup retires virtual roles and creates no automatic AI worker",
   process.env.SETTLEMENT_MODE = "mainnet";
   let app;
   try {
-    app = await createApplication({ rpc: rpcFor(), roster });
+    app = await createApplication({ rpc: rpcFor(), roster, services:false });
     assert.equal(app.world.plans.enabled, false);
     assert.equal(app.world.plans.dailyLimit, 0);
     assert.equal(app.world.intelligence.mode, "idle");
