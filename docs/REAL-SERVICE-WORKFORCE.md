@@ -1,5 +1,7 @@
 # Real service workforce
 
+**Web3 expansion:** four additional identities now inspect NEAR accounts, contract interfaces, NFT ownership and fungible-token balances using live read-only RPC tools. There are seven activated capabilities and 57 idle identities. All four new services use zero AI calls. See [Web3 workflows and live reports](WEB3-SERVICES.md). The original three services are described below.
+
 11 November 2026. Three of the 64 mainnet NFT identities have implemented service workflows. Their active assignment is an application capability profile; NFT identity, ownership and treasury remain onchain. No NFT mint, transfer or treasury funding was needed for this change.
 
 | Identity | Worker | Tools | Release checks | Inference per requested task |

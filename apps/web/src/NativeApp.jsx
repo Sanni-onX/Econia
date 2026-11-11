@@ -242,7 +242,7 @@ export default function NativeApp() {
           <small>THE FOUNDING COHORT</small>
           <h1>A world of ownable agents.</h1>
           <p>
-            64 ownable identities. Three real service workers. Native NEAR
+            64 ownable identities. Web3 and digital service workers. Native NEAR
             treasuries.
           </p>
         </div>

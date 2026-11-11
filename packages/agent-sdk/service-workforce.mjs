@@ -14,6 +14,11 @@ import {
   hashContent,
 } from "./service-tools.mjs";
 import { MAINNET_CONTRACT } from "../shared/native-state.mjs";
+import {
+  isWeb3Service,
+  runWeb3Service,
+  validateWeb3Report,
+} from "./web3-tools.mjs";
 
 export function createServiceWorkforce({
   path = process.env.SERVICE_DATABASE_PATH || ".data/econia-services.sqlite",
@@ -21,6 +26,7 @@ export function createServiceWorkforce({
   apiKey = process.env.NEAR_AI_API_KEY,
   model = process.env.NEAR_AI_MODEL,
   fetchImpl = fetch,
+  web3Rpc,
   dailyAiLimit = Number(process.env.SERVICE_DAILY_AI_CALL_LIMIT ?? 12),
   dailyTaskLimit = Number(process.env.SERVICE_DAILY_TASK_LIMIT ?? 24),
   accountTaskLimit = Number(process.env.SERVICE_ACCOUNT_TASK_LIMIT ?? 3),
@@ -265,10 +271,34 @@ export function createServiceWorkforce({
       let result, inference;
       t.trace.push({
         agentId: t.agentId,
-        tool: t.service === "csv-audit" ? "csv-parser" : "source-index",
+        tool: isWeb3Service(t.service)
+          ? "web3-input-check"
+          : t.service === "csv-audit"
+            ? "csv-parser"
+            : "source-index",
         status: "PASSED",
       });
-      if (t.service === "csv-audit") {
+      if (isWeb3Service(t.service)) {
+        result = await runWeb3Service(t.service, t.input, {
+          rpc: web3Rpc,
+          signal: controller.signal,
+        });
+        for (const tool of SERVICE_CATALOG.find((s) => s.id === t.service)
+          .tools)
+          t.trace.push({
+            agentId: t.agentId,
+            tool,
+            status:
+              (t.service === "near-contract" &&
+                result.data.hasContract !== true &&
+                tool !== "finalized-contract-code") ||
+              (tool === "nft-owner-comparison" && !result.data.claimedOwner) ||
+              (tool === "exact-token-decimals" && result.data.decimals > 38)
+                ? "NOT_APPLICABLE"
+                : "PASSED",
+            blockHash: result.blockHash,
+          });
+      } else if (t.service === "csv-audit") {
         result = analyseCsv(t.input);
         t.trace.push({
           agentId: t.agentId,
@@ -308,13 +338,15 @@ export function createServiceWorkforce({
         JSON.stringify(result) !== JSON.stringify(analyseCsv(t.input))
       )
         throw Error("CSV result recheck failed");
+      if (isWeb3Service(t.service)) validateWeb3Report(t.service, result);
       const latest = await requireAgent(t.agentId);
       if (latest.ownerId !== t.profile.owner)
         throw Error("NFT owner changed during execution; output held");
       t.trace.push({
         agentId: "person_102",
-        tool:
-          t.service === "source-brief"
+        tool: isWeb3Service(t.service)
+          ? "chain-report-check"
+          : t.service === "source-brief"
             ? "quote-check"
             : t.service === "csv-audit"
               ? "table-check"
@@ -394,7 +426,7 @@ export function createServiceWorkforce({
       };
       return {
         mode: "project-funded-trial",
-        activeCapacity: 3,
+        activeCapacity: SERVICE_CATALOG.length,
         backgroundInference: false,
         dailyAiLimit,
         aiCallsReserved: b.ai,

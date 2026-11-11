@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { createNativeApplication } from "../apps/api/native-server.mjs";
 import { MAINNET_CONTRACT } from "../packages/shared/native-state.mjs";
-const ids = ["person_199", "person_101", "person_102"];
+import { SERVICE_CATALOG } from "../packages/agent-sdk/service-tools.mjs";
+const ids = SERVICE_CATALOG.map((s) => s.agentId);
 const rpc = async (method, p) => {
   if (method === "block")
     return { header: { hash: "container-test-block", height: 1 } };
@@ -21,7 +22,10 @@ try {
   const url = "http://127.0.0.1:" + app.server.address().port;
   assert.equal((await fetch(url + "/api/health")).status, 200);
   const world = await (await fetch(url + "/api/native/world")).json();
-  assert.equal(world.agents.filter((a) => a.serviceProfile.active).length, 3);
+  assert.equal(
+    world.agents.filter((a) => a.serviceProfile.active).length,
+    SERVICE_CATALOG.length,
+  );
   assert.equal(world.services.backgroundInference, false);
   assert.equal((await fetch(url + "/")).status, 200);
   assert.equal((await fetch(url + "/api/services/tasks")).status, 401);

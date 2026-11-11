@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
+import { WEB3_SERVICES, isWeb3Service, parseWeb3Input } from "./web3-tools.mjs";
 export const hashContent = (text) =>
   createHash("sha256").update(text).digest("hex");
 export const SERVICE_CATALOG = Object.freeze([
+  ...WEB3_SERVICES.map((s) => ({ ...s, category: "web3" })),
   {
     id: "source-brief",
     agentId: "person_199",
@@ -51,6 +53,12 @@ export const SERVICE_CATALOG = Object.freeze([
   },
 ]);
 export function validateTaskInput(service, input, brief = "") {
+  if (isWeb3Service(service)) {
+    if (typeof brief !== "string" || brief.length > 1000)
+      throw Error("Task instructions must fit 1000 characters");
+    parseWeb3Input(service, input);
+    return { service, input, brief };
+  }
   if (
     service === "copy-edit" &&
     typeof input === "string" &&
@@ -358,6 +366,14 @@ export async function inferService({
   };
 }
 export function renderArtifact(service, result) {
+  if (isWeb3Service(service))
+    return (
+      "# " +
+      WEB3_SERVICES.find((s) => s.id === service).label +
+      "\n\nFinalized NEAR mainnet snapshot.\n\n```json\n" +
+      JSON.stringify(result, null, 2) +
+      "\n```\n"
+    );
   if (service === "source-brief")
     return (
       "# Evidence brief\n\n" +

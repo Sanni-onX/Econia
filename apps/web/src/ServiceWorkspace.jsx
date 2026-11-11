@@ -11,7 +11,8 @@ export function ServiceWorkspace({
   onReload,
 }) {
   const [session, setSession] = useState(null),
-    [agentId, setAgentId] = useState("person_199"),
+    [agentId, setAgentId] = useState("person_103"),
+    [serviceGroup, setServiceGroup] = useState("web3"),
     [input, setInput] = useState(""),
     [brief, setBrief] = useState(""),
     [jobs, setJobs] = useState([]),
@@ -182,8 +183,8 @@ export function ServiceWorkspace({
           <small>THE FIRST WORKFORCE</small>
           <h2>Give an agent real work.</h2>
           <p>
-            Three activated identities. Tasks run on the hosted worker; idle
-            agents make no AI calls.
+            {world.services.activeCapacity} activated capabilities. Tasks run on
+            the hosted worker; idle agents make no AI calls.
           </p>
         </div>
         <button disabled={busy} onClick={login}>
@@ -192,29 +193,54 @@ export function ServiceWorkspace({
             : "Sign in with wallet"}
         </button>
       </div>
-      <div className="service-catalog">
-        {catalog.map((s) => (
+      <div className="service-actions" aria-label="Service categories">
+        {["web3", "digital"].map((group) => (
           <button
-            key={s.id}
-            className={agentId === s.agentId ? "selected" : ""}
+            key={group}
+            aria-pressed={serviceGroup === group}
             onClick={() => {
-              setAgentId(s.agentId);
+              setServiceGroup(group);
+              setAgentId(
+                catalog.find(
+                  (s) => (s.category === "web3") === (group === "web3"),
+                )?.agentId,
+              );
               setRequestId(null);
             }}
           >
-            <strong>{s.label}</strong>
-            <p>{s.description}</p>
-            <small>
-              {s.aiCalls
-                ? "Up to 1 AI call per task"
-                : "0 AI calls · deterministic tools"}{" "}
-              ·{" "}
-              {workers.some((a) => a.id === s.agentId)
-                ? "Available"
-                : "Unavailable"}
-            </small>
+            {group === "web3" ? "Web3 services" : "Documents & data"}
           </button>
         ))}
+      </div>
+      <div
+        className={
+          "service-catalog " + (serviceGroup === "web3" ? "web3-catalog" : "")
+        }
+      >
+        {catalog
+          .filter((s) => (s.category === "web3") === (serviceGroup === "web3"))
+          .map((s) => (
+            <button
+              key={s.id}
+              className={agentId === s.agentId ? "selected" : ""}
+              onClick={() => {
+                setAgentId(s.agentId);
+                setRequestId(null);
+              }}
+            >
+              <strong>{s.label}</strong>
+              <p>{s.description}</p>
+              <small>
+                {s.aiCalls
+                  ? "Up to 1 AI call per task"
+                  : "0 AI calls · deterministic tools"}{" "}
+                ·{" "}
+                {workers.some((a) => a.id === s.agentId)
+                  ? "Available"
+                  : "Unavailable"}
+              </small>
+            </button>
+          ))}
       </div>
       <div className="service-notice">
         <strong>Project-funded trial · 0 NEAR charged</strong>
@@ -239,7 +265,7 @@ export function ServiceWorkspace({
             <textarea
               aria-label="Service task input"
               maxLength={16000}
-              minLength={40}
+              minLength={service?.minInputLength || 40}
               required
               rows={9}
               value={input}
@@ -248,14 +274,17 @@ export function ServiceWorkspace({
                 setRequestId(null);
               }}
               placeholder={
-                service?.id === "csv-audit"
+                service?.placeholder ||
+                (service?.id === "csv-audit"
                   ? "name,units,price\nNotebook,4,2.50\nPen,10,0.30"
-                  : "Paste the document or text you want this agent to work on."
+                  : "Paste the document or text you want this agent to work on.")
               }
             />
           </label>
           <label>
-            What should the output focus on?
+            {service?.category === "web3"
+              ? "Optional notes (chain report fields are fixed)"
+              : "What should the output focus on?"}
             <textarea
               aria-label="Task instructions"
               maxLength={1000}
@@ -268,9 +297,10 @@ export function ServiceWorkspace({
             />
           </label>
           <p className="service-small">
-            The selected input and instructions are sent to NEAR AI Cloud for
-            document tasks. CSV analysis stays in the worker. Your task and
-            output are visible only after signing in as the requesting account.
+            {service?.category === "web3"
+              ? "Public account and contract IDs are sent to the configured NEAR RPC. These tools use no AI; notes do not alter the read-only queries."
+              : "Document task input and instructions are sent to NEAR AI Cloud. CSV analysis stays in the worker."}{" "}
+            Your task and output are private to your signed-in account.
           </p>
           <button
             disabled={busy || !signedIn || !agent?.serviceProfile?.active}

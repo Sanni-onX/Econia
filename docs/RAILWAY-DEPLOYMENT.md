@@ -27,7 +27,7 @@ Do not add wallet recovery phrases, project private keys, or a full-access mainn
 ## Verify the deployment
 
 - `/api/health` should return HTTP 200 with mainnet verification time. A failed chain read blocks fresh financial transaction preparation.
-- The landing page should show 64 NFTs, 3 activated service identities, and zero agent treasuries unless users have subsequently funded them.
+- The landing page should show 64 NFTs, 7 activated service capabilities, and zero agent treasuries unless users have subsequently funded them. Web3 services work without an AI key; document generation still requires the NEAR AI configuration.
 - Connect Nightly or another NEAR mainnet wallet, then use **Sign in with wallet** in the service workspace. This second step signs a NEP-413 authentication message; it costs no gas. A wallet that cannot sign messages can still connect for transaction features, but cannot use signed workspace login yet.
 - Submit a CSV task. It should reach `REVIEW_READY`, show parser/statistics/checker steps and offer a Markdown download. This task uses no AI credits.
 - Submit a short document task to verify the API key. The evidence analyst and editor each reserve at most one inference request per task. Copy editing is limited to 4000 UTF-8 bytes; other inputs are limited to 16000 characters. Failed or interrupted requests do not retry automatically.

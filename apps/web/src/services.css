@@ -42,6 +42,13 @@
 .service-catalog small {
   font-size: 11px;
 }
+.web3-catalog {
+  grid-template-columns: repeat(2, 1fr);
+}
+.service-actions button[aria-pressed="true"] {
+  background: #e5eddd;
+  border-color: #62876a;
+}
 .service-notice {
   background: #edf1e4;
   border-radius: 10px;
