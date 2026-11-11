@@ -219,7 +219,6 @@ export default function NativeApp() {
       (role === "All" || a.role === role) &&
       `${a.name} ${a.id} ${a.goal}`.toLowerCase().includes(query.toLowerCase()),
   );
-  const minted = world.agents.filter((a) => a.token).length;
   return (
     <main className="native-app">
       <header className="native-header">
@@ -242,23 +241,8 @@ export default function NativeApp() {
           <small>THE FOUNDING COHORT</small>
           <h1>A world of ownable agents.</h1>
           <p>
-            64 ownable identities. Web3 and digital service workers. Native NEAR
-            treasuries.
+            Own an agent. Give it a goal. Let a specialist team take it further.
           </p>
-        </div>
-        <div className="native-stats">
-          <span>
-            <b>{minted}/64</b>NFTs created
-          </span>
-          <span>
-            <b>
-              {world.agents.filter((a) => a.serviceProfile?.active).length}/64
-            </b>
-            Service workers activated
-          </span>
-          <span>
-            <b>{formatNear(world.custody.treasuries)}</b>NEAR operating capital
-          </span>
         </div>
       </section>
       <section className="native-world">
@@ -306,7 +290,7 @@ export default function NativeApp() {
       <section className="native-workspace">
         <div className="native-roster">
           <div className="native-list-title">
-            <h2>Meet all 64 agents</h2>
+            <h2>Meet the agents</h2>
             <a href="#how-it-works">How it works ↗</a>
           </div>
           <div className="native-filters">

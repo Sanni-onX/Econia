@@ -188,8 +188,8 @@ export function ServiceWorkspace({
           <small>THE FIRST WORKFORCE</small>
           <h2>Give an agent real work.</h2>
           <p>
-            {world.services.activeCapacity} activated identities. Tasks run on
-            the hosted worker; idle agents make no AI calls.
+            Specialists work together on your goals. Tasks run on the hosted
+            worker; idle agents make no AI calls.
           </p>
         </div>
         <button disabled={busy} onClick={login}>
