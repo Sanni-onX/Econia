@@ -21,7 +21,7 @@ The commissioning records include real failures and corrections; they do not rep
 
 ## Run locally
 
-Use Node 24, install dependencies with `npm ci`, and copy the relevant non-secret settings from `.env.econia2.example` into your private `.env`. Add your NEAR AI Cloud key there. Never put a recovery phrase or full-access wallet key in environment files intended for deployment.
+Use Node 24 and the `codex/econia-2` branch (the default `main` branch preserves the previous release). Install dependencies with `npm ci`, and copy the relevant non-secret settings from `.env.econia2.example` into your private `.env`. Add your NEAR AI Cloud key there. Never put a recovery phrase or full-access wallet key in environment files intended for deployment.
 
 ```sh
 npm run build
@@ -54,6 +54,6 @@ Live commissioning scripts require `--testnet`, local controlled test wallets an
 
 The Docker entry starts the testnet professional service. Use one replica, a persistent volume at `/app/.data`, `/api/health` checks and an always-running worker. Set `ECONIA_2_DATABASE_PATH=/app/.data/econia-2.sqlite`, the explicit testnet contract, `APP_ORIGIN` set to the public URL, the NEAR AI variables and only the restricted function-call operator key in private service variables. Do not upload `.private`, recovery files or the old mainnet signer.
 
-The successor runs in the isolated `econia-2-testnet` Railway service. The prior release is unchanged. Hosted task commissioning and persistence checks are in progress.
+The successor runs in the isolated `econia-2-testnet` Railway service. The prior release is unchanged. Hosted task commissioning and restart persistence are verified; see `docs/professional-hosted-verification.json`. The owner has deferred the Nightly browser check.
 
 NEAR AI Cloud is active. IronClaw, external Agent Market and Intents have been evaluated but are not claimed as connected. See the integration matrix for sources and honest fallbacks.

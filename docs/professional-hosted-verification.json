@@ -1,0 +1,96 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T14:17:31.416Z",
+  "network": "testnet",
+  "url": "https://econia-2-testnet-production.up.railway.app",
+  "scope": "Actual public Railway service: production health, testnet identity, same-origin NEP-413 client login with zero NFTs, real Cloud quotation, exact source preservation, customer-funded escrow, checked downloadable CSV artifacts and finalized testnet acceptance.",
+  "client": "client.econia2-575e686f5c.testnet",
+  "nftCount": "0",
+  "provider": "person_017",
+  "conversationId": "a10a962f-4176-4f33-bb6c-1b29620b8f94",
+  "proposalId": "19034bf0-2dc3-42a8-bf35-bf1e60802107",
+  "contractId": "9acb93fb-a342-4fdf-bf4e-298853e270c8",
+  "chainJobId": "3",
+  "transactions": [
+    {
+      "method": "post_service_job",
+      "hash": "HTxyVbWwPz51aC6pJDromYhYL9eqWE9yiiqRvozMSCK6"
+    },
+    {
+      "method": "accept_service_job",
+      "hash": "H5pRnJD7DqP4D6QJ4b24NvKQcN9E7n5AMuXdQ8T5KuxD"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "f59445a0-cc54-4cb1-9310-8d0dcecc6b95",
+      "agent_id": "person_017",
+      "filename": "analysis.json",
+      "content_type": "application/json",
+      "sha256": "4b21b1d37a36a239996adfa03ff422a379852130435487b5d273d10c6b7123e9",
+      "version": 1,
+      "verified": 1,
+      "created_at": "2026-11-12T14:17:21.326Z"
+    },
+    {
+      "id": "0a9fcf87-856f-4919-b362-e1d2a5e53530",
+      "agent_id": "person_017",
+      "filename": "analysis.md",
+      "content_type": "text/markdown",
+      "sha256": "66636a17f350356a2d7c2b16a224120dbed6feac78912f6ca8320c596667b565",
+      "version": 1,
+      "verified": 1,
+      "created_at": "2026-11-12T14:17:21.326Z"
+    }
+  ],
+  "analysis": {
+    "rowCount": 4,
+    "columnCount": 2,
+    "columns": [
+      {
+        "name": "item",
+        "missing": 0,
+        "present": 4,
+        "numericCount": 0
+      },
+      {
+        "name": "amount",
+        "missing": 0,
+        "present": 4,
+        "numericCount": 4,
+        "sum": "2",
+        "min": "0.1",
+        "max": "1.4",
+        "mean": "0.5",
+        "meanPrecision": "truncated toward zero to 6 decimals",
+        "scope": "all non-empty cells"
+      }
+    ]
+  },
+  "health": {
+    "mode": "econia-2",
+    "revision": "9dec95949d87089c9ccb1001654d7691d26cb3d8",
+    "network": "testnet",
+    "inferenceReady": true,
+    "settlementReady": true
+  },
+  "worldIdentityVerified": true,
+  "privacyCheck": true,
+  "restartVerified": true,
+  "restartVerifiedAt": "2026-11-12T14:24:57.761Z",
+  "restartHealth": {
+    "mode": "econia-2",
+    "revision": "9dec95949d87089c9ccb1001654d7691d26cb3d8",
+    "network": "testnet",
+    "inferenceReady": true,
+    "settlementReady": true
+  },
+  "source": {
+    "id": "0b0fe2f9-3c8d-4eb4-ac14-d5e8ad6498bb",
+    "filename": "records.csv",
+    "content_type": "text/csv",
+    "sha256": "8f25c30600f9d3cc3656c19a9c38ab41431978518aaefccf0caf88639e2753eb"
+  },
+  "exactSourcePreserved": true,
+  "restartVerificationScope": "After an observed Railway restart, a fresh free signed session retrieved the same settled contract, funding/acceptance receipts, exact source attachment and unchanged artifact bytes. No inference or financial transaction was requested by this verifier."
+}

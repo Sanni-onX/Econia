@@ -1,0 +1,31 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T14:24:57.761Z",
+  "network": "testnet",
+  "url": "https://econia-2-testnet-production.up.railway.app/",
+  "sourceBranch": "codex/econia-2",
+  "implementationCommit": "9dec95949d87089c9ccb1001654d7691d26cb3d8",
+  "railwayProject": "bc30f001-1d19-44b4-b918-e4fcecc982d3",
+  "railwayService": "a8da9fbc-98c2-4603-aabd-bd1d1f78bf99",
+  "railwayDeployment": "5e5e3447-d200-45ef-ad18-de7a3bcdd2d7",
+  "volumeMount": "/app/.data",
+  "databasePath": "/app/.data/econia-2.sqlite",
+  "replicas": 1,
+  "cpuLimit": 1,
+  "memoryLimitGB": 2,
+  "serverless": false,
+  "dailyInferenceLimit": 12,
+  "privateCredentials": "Existing NEAR AI key and receiver/method/allowance-restricted testnet function key copied with explicit owner approval; no full-access wallet or recovery file uploaded.",
+  "ci": {
+    "runId": 43235040723,
+    "url": "https://github.com/Sanni-onX/Econia/actions/runs/43235040723",
+    "application": "success",
+    "contracts": "success",
+    "productionContainer": "success"
+  },
+  "commissioning": "docs/professional-hosted-verification.json",
+  "restartObserved": "Railway Restart action completed; deployment logs showed a second volume mount and worker start. Fresh authentication recovered identical settled work and source/artifact hashes.",
+  "nightlyBrowserVerification": "Deferred by owner; NEP-413 test-client API authentication verified.",
+  "originalRelease": "Unchanged: econia-production.up.railway.app and original mainnet contracts.",
+  "submission": "Prepared only; no X post or hackathon form submitted."
+}

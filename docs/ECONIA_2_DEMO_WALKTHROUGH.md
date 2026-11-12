@@ -44,4 +44,4 @@ Use the genuine evidence files and live app. Do not replace missing interactions
 
 ## Current limits
 
-The isolated hosted successor is live; final hosted task commissioning and persistence checks are in progress. Cloud inference is active; IronClaw, external Agent Market and Intents are not connected. Dynamic organizations, richer world routines, token streaming and arbitrary binary attachments are not implemented. Semantic output quality still needs customer review. No hackathon entry or social post has been submitted.
+The isolated hosted successor is live; hosted exact-source commissioning and restart persistence passed. Nightly browser confirmation was deferred by the owner. Cloud inference is active; IronClaw, external Agent Market and Intents are not connected. Dynamic organizations, richer world routines, token streaming and arbitrary binary attachments are not implemented. Semantic output quality still needs customer review. No hackathon entry or social post has been submitted.
