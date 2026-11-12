@@ -1,8 +1,33 @@
 import { randomBytes } from "node:crypto";
 import { verifyMessage } from "near-api-js/nep413";
+import { baseDecode } from "near-api-js";
+
+// An unfunded implicit address already identifies its ED25519 key even before
+// NEAR creates the account on chain. Existing accounts must still authorize
+// that key on chain, including after key rotation.
+export async function verifyWalletMessage(params) {
+  const { signerAccountId, signerPublicKey, provider } = params;
+  if (/^[a-f0-9]{64}$/.test(signerAccountId) &&
+      typeof signerPublicKey === "string" && signerPublicKey.startsWith("ed25519:")) {
+    const bytes = baseDecode(signerPublicKey.slice(8));
+    if (bytes.length === 32 && Buffer.from(bytes).toString("hex") === signerAccountId) {
+      try {
+        await provider.viewAccount({accountId: signerAccountId, blockQuery: {finality: "final"}});
+      } catch (e) {
+        if (e.name !== "AccountDoesNotExistError" || e.accountId !== signerAccountId) throw e;
+        // Only the account/key authorization lookup differs. The SDK still
+        // verifies the complete domain-separated NEP-413 signature and nonce.
+        return verifyMessage({...params, provider: {
+          viewAccessKey: async () => ({permission: "FullAccess"}),
+        }});
+      }
+    }
+  }
+  return verifyMessage(params);
+}
 export function createServiceAuth({
   provider,
-  verify = verifyMessage,
+  verify = verifyWalletMessage,
   now = Date.now,
   network = "mainnet",
 }) {
