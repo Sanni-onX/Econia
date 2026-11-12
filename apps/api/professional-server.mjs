@@ -330,6 +330,50 @@ export async function createProfessionalApplication(options = {}) {
         if (url.pathname === "/api/society/auth/login" && req.method === "POST")
           return json(res, 200, await auth.login(await body(req)));
         const customer = auth.require(req.headers.authorization);
+        if (
+          url.pathname === "/api/society/wallet/refunds" &&
+          req.method === "GET"
+        ) {
+          if (!chain?.refundableBalance)
+            throw Object.assign(Error("Verified chain unavailable"), {
+              status: 503,
+            });
+          return json(res, 200, {
+            network,
+            amount: await chain.refundableBalance(customer),
+          });
+        }
+        if (
+          url.pathname === "/api/society/wallet/refunds/withdraw" &&
+          req.method === "POST"
+        ) {
+          if (
+            !chain?.refundableBalance ||
+            BigInt(await chain.refundableBalance(customer)) <= 0n
+          )
+            throw Error("No confirmed refund available");
+          return json(res, 200, chain.prepareRefundWithdrawal());
+        }
+        if (
+          url.pathname === "/api/society/wallet/refunds/confirm" &&
+          req.method === "POST"
+        ) {
+          if (!chain?.receipt)
+            throw Object.assign(Error("Verified chain unavailable"), {
+              status: 503,
+            });
+          const receipt = await chain.receipt(
+            (await body(req)).transactionHash,
+            customer,
+            "withdraw_refund",
+          );
+          if (receipt.deposit !== "1" || Object.keys(receipt.args).length)
+            throw Error("Refund withdrawal receipt mismatch");
+          return json(res, 200, {
+            verified: true,
+            amount: await chain.refundableBalance(customer),
+          });
+        }
         const ownerRoute = url.pathname.match(
           /^\/api\/society\/agents\/([a-zA-Z0-9_-]{1,64})\/(owner|capital|confirm-capital|budget|confirm-budget|transfer|confirm-transfer)$/,
         );

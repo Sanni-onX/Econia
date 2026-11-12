@@ -513,6 +513,18 @@ export async function createProfessionalChain({
         deposit: amount,
       });
     },
+    async refundableBalance(accountId) {
+      return view("refund_balance", { account_id: accountId });
+    },
+    prepareRefundWithdrawal() {
+      return nativeTransaction({
+        network,
+        contract,
+        method: "withdraw_refund",
+        args: {},
+        deposit: "0.000000000000000000000001",
+      });
+    },
     async verifyCapital({ agentId, customer, transactionHash }) {
       const r = await receipt(transactionHash, customer, "provide_capital");
       if (r.args.agent_id !== agentId || BigInt(r.deposit) <= 0n)

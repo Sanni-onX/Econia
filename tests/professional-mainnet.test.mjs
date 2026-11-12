@@ -4,6 +4,8 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { KeyPair } from "near-api-js";
+import { validateProfessionalConfig } from "../packages/shared/professional-config.mjs";
+import { createProfessionalApplication } from "../apps/api/professional-server.mjs";
 import { openAgentStore } from "../packages/agent-runtime/store.mjs";
 import { createVerifiedLedger } from "../packages/agent-runtime/ledger.mjs";
 import { createProfessionalRuntime } from "../packages/agent-runtime/runtime.mjs";
@@ -11,6 +13,20 @@ import {
   createProfessionalChain,
   proposalCommitment,
 } from "../packages/near/professional-testnet.mjs";
+
+test("Browser launch accepts mainnet and testnet professional services and rejects unknown configuration", () => {
+  for (const network of ["mainnet", "testnet"])
+    assert.equal(
+      validateProfessionalConfig({ mode: "professional", network }).network,
+      network,
+    );
+  for (const c of [
+    { mode: "mainnet", network: "mainnet" },
+    { mode: "professional", network: "unknown" },
+    null,
+  ])
+    assert.throws(() => validateProfessionalConfig(c), /explicit NEAR network/);
+});
 
 test("Network/contract binding survives restart and rejects reuse of a testnet database on mainnet", () => {
   const dir = mkdtempSync(join(tmpdir(), "econia-chain-"));
@@ -113,6 +129,10 @@ test("Mainnet adapter rejects mixed RPC/contracts and full-access or oversized w
     operatorKey,
   });
   assert.equal(chain.network, "mainnet");
+  const refund = chain.prepareRefundWithdrawal();
+  assert.equal(refund.receiverId, "fixture.near");
+  assert.equal(refund.actions[0].params.methodName, "withdraw_refund");
+  assert.equal(refund.actions[0].params.deposit, "1");
   const p = {
     id: "sample-proposal",
     provider_id: "person_017",
@@ -181,6 +201,93 @@ test("Mainnet proposals and ledger use real NEAR and reject testnet receipts", a
     );
   } finally {
     await runtime.close();
+    store.close();
+  }
+});
+
+test("Refund API reads only the signed-in wallet and verifies withdrawals before confirmation", async () => {
+  const store = openAgentStore({
+    path: ":memory:",
+    network: "mainnet",
+    contract: "fixture.near",
+  });
+  const reads = [],
+    confirmations = [];
+  const chain = {
+    refundableBalance: async (account) => {
+      reads.push(account);
+      return "100";
+    },
+    prepareRefundWithdrawal: () => ({
+      receiverId: "fixture.near",
+      actions: [
+        {
+          type: "FunctionCall",
+          params: { methodName: "withdraw_refund", deposit: "1" },
+        },
+      ],
+    }),
+    receipt: async (hash, signer, method) => {
+      confirmations.push({ hash, signer, method });
+      return { deposit: "1", args: {} };
+    },
+  };
+  const auth = {
+    require: (header) => {
+      if (header !== "Bearer verified-client")
+        throw Object.assign(Error("Sign in required"), { status: 401 });
+      return "client.near";
+    },
+  };
+  const app = await createProfessionalApplication({
+    network: "mainnet",
+    contract: "fixture.near",
+    store,
+    settlement: chain,
+    auth,
+    inference: { ready: false },
+  });
+  await new Promise((r) => app.server.listen(0, "127.0.0.1", r));
+  const base = "http://127.0.0.1:" + app.server.address().port;
+  const call = (path, body, signed = true) =>
+    fetch(base + "/api/society/" + path, {
+      method: body ? "POST" : "GET",
+      headers: {
+        ...(signed ? { Authorization: "Bearer verified-client" } : {}),
+        ...(body ? { "Content-Type": "application/json" } : {}),
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+  try {
+    assert.equal((await call("wallet/refunds", null, false)).status, 401);
+    assert.deepEqual(
+      await (await call("wallet/refunds?account=someone-else.near")).json(),
+      { network: "mainnet", amount: "100" },
+    );
+    assert.equal(
+      (await (await call("wallet/refunds/withdraw", {})).json()).receiverId,
+      "fixture.near",
+    );
+    assert.equal(
+      (
+        await (
+          await call("wallet/refunds/confirm", {
+            transactionHash: "verified-withdrawal",
+          })
+        ).json()
+      ).verified,
+      true,
+    );
+    assert.ok(reads.length >= 3 && reads.every((a) => a === "client.near"));
+    assert.deepEqual(confirmations, [
+      {
+        hash: "verified-withdrawal",
+        signer: "client.near",
+        method: "withdraw_refund",
+      },
+    ]);
+  } finally {
+    await app.close();
     store.close();
   }
 });

@@ -1,0 +1,42 @@
+{
+  "verified": true,
+  "network": "mainnet",
+  "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "verifiedAt": "2026-11-12T15:44:08.436Z",
+  "migrationSha256": "10726ebc94ec16b58e4713afb5731e01d3a732b183a5cd2d67cc78e44e7e58cb",
+  "releaseSha256": "2b96b027cb8fa4fb6308c58f5b556deda4dcd9d241053dad5a290d106223d29a",
+  "migrationBytes": 307572,
+  "releaseBytes": 291782,
+  "profilesSha256": "95df724f12ca479d5ecb5e10daefc51a6c94c8409759a44102b59923e5ff44b6",
+  "transactionHash": "C8KcjHwAF2wh21bLt5EMJ4zjrheLxtLsyxyu5u8s4JJn",
+  "feesYocto": "20417174949738600000000",
+  "storageBytes": 349916,
+  "balanceYocto": "3836284197109327100000000",
+  "storageLockedYocto": "3499160000000000000000000",
+  "originalNftsPreserved": 64,
+  "totalNfts": 87,
+  "professionalCount": 24,
+  "custody": {
+    "network": "mainnet",
+    "asset": "NEAR",
+    "decimals": 24,
+    "treasuries": "0",
+    "escrow": "0",
+    "refunds": "0",
+    "execution_storage": "0"
+  },
+  "worker": {
+    "publicKey": "ed25519:GnzoxsckTX53uvPnqMxVfCFDj3sHDmSH44zX9EzHC5W3",
+    "methods": [
+      "deliver_service_job",
+      "open_agent_service_job",
+      "accept_service_job"
+    ],
+    "gasAllowanceYocto": "20000000000000000000000",
+    "uploaded": true,
+    "destination": "Private Railway variables of existing econia mainnet service",
+    "ownerApproval": "Explicit owner approval in this chat on 12 November 2026",
+    "runtimeVerifiedAt": "2026-11-12T15:54:52.137Z"
+  },
+  "startingCapitalYocto": "0"
+}

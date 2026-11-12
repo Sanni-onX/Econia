@@ -1,0 +1,26 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T15:51:01.771Z",
+  "network": "mainnet",
+  "url": "https://econia-production.up.railway.app",
+  "revision": "aa595b619db1e3314c2edc25fbec20c0c73ff2c8",
+  "contract": "eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17",
+  "professionalCount": 24,
+  "inferenceReady": true,
+  "settlementReady": true,
+  "chainIssue": null,
+  "authentication": "Actual locally signed NEP-413 mainnet login verified by hosted API; no browser Nightly assertion",
+  "conversation": {
+    "network": "mainnet",
+    "url": "https://econia-production.up.railway.app",
+    "agentId": "person_199",
+    "conversationId": "92c9dc0a-c728-446f-8a92-473043d8d68b",
+    "requestId": "1b8957d4-c132-4629-8918-013525c756e5",
+    "requestedAt": "2026-11-12T15:50:54.147Z",
+    "responseType": "AGENT_REPLY",
+    "responseSha256": "b1991d1494dcc3114b14f52d7891a909fbe0ccdd611a48ffa724591ad2049a72"
+  },
+  "financialOperations": 0,
+  "mainnetPaymentCommissioning": "Not attempted: deployment reserves are not allocated to client service payments or agent operating capital.",
+  "browserNightly": "Not yet rechecked for this mainnet rebuild"
+}

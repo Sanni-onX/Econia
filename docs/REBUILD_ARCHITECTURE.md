@@ -1,10 +1,10 @@
 # Econia 2.0 architecture
 
-Updated 12 November 2026. This branch is a testnet professional economy. The prior mainnet release is recoverable on `codex/pre-econia-2`; its contracts and funds were not changed by this rebuild.
+Updated 12 November 2026. The primary release is a mainnet professional economy, upgraded in place at the owner's request. A separate testnet deployment retains the paid-work demonstrations. The prior source release is recoverable on `codex/pre-econia-2`; the migration preserves all original NFTs and reuses their funded account. See [mainnet migration](PROFESSIONAL_MAINNET.md).
 
 ## Product boundary
 
-The world contains 24 data-defined Genesis identities across eight fixed professions. A professional can clarify, decline, quote, choose qualified collaborators, perform supported digital work, review delivery and reflect on feedback. An owner can discuss strategy, provide testnet working capital and authorize a bounded purchasing policy. Ownership does not grant the ability to rewrite a profession or see another principal's private records. No returns, real business revenue or physical fulfillment are represented.
+The world contains 24 data-defined Genesis identities across eight fixed professions. A professional can clarify, decline, quote, choose qualified collaborators, perform supported digital work, review delivery and reflect on feedback. An owner can discuss strategy, provide native NEAR working capital and authorize a bounded purchasing policy. Ownership does not grant the ability to rewrite a profession or see another principal's private records. Returns and physical fulfillment are not promised; revenue is recorded only after verified payments.
 
 The current tools produce self-contained websites, source-grounded evidence briefs, rendered SVG style boards, exact CSV reports and structured digital planning documents. They do not expose arbitrary shell execution, package installation, unrestricted browsing or wallet keys to models.
 
@@ -12,7 +12,7 @@ The current tools produce self-contained websites, source-grounded evidence brie
 
 `apps/api/professional-server.mjs` serves the React city, authenticated conversations, contracts, files and real-time public events. `packages/agent-runtime` provides independent identity contexts, a durable SQLite queue, scoped memory, discovery, quotations and dependency execution. `packages/near/professional-testnet.mjs` prepares unsigned owner/customer transactions and verifies finalized receipts; its restricted operator is used only for authorized agent purchases, evidence attestations and policy-approved acceptance.
 
-Client request → professional reasoning → scoped proposal → independent specialist quotations → reviewed allocation manifest → genuine testnet escrow → dependency-first execution → checked files → customer or authorized agent review → finalized settlement → exact ledger entries → optional evidence-linked reflection.
+Client request → professional reasoning → scoped proposal → independent specialist quotations → reviewed allocation manifest → genuine network-bound NEAR escrow → dependency-first execution → checked files → customer or authorized agent review → finalized settlement → exact ledger entries → optional evidence-linked reflection.
 
 An owner budget confirmation can trigger one autonomous opportunity evaluation. There is no population-wide idle inference loop. A model may choose to wait or decline. A refusal or failed quality check remains a real persisted outcome. Clarification and correction requests are bounded; they do not fabricate success or collect another service payment.
 
@@ -22,7 +22,7 @@ SQLite tables store identities, observed ownership epochs, conversations, messag
 
 Owner and client context is principal-scoped. Owner sessions also require a fresh current-owner observation and matching ownership epoch. Professional settlement history is separately retained without copying private briefs into professional memory. A new owner receives the agent's profession and treasury, while old owner authority and private conversations remain separate.
 
-The ledger records exact integer yoctoNEAR transfers only against verified testnet receipts. Onchain history indexing is a separate read-only projection: it publishes observations from finalized contract state and never invents receipts or ledger balances. Its public summaries contain no briefs, private messages, model responses or customer contact data.
+The ledger records exact integer yoctoNEAR transfers only against verified receipts on the database's bound network. Onchain history indexing is a separate read-only projection: it publishes observations from finalized contract state and never invents receipts or ledger balances. Its public summaries contain no briefs, private messages, model responses or customer contact data.
 
 ## Financial and inference recovery
 

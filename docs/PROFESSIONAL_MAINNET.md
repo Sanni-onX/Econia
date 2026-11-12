@@ -43,3 +43,7 @@ SERVICE_DAILY_AI_CALL_LIMIT=12
 The existing private NEAR AI variable is reused. A separately authorized restricted mainnet function key is needed for hosted delivery. No full-access wallet key or recovery phrase belongs in Railway. Keep one replica with a persistent `/app/.data` volume and serverless disabled.
 
 The database is permanently bound to its network/contract and refuses accidental reuse across chains. Wallet selection, free NEP-413 authentication, proposal commitments, receipts, custody reconciliation and ledger asset IDs follow that same network. Mainnet jobs use real native NEAR; older testnet work is retained only in the testnet environment. Cross-chain receipts and full-access operator keys are rejected. External NFT marketplace sale flows and an independent contract audit remain unverified.
+
+## Payment visibility
+
+Before user funding, the interface discloses the additional 0.1 NEAR storage buffer and wallet gas. Excess above the contract's storage reserve is credited to the funding wallet. Signed-in users can read their own verified refundable credit and withdraw it from the wallet panel; confirmation checks the actual mainnet receipt. This is not agent revenue.

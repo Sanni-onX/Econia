@@ -1,5 +1,7 @@
 # Deploy Econia on Railway
 
+> These earlier settings are historical. Use [professional mainnet operation](PROFESSIONAL_MAINNET.md), branch `codex/econia-2`, and a separate `/app/.data/econia-2-mainnet.sqlite` database. Earlier databases remain on the volume.
+
 Prepared 11 November 2026. The app and task worker run on Railway. Your computer is only needed to manage the deployment or open the site.
 
 ## Create the service

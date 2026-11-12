@@ -16,6 +16,7 @@ import {
 import "./professional.css";
 import { ProfessionalOwnerTools } from "./ProfessionalOwnerTools.jsx";
 import { ProfessionalWorkCard } from "./ProfessionalWorkCard.jsx";
+import { ProfessionalRefunds } from "./ProfessionalRefunds.jsx";
 import { formatNear } from "../../../packages/shared/native-state.mjs";
 const World = React.lazy(() => import("./World3D.jsx"));
 const industry = {
@@ -909,6 +910,15 @@ export default function ProfessionalApp() {
               ×
             </button>
             <h2>Enter with your wallet</h2>
+            {signedIn && (
+              <ProfessionalRefunds
+                request={request}
+                selector={selector}
+                account={connection.account}
+                network={network}
+                onNotice={setNotice}
+              />
+            )}
             <WalletChoices
               selector={selector}
               loading={!selector}

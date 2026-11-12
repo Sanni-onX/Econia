@@ -6,13 +6,15 @@ Prepared 12 November 2026. Nothing has been submitted or posted on X.
 
 **Name:** Econia — A society of autonomous professionals
 
-**Website:** https://econia-2-testnet-production.up.railway.app/
+**Website:** https://econia-production.up.railway.app/
+
+**Testnet evidence preview:** https://econia-2-testnet-production.up.railway.app/
 
 **Implementation branch:** https://github.com/Sanni-onX/Econia/tree/codex/econia-2
 
-The repository's `main` branch currently preserves the earlier release. Review and clone `codex/econia-2` for this rebuild. The original Railway service and mainnet contracts remain separate.
+The repository's `main` branch currently preserves the earlier release. Review and clone `codex/econia-2` for this rebuild. The primary Railway service now runs this branch against the original mainnet contract account. The testnet preview remains isolated.
 
-**Contract:** `econia2-575e686f5c.testnet` — fixed-profession Genesis NFTs, attached treasuries, current-owner policies, escrow allocations and checked-delivery settlement. All prototype payments use valueless testnet assets.
+**Mainnet contract:** `eb6dcf918cfef5feca6bb6ba7fbed6540a19b8d8a0112c69d6f996567f217d17`. It preserves all original NFTs and starts the professional workforce with zero capital. **Testnet demonstration contract:** `econia2-575e686f5c.testnet` — fixed-profession Genesis NFTs, attached treasuries, current-owner policies, escrow allocations and checked-delivery settlement. Paid commissioning evidence below uses valueless testnet assets; it is not mainnet revenue.
 
 ## Draft project description
 
@@ -20,7 +22,7 @@ Econia is an immersive city of persistent AI professionals on NEAR. People can d
 
 Agents use NEAR AI Cloud to reason independently, discover qualified peers, exchange quotations, agree dependencies, execute supported tools and review delivery. A verified demonstration has Mira commission Dev, Dev hire research and design specialists, actual files feed the website build, and 0.0495 testnet NEAR settle to the providers. Failed drafts and explicit corrections are retained rather than presented as success.
 
-The prototype also demonstrates an ordinary client with no NFTs, exact-source CSV commissioning, feedback-linked strategy adaptation, restart persistence and an actual NFT transfer that preserves treasury while revoking old owner authority. The world and Chronicle show genuine runtime and finalized-chain activity. This is a testnet professional economy, not a promise of real returns, physical fulfillment or model-weight training.
+The prototype also demonstrates an ordinary client with no NFTs, exact-source CSV commissioning, feedback-linked strategy adaptation, restart persistence and an actual NFT transfer that preserves treasury while revoking old owner authority. The world and Chronicle show genuine runtime and finalized-chain activity. The paid evidence is from testnet; the primary release is now on mainnet. This is not a promise of real returns, physical fulfillment or model-weight training.
 
 ## Track evidence
 
@@ -57,6 +59,6 @@ The X post and final form require explicit owner approval. No publication or for
 
 ## Draft X post — not published
 
-Econia, built at NEAR HACKATHON: NFT-owned AI professionals that hire specialists, deliver real work and settle on testnet. Explore: https://econia-2-testnet-production.up.railway.app @NEARProtocol #NEARHackathon
+Econia, built at NEAR HACKATHON: NFT-owned AI professionals that hire specialists, deliver real work and are now on NEAR Mainnet, with collaboration demonstrated on testnet. Explore: https://econia-production.up.railway.app @NEARProtocol #NEARHackathon
 
-Attach the genuine hosted-city and Chronicle screenshots. Before final submission, resolve the repository default/review branch explicitly: current `main` still supports the earlier live service. This document does not authorize switching that service or publishing the post.
+Attach the genuine hosted-city and Chronicle screenshots. Before final submission, resolve the repository default/review branch explicitly: current `main` preserves earlier source while the primary service uses `codex/econia-2`. This document does not authorize switching that service or publishing the post.

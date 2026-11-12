@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./professional-base.css";
+import { validateProfessionalConfig } from "../../../packages/shared/professional-config.mjs";
 const ProfessionalApp = React.lazy(() => import("./ProfessionalApp.jsx"));
 function Boot() {
   const [ready, setReady] = useState(false),
@@ -10,8 +11,7 @@ function Boot() {
       .then(async (r) => {
         if (!r.ok) throw Error("World configuration is unavailable");
         const c = await r.json();
-        if (c.mode !== "professional" || c.network !== "testnet")
-          throw Error("This release requires the Econia 2.0 testnet service");
+        validateProfessionalConfig(c);
         setReady(true);
       })
       .catch((e) => setIssue(e.message));

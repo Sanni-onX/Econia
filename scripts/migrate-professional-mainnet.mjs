@@ -480,10 +480,13 @@ try {
   tx = await mainnet.viewTransactionStatus({
     txHash: journal.hash,
     accountId: wallet.accountId,
-    waitUntil: "FINAL",
+    waitUntil: "NONE",
   });
 } catch (e) {
-  if (!/does not exist|UNKNOWN_TRANSACTION|not found/i.test(e.message))
+  if (
+    !/does(?: not|n't) exist|UNKNOWN_TRANSACTION|not found/i.test(e.message) &&
+    !/UnknownTransaction/i.test(e.name)
+  )
     throw Error(
       "Cannot reconcile prepared hash; no replacement will be signed",
     );
@@ -493,6 +496,12 @@ if (!tx)
     SignedTransaction.decode(Buffer.from(journal.signedBase64, "base64")),
     "FINAL",
   );
+else if (tx.final_execution_status !== "FINAL")
+  tx = await mainnet.viewTransactionStatus({
+    txHash: journal.hash,
+    accountId: wallet.accountId,
+    waitUntil: "FINAL",
+  });
 journal.state = "CONFIRMED";
 save(journalPath, journal);
 success(tx);

@@ -71,7 +71,7 @@ export function ProfessionalWorkCard({
       );
       onNotice(
         action === "funding"
-          ? "Testnet escrow confirmed; work is queued."
+          ? "NEAR escrow confirmed; work is queued."
           : "Delivery accepted and NEAR settlement confirmed.",
       );
       onChanged();
@@ -247,14 +247,21 @@ export function ProfessionalWorkCard({
         </ul>
       )}
       {p.state === "PROPOSED" && !p.buyer_agent && world.settlementReady && (
-        <button disabled={busy} onClick={() => walletAction("funding")}>
-          Review scope & funding
-        </button>
+        <>
+          <p className="pro-small">
+            Wallet funding adds a 0.1 {currency} storage buffer to the service
+            price, plus network gas. Unused excess is credited to your contract
+            refunds and can be withdrawn from the wallet panel.
+          </p>
+          <button disabled={busy} onClick={() => walletAction("funding")}>
+            Review scope & funding
+          </button>
+        </>
       )}
       {!world.settlementReady && (
         <p className="pro-small">
-          Testnet funding is unavailable until contract and worker permissions
-          are verified.
+          Funding is unavailable until contract and worker permissions are
+          verified.
         </p>
       )}
       {work?.issues?.length > 0 && (

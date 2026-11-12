@@ -58,7 +58,7 @@ export function ProfessionalOwnerTools({
       });
       onNotice(
         kind === "capital"
-          ? "Testnet working capital confirmed."
+          ? "NEAR working capital confirmed."
           : kind === "budget"
             ? "Operating authority confirmed on NEAR."
             : "NFT transfer confirmed; prior owner authority is revoked.",
@@ -100,7 +100,7 @@ export function ProfessionalOwnerTools({
               }}
             >
               <label>
-                Testnet NEAR amount
+                {currency} amount
                 <input
                   inputMode="decimal"
                   required

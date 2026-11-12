@@ -1,0 +1,378 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T15:40:06.941Z",
+  "network": "testnet",
+  "contract": "econia-upgrade-370b5bb0.testnet",
+  "migrationSha256": "10726ebc94ec16b58e4713afb5731e01d3a732b183a5cd2d67cc78e44e7e58cb",
+  "releaseSha256": "2b96b027cb8fa4fb6308c58f5b556deda4dcd9d241053dad5a290d106223d29a",
+  "migrationBytes": 307572,
+  "releaseBytes": 291782,
+  "profilesSha256": "95df724f12ca479d5ecb5e10daefc51a6c94c8409759a44102b59923e5ff44b6",
+  "mainnetBalanceMatched": true,
+  "originalNftsPreserved": 64,
+  "totalNfts": 87,
+  "professionalCount": 24,
+  "storageBytes": 346880,
+  "endingBalanceYocto": "3836048876783815100000000",
+  "upgradeTransaction": {
+    "label": "atomic-professional-migration",
+    "hash": "DimojE53VzYb8qB9jYHWynkH5FD9LcD5bJPMvxnV6ogK",
+    "feesYocto": "20652495275250600000000",
+    "success": true
+  },
+  "allTransactions": [
+    {
+      "label": "install-previous-release",
+      "hash": "ERgZynrobtZsTYavBH8cn7NUWYkaLXMfdwDQY754Dv6Z",
+      "feesYocto": "2326507484996400000000"
+    },
+    {
+      "label": "legacy-mint:person_101",
+      "hash": "7kVKEjy9pbw8D9JpuPaiEX3oE3GC4V5CHebs487zdj9X",
+      "feesYocto": "351270046396800000000"
+    },
+    {
+      "label": "legacy-mint:person_102",
+      "hash": "4gDNWWfEd8aJi9pmpiy9vXwQwbnvnX9Kw3xd4KXqJrKq",
+      "feesYocto": "394310533236800000000"
+    },
+    {
+      "label": "legacy-mint:person_103",
+      "hash": "8ScHdswCqVzCPkQuLyvjkwQffVLM4RWXjMVy4RzrMqJx",
+      "feesYocto": "487121161972600000000"
+    },
+    {
+      "label": "legacy-mint:person_104",
+      "hash": "3CwtMQcnUPthVTXbUfFBFPR4T3k9svviVP9Zbt86WiB1",
+      "feesYocto": "447559015270400000000"
+    },
+    {
+      "label": "legacy-mint:person_105",
+      "hash": "EGioc5FFVzm2wBEtgopDV5jLH8E2g8zqdxJ5h8BhWEcp",
+      "feesYocto": "538598145982300000000"
+    },
+    {
+      "label": "legacy-mint:person_106",
+      "hash": "8EiwauNwFJmVB4egkRR2QjjkP4LNp5dTPipGFBt6tpW8",
+      "feesYocto": "575678744377200000000"
+    },
+    {
+      "label": "legacy-mint:person_107",
+      "hash": "6SW6AcTeyHbJdsCGvCd75qcVsnHWU9pBUGpQNfJVjweh",
+      "feesYocto": "538751480308600000000"
+    },
+    {
+      "label": "legacy-mint:person_108",
+      "hash": "6mANuPRjnEmGDPSFhqxdwycWYTgqyaCRejNJDSE5dNpr",
+      "feesYocto": "499149363557700000000"
+    },
+    {
+      "label": "legacy-mint:person_109",
+      "hash": "2MgFa8NxaJJoffFSqgUTKinucQBBMjMfS9V9uYmQBcrv",
+      "feesYocto": "590228464318300000000"
+    },
+    {
+      "label": "legacy-mint:person_110",
+      "hash": "6D2s2o7ce55gcweLGTH4dnuznTkjursiHkvMgQNekWta",
+      "feesYocto": "626352418848200000000"
+    },
+    {
+      "label": "legacy-mint:person_111",
+      "hash": "9Rnks7JBrK1U3bdgKwMgLEqDGknF1PUm9iYpi2Rgn3Np",
+      "feesYocto": "591231630076800000000"
+    },
+    {
+      "label": "legacy-mint:person_112",
+      "hash": "3NWZEEKnTf6V3TLyMqmLLHsuRsUyb19Et7nZFFWfRy5D",
+      "feesYocto": "629478699797000000000"
+    },
+    {
+      "label": "legacy-mint:person_113",
+      "hash": "HPTdsVWqT6wfpqKKxGnebnkgD6BSakiDAGNgbzb3rEs1",
+      "feesYocto": "592048844191900000000"
+    },
+    {
+      "label": "legacy-mint:person_114",
+      "hash": "52jaTCMAasJwJfqRDqNZB4jZgkcoJHWeAi51fEDiwLvc",
+      "feesYocto": "629099279227400000000"
+    },
+    {
+      "label": "legacy-mint:person_115",
+      "hash": "96pvhHdHK42Nxeyq73UnmrC66s9JiW4Shbf9perNm6yR",
+      "feesYocto": "592150870329600000000"
+    },
+    {
+      "label": "legacy-mint:person_116",
+      "hash": "thwspgaGPS3Qd6dZwHdfjms9UeqgS7yLHsHiMbp44D2",
+      "feesYocto": "552572762161000000000"
+    },
+    {
+      "label": "legacy-mint:person_117",
+      "hash": "G6mxCDE9pXftAoaHyk87nEuMfRLN561UNvDsmCZX5kJ2",
+      "feesYocto": "643197508433600000000"
+    },
+    {
+      "label": "legacy-mint:person_118",
+      "hash": "4CnnTv9oUmsYCMAofmvUkPSMvGT4DBNsrJ5aQXG2GuAu",
+      "feesYocto": "681791302978000000000"
+    },
+    {
+      "label": "legacy-mint:person_119",
+      "hash": "C53FJuMBEti3yVdMy13nsLAqaUZAF5Jfd8kfnYB6eUQm",
+      "feesYocto": "645123534571300000000"
+    },
+    {
+      "label": "legacy-mint:person_120",
+      "hash": "9uB85cPu2ZgK3V6vxxpoMdvjz912ZQuTQbyhGrYZxfTM",
+      "feesYocto": "680589517262700000000"
+    },
+    {
+      "label": "legacy-mint:person_121",
+      "hash": "3Qdjz7FXpc8rY4FtPUvNH3Agf9yFpVtxevpcZynv2Nug",
+      "feesYocto": "644072993960100000000"
+    },
+    {
+      "label": "legacy-mint:person_122",
+      "hash": "7TXyzpQJQZYjwusAxFEHXU17UKtMr1CrwfjycJ7wda1t",
+      "feesYocto": "682040580572600000000"
+    },
+    {
+      "label": "legacy-mint:person_123",
+      "hash": "Deri7swXdGUmxp3p1H8FLfLVJ5qJ8eJizMJjCq8n8Nk5",
+      "feesYocto": "645145568539200000000"
+    },
+    {
+      "label": "legacy-mint:person_124",
+      "hash": "4VFzXxbGVKkQukaYfcEQCNgHn4tFAw6EH9HcSbaVMQwF",
+      "feesYocto": "682455806921100000000"
+    },
+    {
+      "label": "legacy-mint:person_125",
+      "hash": "EVPERgXianpY9nAkME5pHmwqoZZDd29XjJFSECaKULuX",
+      "feesYocto": "645021508433600000000"
+    },
+    {
+      "label": "legacy-mint:person_126",
+      "hash": "4bNTwNf1h7tNAnR1g9k3eLMYw9jDEaQc963CBimUvXZz",
+      "feesYocto": "682044957072300000000"
+    },
+    {
+      "label": "legacy-mint:person_127",
+      "hash": "Ez83haW7M2SzSuVeC9A9txbr7XECsPQnAHFHDwqG61Em",
+      "feesYocto": "645123534571300000000"
+    },
+    {
+      "label": "legacy-mint:person_128",
+      "hash": "4Vc3XgKCpWzaDuZTTGpgWH4PDxjqweRyvgCEjXUtGU7S",
+      "feesYocto": "682427997768300000000"
+    },
+    {
+      "label": "legacy-mint:person_129",
+      "hash": "Frza8PBRUo51rCuHKZyzHgn9ZAqXxe9gor8HZgY8CctR",
+      "feesYocto": "645021508433600000000"
+    },
+    {
+      "label": "legacy-mint:person_130",
+      "hash": "DThdjmvVPnZAGx48X3YWnfaCGzpXyX6HFEh9EL2gR1Mt",
+      "feesYocto": "680206476566700000000"
+    },
+    {
+      "label": "legacy-mint:person_131",
+      "hash": "FLZcVmgUsJPpgTv8jfPY8cFPVbYuAgHYj2K7D9MxSP3k",
+      "feesYocto": "644200674192100000000"
+    },
+    {
+      "label": "legacy-mint:person_132",
+      "hash": "8Cq6kxgqJSdtwLTxgibfYQcuCrge9dwTK4VzodFBLrTj",
+      "feesYocto": "605511199753100000000"
+    },
+    {
+      "label": "legacy-mint:person_133",
+      "hash": "GJNSvzvbrpUpVLnfvdoztScat51PwRwy5QPPL7xSPidd",
+      "feesYocto": "696390932422500000000"
+    },
+    {
+      "label": "legacy-mint:person_134",
+      "hash": "DN15Vyp42FeQaiSHWB17utRpu2CQu6UVfE821dGUQFLy",
+      "feesYocto": "733602411012500000000"
+    },
+    {
+      "label": "legacy-mint:person_135",
+      "hash": "Ff7EaCq2cE6dzV51xra52x71YbNzPUAgqq2BvHpZ9QF5",
+      "feesYocto": "696948958560200000000"
+    },
+    {
+      "label": "legacy-mint:person_136",
+      "hash": "9qiZahoq6n9JdK6M9XzNyodUtyz8B7EDW8kheabYsZBi",
+      "feesYocto": "734239105802800000000"
+    },
+    {
+      "label": "legacy-mint:person_137",
+      "hash": "2uBkuWT8g8yDF8xcW6LcJiXhQUatPp6fd4iiMkRbqVZp",
+      "feesYocto": "696824898454600000000"
+    },
+    {
+      "label": "legacy-mint:person_138",
+      "hash": "3GqjS3R741FhRybGa9Tz3BkT5patserXrr4KHPuxysAc",
+      "feesYocto": "733862548986300000000"
+    },
+    {
+      "label": "legacy-mint:person_139",
+      "hash": "6d3nnzgfsvE2rbofq6CJL8WodRvLSVALfquK4oAQnFoZ",
+      "feesYocto": "696978232780900000000"
+    },
+    {
+      "label": "legacy-mint:person_140",
+      "hash": "3Pj4JdRq7zHU1CWYHyDftvtdcnnxACrZMNuDzQ5EaWNP",
+      "feesYocto": "732449990657200000000"
+    },
+    {
+      "label": "legacy-mint:person_141",
+      "hash": "C1tGQpL92eDhYFtdYXczS3LYoWdyAJPEwgGwVDQc7ubj",
+      "feesYocto": "695927692169700000000"
+    },
+    {
+      "label": "legacy-mint:person_142",
+      "hash": "755cTLoeQMDpfH9VmJgbwMTktPwecmV9EF5ctUAN53zS",
+      "feesYocto": "733852444980400000000"
+    },
+    {
+      "label": "legacy-mint:person_143",
+      "hash": "AiyDyTzSWTmD18MN6vQt3R1ug23uCKJxPCSmdPm3wCK5",
+      "feesYocto": "696948958560200000000"
+    },
+    {
+      "label": "legacy-mint:person_144",
+      "hash": "FHuZMevEFrJadc5wknzd73GHpNxx9qTZk7sHTSm72BT8",
+      "feesYocto": "734239105802800000000"
+    },
+    {
+      "label": "legacy-mint:person_145",
+      "hash": "4Wz3SMKaYqZRH2fCtsd7zB2noimsQP4vSCDTHXBLerYu",
+      "feesYocto": "696850552548900000000"
+    },
+    {
+      "label": "legacy-mint:person_146",
+      "hash": "3YJupUWSKCHKwy3HowzrvxpPgMBpXYpef7Yy5bLCCw1X",
+      "feesYocto": "733859685233200000000"
+    },
+    {
+      "label": "legacy-mint:person_147",
+      "hash": "i82guKF6trDM5uqQrUzsbDcWVQVjBMyLfnLjyVG9RhA",
+      "feesYocto": "696952578686600000000"
+    },
+    {
+      "label": "legacy-mint:person_148",
+      "hash": "EDq1pQDmiWyK2NUYLNf8xFvsUqpZfX2vm4aJSThwSuFz",
+      "feesYocto": "734274155208400000000"
+    },
+    {
+      "label": "legacy-mint:person_149",
+      "hash": "FFpnUqCDEetQUr5yQyiXuipiwK8sN4aSnLnQYNQwQnm1",
+      "feesYocto": "696398172675300000000"
+    },
+    {
+      "label": "legacy-mint:person_150",
+      "hash": "Hj1Zgxy9gFYvLdVbXk4FSYFCisd9XWWvJugmk57BKpsN",
+      "feesYocto": "731767550633300000000"
+    },
+    {
+      "label": "legacy-mint:person_151",
+      "hash": "DfeCMMiDHDRKm1gGed275VtxrQMa6BwgA5wpWdQgiT9w",
+      "feesYocto": "696029718307400000000"
+    },
+    {
+      "label": "legacy-mint:person_152",
+      "hash": "6cWwjGuhnYx7hgGwu2BPdxGmpXRnicKyGFeFKQybvQuB",
+      "feesYocto": "734235485676400000000"
+    },
+    {
+      "label": "legacy-mint:person_153",
+      "hash": "Aar7X5JgtwrnVWnknUnL2423186cGpf7XYfrEBjxfKke",
+      "feesYocto": "696821278328200000000"
+    },
+    {
+      "label": "legacy-mint:person_154",
+      "hash": "6SjWP9Wv4odo2Wg5sM1dfy4XnTL18NNwV4oGehRDouRF",
+      "feesYocto": "733858928859900000000"
+    },
+    {
+      "label": "legacy-mint:person_155",
+      "hash": "7oBmzJ7nbeyHyKGba8VcUaM6XspxfFXZ1MVEeMCdbx89",
+      "feesYocto": "696974612654500000000"
+    },
+    {
+      "label": "legacy-mint:person_156",
+      "hash": "6XMJucC6txzNa7uN47DRxbnjzzqCZnpjmaFabKPpSrLx",
+      "feesYocto": "734284851036400000000"
+    },
+    {
+      "label": "legacy-mint:person_157",
+      "hash": "cuvTXfdwrPEjDLfTJ1V9E7iEpTQvVxRKmrVZC7dkiPu",
+      "feesYocto": "696850552548900000000"
+    },
+    {
+      "label": "legacy-mint:person_158",
+      "hash": "H4rySfyefqeapXq2pKrDEmj5o2HRva5JSdCHqeqYoRY4",
+      "feesYocto": "733859685233200000000"
+    },
+    {
+      "label": "legacy-mint:person_159",
+      "hash": "5sAwzfLExo54pSqq8ZZ4EyFCbpgsUVixhugxaupv7P9k",
+      "feesYocto": "696952578686600000000"
+    },
+    {
+      "label": "legacy-mint:person_160",
+      "hash": "CWJdgmZVk3GHZRV8m1VHKw5umaL9N3UqXJuc1x1ACeZo",
+      "feesYocto": "732404245423600000000"
+    },
+    {
+      "label": "legacy-mint:person_161",
+      "hash": "9jgnoKcpW1KTMCfHFWMG3Fabf1CudyT5CYEeXcaMkZcX",
+      "feesYocto": "695927692169700000000"
+    },
+    {
+      "label": "legacy-mint:person_162",
+      "hash": "AXvUdk4LTANN7H5yKf8SX7PjvCgWob58tBDPHUX6oRbL",
+      "feesYocto": "733852444980400000000"
+    },
+    {
+      "label": "legacy-mint:person_163",
+      "hash": "2tPJ2a5CN2o4NzdZqfVqrcaSSvEND8NwpunPmmuEUgHJ",
+      "feesYocto": "696948958560200000000"
+    },
+    {
+      "label": "legacy-mint:person_199",
+      "hash": "9SEFKYFWHp9Ef8K3BVqNq8MWR7vctq185v3WsuerSSDA",
+      "feesYocto": "655494687661200000000"
+    },
+    {
+      "label": "pause-legacy",
+      "hash": "Ddttxehph8yP2NirMRqW8op96FK3BWabvy7k9SQJE6xW",
+      "feesYocto": "175450305224000000000"
+    },
+    {
+      "label": "match-mainnet-balance",
+      "hash": "HT6mK7CC4yTyGYKEzxSQuUkdm5dknMfBtyL1qZgtpBSg",
+      "feesYocto": "44636512500000000000"
+    },
+    {
+      "label": "atomic-professional-migration",
+      "hash": "BUkHyxBZDX71dshW6jQwUZJYZjtwLAVYV6PbQpQuAaqU",
+      "feesYocto": "21450145266393400000000"
+    },
+    {
+      "label": "restore-matched-testnet-balance",
+      "hash": "2cuBHcRbCqrryuKQDaucVFmFfKyGDpeFDMschG98kocb",
+      "feesYocto": "44636512500000000000"
+    },
+    {
+      "label": "atomic-professional-migration",
+      "hash": "DimojE53VzYb8qB9jYHWynkH5FD9LcD5bJPMvxnV6ogK",
+      "feesYocto": "20652495275250600000000",
+      "success": true
+    }
+  ],
+  "startingCapital": "0",
+  "fullKeysUploaded": false
+}
