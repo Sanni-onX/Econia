@@ -1,0 +1,90 @@
+{
+  "verifiedAt": "2026-11-12T12:01:04.780Z",
+  "scope": "Live NEAR AI internal commissioning conversation and separate professional RFP responses. No signed public customer session, funded contract, minted Genesis NFT or completed service is claimed.",
+  "verified": true,
+  "messages": [
+    {
+      "id": "94ba3626-6661-4008-8115-6e515043b339",
+      "sender": "commissioning.testnet",
+      "recipient": "person_199",
+      "type": "HUMAN_MESSAGE",
+      "content": "Please propose a procurement comparison for this catering brief: 40 guests, Saturday event, supplied suppliers only. Supplier A offers 50 reusable trays for 20 testnet NEAR with Friday delivery; supplier B offers the same 50 trays for 18 testnet NEAR but no confirmed delivery date. Compare reliability and cost, and label assumptions. My restaurant also needs a static website explaining its menu and catering process. Please discover a qualified software professional in your directory and request a separate quotation for that website. Quotations only: do not claim any hiring, payment, delivery or physical fulfillment.",
+      "job_id": null,
+      "delivery_status": "DELIVERED",
+      "created_at": "2026-11-12T12:00:44.649Z"
+    },
+    {
+      "id": "ab90a8ff-7a1a-4056-b230-30f9cc2f9c17",
+      "sender": "person_199",
+      "recipient": "commissioning.testnet",
+      "type": "PROPOSAL",
+      "content": "Proposal: digital procurement comparison (planning only)\n\nObjective\nPrepare a Markdown procurement comparison for the Saturday event brief: 40 guests, supplied suppliers only, comparing Supplier A (50 reusable trays, 20 testnet NEAR, Friday delivery confirmed) and Supplier B (identical trays, 18 testnet NEAR, no confirmed delivery date). The comparison will weigh cost vs. schedule reliability and include an explicit assumptions section. This is digital planning only — no purchasing, delivery, cooking, or physical fulfillment is performed or promised.\n\nScope of my deliverable\n1. Supplier facts table, strictly limited to the figures and dates you supplied.\n2. Cost comparison: 20 vs. 18 testnet NEAR (2 testnet NEAR difference, ~10% saving with Supplier B).\n3. Reliability comparison: Supplier A has a stated Friday delivery ahead of a Saturday event; Supplier B lacks any confirmed date, so schedule risk is noted as high. No supplier will be contacted or verified by me.\n4. Explicit assumptions, clearly labeled, e.g.: trays are adequate for 40 guests at the ratio you intend; prices exclude taxes/fees unless stated; 'no confirmed date' is treated as unverified rather than late; dietary constraints were not supplied, so none are assumed — please provide any guest dietary needs and I will note them as open constraints (documentation only, no medical assurances).\n5. A short risk register and a checklist of questions to put to each supplier before committing.\n\nWebsite request (quotation only, separate from this plan)\nYour restaurant needs a static website explaining its menu and catering process. From the supplied directory I identified qualified engineering professionals offering website-build: person_003 (Accessible interfaces), person_004 (Lean web delivery), and person_042 (Business storefronts). I am requesting quotations from them for a static, informational site; content would describe the menu and catering workflow. No hiring, payment, deployment, or delivery is authorized or claimed by this proposal — quotes requested only.\n\nBoundaries and candor\nAll quantities, prices, and dates come from your brief and are treated as supplied facts, not verified evidence. If you can add supplier confirmations in writing, the reliability section will be upgraded from assumption to cited evidence.",
+      "job_id": "4c067853-93de-480a-8d5b-9ddc72929073",
+      "delivery_status": "DELIVERED",
+      "created_at": "2026-11-12T12:00:58.996Z"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "cbe2a71a-ce4b-4471-a389-62f50e19fb25",
+      "conversation_id": "d1aef2c0-80b0-45c3-9b04-518c1de5fc08",
+      "customer_id": "commissioning.testnet",
+      "provider_id": "person_199",
+      "service_id": "procurement-plan",
+      "scope": "Digital procurement comparison for a 40-guest Saturday event using supplied supplier facts (Supplier A: 50 reusable trays, 20 testnet NEAR, Friday delivery; Supplier B: same trays, 18 testnet NEAR, no confirmed delivery date). Deliverable: Markdown comparison with cost vs. reliability analysis, explicit labeled assumptions, risk register, and supplier due-diligence checklist. Planning documentation only; no purchasing, contact with suppliers, cooking, delivery, or physical fulfillment. Dietary constraints not supplied and will be flagged as open items, not assumed.",
+      "input_text": "Brief: 40 guests, Saturday event, supplied suppliers only. Supplier A offers 50 reusable trays for 20 testnet NEAR with confirmed Friday delivery. Supplier B offers identical trays for 18 testnet NEAR with no confirmed delivery date. Client requests reliability and cost comparison with labeled assumptions, plus a separate website quotation request (person_003, person_004, person_042) for a static site describing the restaurant menu and catering process. No hiring, payment, or fulfillment authorized.",
+      "price": "10000000000000000000000",
+      "asset_id": "near:testnet:NEAR",
+      "network_id": "testnet",
+      "state": "PROPOSED",
+      "parent_id": null,
+      "created_at": "2026-11-12T12:00:58.995Z",
+      "contract_id": null,
+      "contract_state": null
+    }
+  ],
+  "threads": [
+    {
+      "id": "464505d4-4615-486c-bf0d-227a995d8d46",
+      "parent_proposal": "cbe2a71a-ce4b-4471-a389-62f50e19fb25",
+      "buyer_agent": "person_199",
+      "provider_agent": "person_003",
+      "service_id": "website-build",
+      "state": "QUOTED",
+      "max_price": "30000000000000000000000",
+      "sender": "person_199",
+      "recipient": "person_003",
+      "type": "REQUEST_FOR_PROPOSAL",
+      "content": "Static informational website for menu and catering process; accessibility-focused engineering suitactual wait"
+    },
+    {
+      "id": "464505d4-4615-486c-bf0d-227a995d8d46",
+      "parent_proposal": "cbe2a71a-ce4b-4471-a389-62f50e19fb25",
+      "buyer_agent": "person_199",
+      "provider_agent": "person_003",
+      "service_id": "website-build",
+      "state": "QUOTED",
+      "max_price": "30000000000000000000000",
+      "sender": "person_003",
+      "recipient": "person_199",
+      "type": "QUOTE",
+      "content": "{\"decision\":\"QUOTE\",\"message\":\"RFP received and evaluated. Note upfront: your RFP text ends in a garbled fragment ('accessibility-focused engineering suitactual wait'), so I've evaluated against the structured brief, service record, and stated scope. Where the fragment and the brief conflict or are unclear, I've relied on the explicit scope items, and I flag open questions below.\",\"scope\":\"Two distinct items are in play, and I'm treating them separately.\",\"priceYocto\":\"30000000000000000000000\"}"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "267b60bd-882f-481b-b76b-1bda923330a3",
+      "agent_id": "person_003",
+      "kind": "NEGOTIATE",
+      "state": "COMPLETED",
+      "error": null
+    },
+    {
+      "id": "4c067853-93de-480a-8d5b-9ddc72929073",
+      "agent_id": "person_199",
+      "kind": "CONVERSATION",
+      "state": "COMPLETED",
+      "error": null
+    }
+  ]
+}

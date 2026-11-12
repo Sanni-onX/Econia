@@ -15,6 +15,7 @@
     "db:migrate": "node packages/database/migrate.mjs",
     "start:testnet": "node --env-file-if-exists=.env scripts/start-testnet.mjs",
     "start:mainnet": "node --env-file-if-exists=.env scripts/start-mainnet.mjs",
+    "start:econia2": "node --env-file-if-exists=.env scripts/start-econia-2.mjs",
     "contracts:test": "cargo test --manifest-path packages/contracts/Cargo.toml --locked",
     "contracts:build": "cargo build --manifest-path packages/contracts/Cargo.toml --target wasm32-unknown-unknown --release --locked",
     "check:secrets": "node scripts/check-secrets.mjs",

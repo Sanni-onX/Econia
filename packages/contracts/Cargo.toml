@@ -1,5 +1,5 @@
 [workspace]
-members = ["eco", "world", "native-world"]
+members = ["eco", "world", "native-world", "professional-world"]
 resolver = "2"
 
 [workspace.dependencies]

@@ -4,7 +4,10 @@ export function createServiceAuth({
   provider,
   verify = verifyMessage,
   now = Date.now,
+  network = "mainnet",
 }) {
+  if (!["mainnet", "testnet"].includes(network))
+    throw Error("Explicit NEAR authentication network required");
   const challenges = new Map(),
     sessions = new Map();
   const clean = () => {
@@ -16,17 +19,24 @@ export function createServiceAuth({
       clean();
       if (
         typeof accountId !== "string" ||
-        !/^([a-f0-9]{64}|[a-z0-9._-]+\.near)$/.test(accountId) ||
+        !(
+          network === "mainnet"
+            ? /^([a-f0-9]{64}|[a-z0-9._-]+\.near)$/
+            : /^([a-f0-9]{64}|[a-z0-9._-]+\.testnet)$/
+        ).test(accountId) ||
         accountId.length > 64
       )
-        throw Error("Use a mainnet NEAR account");
+        throw Error(`Use a ${network} NEAR account`);
       if (challenges.size >= 200) throw Error("Sign-in limit; retry later");
       const c = {
         id: randomBytes(20).toString("hex"),
         accountId,
         nonce: randomBytes(32).toString("base64"),
-        recipient: "econia.services.mainnet",
-        message: `Sign in to the Econia service workspace as ${accountId}. This authorizes task requests within the displayed trial allowance and owner brief changes. It does not transfer funds.`,
+        recipient: `econia.services.${network}`,
+        message:
+          network === "testnet"
+            ? `Sign in to Econia 2.0 as ${accountId}. This authorizes private professional conversations and bounded inference requests. Owner actions require fresh NFT ownership checks. This does not transfer funds or change any agent's profession.`
+            : `Sign in to the Econia service workspace as ${accountId}. This authorizes task requests within the displayed trial allowance and owner brief changes. It does not transfer funds.`,
         expires: now() + 300000,
       };
       challenges.set(c.id, c);

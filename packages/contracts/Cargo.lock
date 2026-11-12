@@ -499,6 +499,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "econia-professional-world"
+version = "0.2.0"
+dependencies = [
+ "near-contract-standards",
+ "near-sdk",
+]
+
+[[package]]
 name = "econia-world"
 version = "0.1.0"
 dependencies = [

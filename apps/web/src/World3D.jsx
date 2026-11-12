@@ -41,6 +41,7 @@ export default function World3D(props) {
       (e) =>
         e.type === "PERSON" &&
         (e.id === "person_199" ||
+          (props.immersive && e.id === "person_042") ||
           e.id === selected ||
           parseInt(e.id.split("_")[1]) % 10 === 0),
     )
@@ -73,14 +74,20 @@ export default function World3D(props) {
           >
             <i />
             <span>
-              {d.label}
-              <small>{d.subtitle}</small>
+              {props.districtLabels?.[d.id]?.label || d.label}
+              <small>
+                {props.districtLabels?.[d.id]?.subtitle || d.subtitle}
+              </small>
             </span>
             <b>↗</b>
           </button>
         ))}
         {w.entities
-          .filter((e) => e.type === "BUSINESS")
+          .filter(
+            (e) =>
+              e.type === "BUSINESS" &&
+              (!props.immersive || e.agentId === selected),
+          )
           .map((e) => (
             <button
               key={e.id}

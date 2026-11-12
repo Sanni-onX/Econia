@@ -1243,7 +1243,7 @@ export function createWorldScene(host, callbacks) {
   function animate(now) {
     if (disposed) return;
     frame = requestAnimationFrame(animate);
-    if (now - lastFrame < 32) return;
+    if (now - lastFrame < (props?.immersive ? 16 : 32)) return;
     const dt = Math.min(0.05, (now - lastFrame) / 1000);
     lastFrame = now;
     if (!props?.active || document.hidden) return;
