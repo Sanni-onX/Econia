@@ -1,0 +1,97 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T12:27:31.868Z",
+  "scope": "A real NEP-413-authenticated testnet client with no NFTs commissioned a professional website, funded exact escrow, received a checked downloadable HTML artifact and accepted actual testnet settlement. API credentials and signing keys remain private.",
+  "client": "client.econia2-575e686f5c.testnet",
+  "nftCount": "0",
+  "provider": "person_042",
+  "proposal": {
+    "id": "3ce8ade7-1594-4109-be5e-f801ef35c3c0",
+    "conversation_id": "8638f455-2237-4b12-a4ed-1146484d3d2e",
+    "customer_id": "client.econia2-575e686f5c.testnet",
+    "provider_id": "person_042",
+    "service_id": "website-build",
+    "scope": "Single self-contained static HTML/CSS page for Hearth & Grain, a neighborhood catering business. Three sections only — About (seasonal catering for neighborhood gatherings), Catering Services (menu planning and procurement comparisons), How It Works (customers first share guest count, event date and dietary constraints) — using exclusively the client-supplied copy. Restrained muted terracotta brand accent on neutral background, semantic headings, accessible contrast, responsive CSS-only layout. Explicit exclusions honored: no invented email, order form, or address; no scripts, remote assets, payments, checkout, or fulfillment claims. Deliverable: HTML and CSS files previewable locally; no hosting, domains, photography, collaborators, or future updates included.",
+    "input_text": "Business: Hearth & Grain, neighborhood catering. Supplied copy: Seasonal catering for neighborhood gatherings; menu planning and procurement comparisons; customers first share their guest count, event date and dietary constraints. Requirements: three sections (About, Catering Services, How It Works); restrained brand accent; no published email, order form or address exists, so none may be invented; static HTML/CSS only with no scripts, remote assets, payments, checkout, or claims of physical fulfillment. No collaborator needed; do not request quotations or hire anyone.",
+    "price": "30000000000000000000000",
+    "asset_id": "near:testnet:NEAR",
+    "network_id": "testnet",
+    "state": "PROPOSED",
+    "parent_id": null,
+    "created_at": "2026-11-12T12:26:49.961Z",
+    "contract_id": null,
+    "contract_state": null
+  },
+  "contract": {
+    "id": "fa2d6d8c-eaea-41a3-94b1-fb62abf32a27",
+    "proposal_id": "3ce8ade7-1594-4109-be5e-f801ef35c3c0",
+    "state": "SETTLED",
+    "funding_tx": "9HGogWEDNaxmieQFAad65ihA3KUqFKqRBWDBBD4jqhKh",
+    "chain_job_id": "0",
+    "delivery_hash": "6c7c984737fec70a63380d5d47ad33bc216fbe71a9d1873e3ea58d75af9fdc8d",
+    "settlement_tx": "HrGAVcfMY7HN1VpRW9KTGfTvZNeLP4NLGD6YmKVpkzhw",
+    "created_at": "2026-11-12T12:26:53.746Z",
+    "customer_id": "client.econia2-575e686f5c.testnet",
+    "provider_id": "person_042",
+    "service_id": "website-build",
+    "scope": "Single self-contained static HTML/CSS page for Hearth & Grain, a neighborhood catering business. Three sections only — About (seasonal catering for neighborhood gatherings), Catering Services (menu planning and procurement comparisons), How It Works (customers first share guest count, event date and dietary constraints) — using exclusively the client-supplied copy. Restrained muted terracotta brand accent on neutral background, semantic headings, accessible contrast, responsive CSS-only layout. Explicit exclusions honored: no invented email, order form, or address; no scripts, remote assets, payments, checkout, or fulfillment claims. Deliverable: HTML and CSS files previewable locally; no hosting, domains, photography, collaborators, or future updates included.",
+    "input_text": "Business: Hearth & Grain, neighborhood catering. Supplied copy: Seasonal catering for neighborhood gatherings; menu planning and procurement comparisons; customers first share their guest count, event date and dietary constraints. Requirements: three sections (About, Catering Services, How It Works); restrained brand accent; no published email, order form or address exists, so none may be invented; static HTML/CSS only with no scripts, remote assets, payments, checkout, or claims of physical fulfillment. No collaborator needed; do not request quotations or hire anyone.",
+    "price": "30000000000000000000000"
+  },
+  "transactions": [
+    {
+      "method": "post_service_job",
+      "hash": "9HGogWEDNaxmieQFAad65ihA3KUqFKqRBWDBBD4jqhKh"
+    },
+    {
+      "method": "accept_service_job",
+      "hash": "HrGAVcfMY7HN1VpRW9KTGfTvZNeLP4NLGD6YmKVpkzhw"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "20cf9634-71d4-4ebf-93d2-40bb2932cbd8",
+      "agent_id": "person_042",
+      "filename": "index.html",
+      "content_type": "text/html",
+      "sha256": "8f6d7e851d62ed9f63de6a91e713e0680414c724890661b2ec1de73fafe17521",
+      "version": 1,
+      "verified": 1,
+      "created_at": "2026-11-12T12:27:22.869Z"
+    }
+  ],
+  "onchainJob": {
+    "proposal_id": "3ce8ade7-1594-4109-be5e-f801ef35c3c0",
+    "customer": "client.econia2-575e686f5c.testnet",
+    "buyer_agent": null,
+    "scope_hash": "d754e3b83c8866c5bdc86a41abb37994fe8d98809a0ab8b235642aa29b12ffe2",
+    "allocations": [
+      {
+        "agent_id": "person_042",
+        "service_id": "website-build",
+        "amount": "30000000000000000000000",
+        "parent_index": null,
+        "evidence": "6c7c984737fec70a63380d5d47ad33bc216fbe71a9d1873e3ea58d75af9fdc8d"
+      }
+    ],
+    "total": "30000000000000000000000",
+    "deadline": 1794572809979000000,
+    "state": "SETTLED"
+  },
+  "ledger": [
+    {
+      "id": "d7df35b6-4350-47ea-ba4c-9a4ef41b0e2e",
+      "receipt_hash": "9HGogWEDNaxmieQFAad65ihA3KUqFKqRBWDBBD4jqhKh",
+      "debit": "wallet:client.econia2-575e686f5c.testnet",
+      "credit": "escrow:fa2d6d8c-eaea-41a3-94b1-fb62abf32a27",
+      "amount": "30000000000000000000000"
+    },
+    {
+      "id": "1fd26813-6f20-462d-b7b7-99f0ae0bd7b2",
+      "receipt_hash": "HrGAVcfMY7HN1VpRW9KTGfTvZNeLP4NLGD6YmKVpkzhw",
+      "debit": "escrow:fa2d6d8c-eaea-41a3-94b1-fb62abf32a27",
+      "credit": "agent:person_042",
+      "amount": "30000000000000000000000"
+    }
+  ]
+}

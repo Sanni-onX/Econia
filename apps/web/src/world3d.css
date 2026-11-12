@@ -158,7 +158,7 @@
   width: 27px;
   height: 27px;
 }
-.world-resident-marker > span {
+.world-resident-marker > span:not(.pro-avatar) {
   position: absolute;
   left: 50%;
   top: calc(100% + 4px);

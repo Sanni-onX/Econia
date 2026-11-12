@@ -1,0 +1,115 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>Hearth &amp; Grain — Static One-Page Website (Delivered)</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#faf7ef;color:#243b32;font:18px/1.7 system-ui}header,main,footer{max-width:1080px;margin:auto;padding:48px 28px}header{padding-top:96px}h1{font:clamp(40px,8vw,88px)/1.1 Georgia}h2{font:32px Georgia}a{color:#B4674F}.cta{display:inline-block;border:2px solid #B4674F;padding:12px 24px;border-radius:30px}section{padding:32px 0;border-top:1px solid #ddd}p{max-width:70ch;white-space:pre-wrap}footer{font-size:14px}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}</style></head><body><header><p>INDEPENDENT BUSINESS</p><h1>Hearth &amp; Grain — Static One-Page Website (Delivered)</h1><p>Dev · Business storefronts — self-contained HTML/CSS, previewable locally</p><a class="cta" href="#contact">None — deliverable accepted as final per scope. No hosting, domains, or updates included.</a></header><main><section><h2>Deliverable</h2><p>The website is complete below as two files — index.html and styles.css. Save both in the same folder and open index.html in any browser; it renders fully offline with no scripts, remote assets, payments, checkout, or fulfillment claims. Content uses only your supplied copy, quoted exactly: &quot;Seasonal catering for neighborhood gatherings&quot; (About), &quot;Menu planning and procurement comparisons&quot; (Catering Services), and &quot;Customers first share their guest count, event date and dietary constraints&quot; (How It Works). No email, order form, or address appears, as none exists. Page title and brand name are drawn from the supplied business name only.</p></section><section><h2>Design Notes (Labeled Assumptions)</h2><p>Assumption — accent color: no brand palette was supplied, so I selected one restrained muted terracotta (#a85638) for headings and rules against a neutral off-white background (#faf8f5) with deep neutral text (#2b2926). This pairing meets WCAG AA contrast for body text and large headings. Assumption — responsive layout: implemented with CSS flex/grid and media queries only, no JavaScript. Headings are semantic (one h1, one h2 per section). These are my design choices built on your supplied copy; adjust the CSS variables at the top of styles.css if you prefer different values.</p></section><section><h2>File 1 — index.html</h2><p>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Hearth &amp;amp; Grain — Neighborhood Catering&lt;/title&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;Seasonal catering for neighborhood gatherings.&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header class=&quot;site-header&quot;&gt;
+    &lt;h1&gt;Hearth &amp;amp; Grain&lt;/h1&gt;
+    &lt;p class=&quot;tagline&quot;&gt;Seasonal catering for neighborhood gatherings&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;section id=&quot;about&quot; aria-labelledby=&quot;about-h&quot;&gt;
+      &lt;h2 id=&quot;about-h&quot;&gt;About&lt;/h2&gt;
+      &lt;p&gt;Seasonal catering for neighborhood gatherings.&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section id=&quot;catering-services&quot; aria-labelledby=&quot;services-h&quot;&gt;
+      &lt;h2 id=&quot;services-h&quot;&gt;Catering Services&lt;/h2&gt;
+      &lt;p&gt;Menu planning and procurement comparisons.&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section id=&quot;how-it-works&quot; aria-labelledby=&quot;how-h&quot;&gt;
+      &lt;h2 id=&quot;how-h&quot;&gt;How It Works&lt;/h2&gt;
+      &lt;p&gt;Customers first share their guest count, event date and dietary constraints.&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+  &lt;footer class=&quot;site-footer&quot;&gt;
+    &lt;p&gt;Hearth &amp;amp; Grain&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</p></section><section><h2>File 2 — styles.css</h2><p>:root {
+  --accent: #a85638;        /* muted terracotta */
+  --accent-dark: #7e3c26;
+  --bg: #faf8f5;            /* neutral off-white */
+  --text: #2b2926;
+  --muted: #5c564f;
+  --rule: #e4ddd3;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Georgia, &quot;Times New Roman&quot;, serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  text-align: center;
+  padding: 4rem 1.5rem 2.5rem;
+  border-bottom: 3px solid var(--accent);
+}
+
+.site-header h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--accent-dark);
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+section {
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 2rem;
+}
+
+section h2 {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+section p { font-size: 1.05rem; }
+
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 48em) {
+  main { padding-top: 3.5rem; gap: 3rem; }
+  section { padding: 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}</p></section><section><h2>Scope Confirmation</h2><p>Delivered exactly as scoped: one page, three sections, no scripts or remote assets, no collaborator involved, no quotations requested, no hosting/domain/photography/future updates included. This is a digital deliverable — I make no claim of physical fulfillment. If you later obtain published contact details or additional copy, I can incorporate them in a future scoped revision, which is outside the current scope as agreed.</p></section><section id="contact"><h2>Next steps</h2><p>This static website is ready for your review. Add verified contact details before publishing.</p></section></main><footer>Built by an Econia professional. Static deliverable; no order processing or physical fulfillment is enabled.</footer></body></html>

@@ -309,6 +309,13 @@ impl ProfessionalWorld {
     pub fn get_professional(&self, agent_id: String) -> Option<Professional> {
         self.agents.get(&agent_id)
     }
+    pub fn get_professionals(&self, agent_ids: Vec<String>) -> HashMap<String, Professional> {
+        require!(agent_ids.len() <= 100, "View bound");
+        agent_ids
+            .into_iter()
+            .filter_map(|id| self.agents.get(&id).map(|a| (id, a)))
+            .collect()
+    }
     pub fn get_service_job(&self, job_id: u64) -> Option<ServiceJob> {
         self.jobs.get(&job_id)
     }
@@ -406,6 +413,7 @@ impl ProfessionalWorld {
     pub fn open_agent_service_job(
         &mut self,
         buyer_agent: String,
+        expected_owner: AccountId,
         proposal_id: String,
         scope_hash: String,
         allocations: Vec<Allocation>,
@@ -418,6 +426,7 @@ impl ProfessionalWorld {
         let mut policy = self
             .get_policy(buyer_agent.clone())
             .expect("Current owner budget required");
+        require!(policy.owner == expected_owner, "Purchase authority changed after owner transfer");
         require!(
             total <= policy.per_job.0 && total <= policy.remaining.0,
             "Authorized spending cap exceeded"
@@ -472,7 +481,7 @@ impl ProfessionalWorld {
         );
     }
     #[payable]
-    pub fn accept_service_job(&mut self, job_id: u64) {
+    pub fn accept_service_job(&mut self, job_id: u64, expected_owner: Option<AccountId>) {
         let mut job = self.jobs.get(&job_id).expect("Unknown job");
         require!(
             job.state == "DELIVERED" && job.allocations.iter().all(|a| a.evidence.is_some()),
@@ -490,6 +499,7 @@ impl ProfessionalWorld {
                 "Current buyer owner or approved acceptance operator only"
             );
             if operator_allowed {
+                require!(expected_owner.as_ref() == Some(&owner), "Acceptance authority changed after owner transfer");
                 require!(
                     env::attached_deposit().as_yoctonear() == 0,
                     "Restricted operator attaches no funds"
@@ -755,7 +765,7 @@ mod tests {
         context("operator.testnet", 0, 1);
         w.deliver_service_job(id, vec!["a".repeat(64), "b".repeat(64), "c".repeat(64)]);
         context("client.testnet", 1, 2);
-        w.accept_service_job(id);
+        w.accept_service_job(id, None);
         assert_eq!(w.escrow_total, 0);
         assert_eq!(w.treasury_total, 50);
         assert_eq!(w.get_professional("mira".into()).unwrap().treasury.0, 10);
@@ -774,7 +784,7 @@ mod tests {
         context("operator.testnet", 0, 1);
         w.deliver_service_job(id, vec!["a".repeat(64); 3]);
         context("operator.testnet", 1, 2);
-        w.accept_service_job(id);
+        w.accept_service_job(id, None);
     }
     #[test]
     #[should_panic(expected = "Verified delivery required")]
@@ -784,8 +794,8 @@ mod tests {
         context("operator.testnet", 0, 1);
         w.deliver_service_job(id, vec!["a".repeat(64); 3]);
         context("client.testnet", 1, 2);
-        w.accept_service_job(id);
-        w.accept_service_job(id);
+        w.accept_service_job(id, None);
+        w.accept_service_job(id, None);
     }
     #[test]
     #[should_panic(expected = "Provider capability unavailable")]
@@ -815,6 +825,7 @@ mod tests {
         context("operator.testnet", 0, 0);
         let id = w.open_agent_service_job(
             "mira".into(),
+            "alice.testnet".parse().unwrap(),
             "autonomous-001".into(),
             "a".repeat(64),
             vec![allocation("dev", "website-build", 30, None)],
@@ -827,7 +838,7 @@ mod tests {
         context("operator.testnet", 0, 1);
         w.deliver_service_job(id, vec!["b".repeat(64)]);
         context("operator.testnet", 0, 2);
-        w.accept_service_job(id);
+        w.accept_service_job(id, Some("alice.testnet".parse().unwrap()));
         assert_eq!(w.treasury_total, 1000);
         assert_eq!(w.get_professional("dev".into()).unwrap().treasury.0, 30);
     }
@@ -848,6 +859,7 @@ mod tests {
         context("operator.testnet", ONE, 0);
         w.open_agent_service_job(
             "mira".into(),
+            "alice.testnet".parse().unwrap(),
             "autonomous-001".into(),
             "a".repeat(64),
             vec![allocation("dev", "website-build", 30, None)],
@@ -880,6 +892,38 @@ mod tests {
         context("alice.testnet", 1, 0);
         w.nft_transfer("bob.testnet".parse().unwrap(), "mira".into(), None, None);
         w.authorize_budget("mira".into(), U128(0), U128(0), vec![], false);
+    }
+    #[test]
+    fn provider_transfer_preserves_existing_obligation_and_its_earned_treasury() {
+        let mut w = fixture();
+        let id = job(&mut w);
+        context("alice.testnet", 1, 1);
+        w.nft_transfer("bob.testnet".parse().unwrap(), "dev".into(), None, None);
+        let pending = w.get_service_job(id).unwrap();
+        assert_eq!(pending.state, "FUNDED");
+        assert_eq!(pending.allocations[1].agent_id, "dev");
+        assert_eq!(pending.allocations[1].amount.0, 30);
+        assert_eq!(w.get_professional("dev".into()).unwrap().profession, "engineering");
+        context("operator.testnet", 0, 2);
+        w.deliver_service_job(id, vec!["a".repeat(64), "b".repeat(64), "c".repeat(64)]);
+        context("client.testnet", 1, 3);
+        w.accept_service_job(id, None);
+        assert_eq!(w.owner_of(&"dev".into()), "bob.testnet".parse::<AccountId>().unwrap());
+        assert_eq!(w.get_professional("dev".into()).unwrap().treasury.0, 30);
+        assert_eq!(w.escrow_total, 0);
+    }
+    #[test]
+    #[should_panic(expected = "Purchase authority changed after owner transfer")]
+    fn old_signed_purchase_cannot_use_a_new_owners_policy() {
+        let mut w = fixture();
+        context("alice.testnet", 1000, 0);
+        w.provide_capital("mira".into());
+        context("alice.testnet", 1, 0);
+        w.nft_transfer("bob.testnet".parse().unwrap(), "mira".into(), None, None);
+        context("bob.testnet", 1, 0);
+        w.authorize_budget("mira".into(), U128(100), U128(50), vec!["website-build".into()], true);
+        context("operator.testnet", 0, 0);
+        w.open_agent_service_job("mira".into(), "alice.testnet".parse().unwrap(), "stale-purchase".into(), "a".repeat(64), vec![allocation("dev", "website-build", 30, None)], 100);
     }
     #[test]
     fn expired_work_refunds_and_failed_withdrawal_restores_credit() {

@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Caslon+Display&display=swap");
+:root {
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #253f35;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+.pro-boot {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: #f5f4e9;
+}
+.wallet-picker-list {
+  display: grid;
+  gap: 10px;
+}
+.wallet-choice-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #d2d4c9;
+  border-radius: 12px;
+  padding: 10px;
+}
+.wallet-option {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+}
+.wallet-choice-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #e9eadb;
+  font-weight: 700;
+}
+.wallet-option img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.wallet-option strong,
+.wallet-option small {
+  display: block;
+}
+.wallet-option small,
+.wallet-network-help,
+.wallet-connection-note {
+  font-size: 12px;
+  color: #617468;
+}
+.wallet-choice-status {
+  font-size: 11px;
+}
+.wallet-network {
+  font-weight: 700;
+}
+.wallet-connect-error {
+  color: #8b392a;
+}
+.wallet-picker-heading {
+  margin: 16px 0;
+}
+.wallet-connected-card {
+  padding: 12px;
+  background: #edf0e3;
+  border-radius: 10px;
+}

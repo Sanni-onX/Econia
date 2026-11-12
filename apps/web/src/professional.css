@@ -5,7 +5,7 @@
   color: #253f35;
   background: #a4c6cc;
   font:
-    15px/1.55 Inter,
+    15px/1.55 "DM Sans",
     system-ui,
     sans-serif;
   isolation: isolate;
@@ -467,6 +467,23 @@
 }
 .pro-world .world-resident-marker {
   transform-origin: center;
+  padding: 3px;
+  border-radius: 50%;
+  background: #faf7ee;
+}
+.pro-world .world-resident-marker.is-working {
+  box-shadow: 0 0 0 5px #dfb56788;
+  animation: pro-working 1.8s ease-in-out infinite;
+}
+.pro-world .world-resident-marker small {
+  white-space: nowrap;
+  font-size: 9px;
+  color: #f0d396;
+}
+@keyframes pro-working {
+  50% {
+    box-shadow: 0 0 0 9px #dfb56722;
+  }
 }
 .pro-small {
   font-size: 11px;
@@ -601,4 +618,78 @@
     animation: none !important;
     transition: none !important;
   }
+}
+.pro-owner-tools {
+  border-top: 1px solid #d9decd;
+  padding-top: 16px;
+  margin-top: 25px;
+}
+.pro-owner-tools fieldset {
+  border: 1px solid #deded0;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 14px 0;
+}
+.pro-owner-tools legend {
+  font-size: 12px;
+}
+.professional-app .pro-check {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 12px;
+  margin: 8px 0;
+}
+.pro-check input {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.pro-work-card > h4 {
+  margin-top: 7px;
+}
+.pro-file {
+  padding: 12px;
+  margin: 14px 0;
+  background: #eeeee3;
+  border-radius: 12px;
+}
+.pro-file > strong,
+.pro-file > small {
+  display: block;
+}
+.pro-file > small {
+  font-size: 10px;
+  color: #75806e;
+}
+.pro-deliverable-preview iframe {
+  width: 100%;
+  height: 440px;
+  border: 1px solid #dcdccd;
+  border-radius: 10px;
+  background: white;
+}
+.pro-deliverable-preview img {
+  width: 100%;
+}
+.pro-deliverable-preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f0efe4;
+  padding: 14px;
+  font-size: 12px;
+}
+.pro-work-card select {
+  padding: 9px;
+  border: 1px solid #d6d9c9;
+  border-radius: 8px;
+  margin: 8px;
+  display: block;
+  background: #fffdf6;
+}
+
+.pro-world .world-resident-marker > .pro-avatar {
+  border-radius: 50%;
+  font-size: 16px;
+  position: static;
+  transform: none;
 }

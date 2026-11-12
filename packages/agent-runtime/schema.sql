@@ -30,3 +30,13 @@ CREATE INDEX IF NOT EXISTS messages_by_conversation ON messages(conversation_id,
 CREATE INDEX IF NOT EXISTS memory_retrieval ON memories(agent_id,visibility,principal,created_at);
 CREATE INDEX IF NOT EXISTS events_by_agent ON world_events(agent_id,sequence);
 CREATE INDEX IF NOT EXISTS proposals_by_customer ON proposals(customer_id,created_at);
+CREATE TABLE IF NOT EXISTS agent_projects(proposal_id TEXT PRIMARY KEY REFERENCES proposals(id),buyer_agent TEXT NOT NULL REFERENCES professionals(id),owner_id TEXT NOT NULL,source_receipt TEXT NOT NULL,max_total TEXT NOT NULL,state TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS service_quotes(thread_id TEXT PRIMARY KEY REFERENCES agent_threads(id),scope TEXT NOT NULL,input_text TEXT NOT NULL,price TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS project_allocations(proposal_id TEXT NOT NULL REFERENCES proposals(id),allocation_index INTEGER NOT NULL,agent_id TEXT NOT NULL REFERENCES professionals(id),service_id TEXT NOT NULL,scope TEXT NOT NULL,input_text TEXT NOT NULL,price TEXT NOT NULL,parent_index INTEGER,thread_id TEXT REFERENCES agent_threads(id),PRIMARY KEY(proposal_id,allocation_index));
+CREATE TABLE IF NOT EXISTS contract_allocations(root_contract TEXT NOT NULL REFERENCES contracts(id),contract_id TEXT PRIMARY KEY REFERENCES contracts(id),allocation_index INTEGER NOT NULL,parent_contract TEXT REFERENCES contracts(id),UNIQUE(root_contract,allocation_index));
+CREATE TABLE IF NOT EXISTS project_decisions(id TEXT PRIMARY KEY,proposal_id TEXT NOT NULL REFERENCES proposals(id),agent_id TEXT NOT NULL REFERENCES professionals(id),kind TEXT NOT NULL,decision TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS opportunities(id TEXT PRIMARY KEY,agent_id TEXT NOT NULL REFERENCES professionals(id),owner_id TEXT NOT NULL,receipt_hash TEXT NOT NULL UNIQUE REFERENCES receipts(tx_hash),objective TEXT NOT NULL,state TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS chain_operations(operation_id TEXT PRIMARY KEY,method TEXT NOT NULL,payload_hash TEXT NOT NULL,tx_hash TEXT NOT NULL,signed_tx BLOB NOT NULL,status TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS inference_outputs(job_id TEXT PRIMARY KEY REFERENCES runtime_jobs(id),response_json TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS work_revisions(id TEXT PRIMARY KEY,contract_id TEXT NOT NULL REFERENCES contracts(id),customer_id TEXT NOT NULL,feedback TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS chain_job_observations(contract_id TEXT NOT NULL,job_id INTEGER NOT NULL,state TEXT NOT NULL,public_json TEXT NOT NULL,block_hash TEXT NOT NULL,observed_at TEXT NOT NULL,PRIMARY KEY(contract_id,job_id));

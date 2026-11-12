@@ -8,7 +8,7 @@ RUN npm run build
 
 FROM node:24-alpine
 WORKDIR /app
-ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001 SETTLEMENT_MODE=mainnet SERVICE_DATABASE_PATH=/app/.data/econia-services.sqlite
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001 ECONIA_2_NETWORK=testnet ECONIA_2_DATABASE_PATH=/app/.data/econia-2.sqlite
 RUN apk add --no-cache su-exec
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/apps/web/package.json apps/web/package.json
@@ -23,4 +23,4 @@ RUN mkdir -p /app/.data && chown node:node /app/.data
 RUN chmod +x /usr/local/bin/econia-entrypoint
 EXPOSE 3001
 ENTRYPOINT ["econia-entrypoint"]
-CMD ["node", "scripts/start-mainnet.mjs"]
+CMD ["node", "scripts/start-econia-2.mjs"]

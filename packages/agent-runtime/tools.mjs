@@ -5,7 +5,7 @@ import {
   validateEvidence,
 } from "../agent-sdk/service-tools.mjs";
 import { SERVICES } from "./genesis.mjs";
-const str = { type: "string" },
+const str = { type: "string", maxLength: 500 },
   strings = { type: "array", items: str };
 const object = (properties) => ({
   type: "object",
@@ -13,10 +13,13 @@ const object = (properties) => ({
   required: Object.keys(properties),
   properties,
 });
-const section = object({ heading: str, body: str });
+const section = object({
+  heading: { type: "string", minLength: 1, maxLength: 150 },
+  body: { type: "string", minLength: 1, maxLength: 2500 },
+});
 export const TOOL_SCHEMAS = {
   plan: object({
-    title: str,
+    title: { type: "string", minLength: 1, maxLength: 150 },
     sections: { type: "array", items: section, minItems: 3, maxItems: 8 },
     evidence: {
       type: "array",
@@ -27,22 +30,55 @@ export const TOOL_SCHEMAS = {
     assumptions: strings,
   }),
   website: object({
-    title: str,
-    subtitle: str,
-    color: str,
+    title: { type: "string", minLength: 1, maxLength: 150 },
+    subtitle: { type: "string", minLength: 1, maxLength: 150 },
+    color: {
+      type: "string",
+      pattern: "^#[a-fA-F0-9]{6}$",
+      description:
+        "Actual six-digit hex accent color with text contrast at least 4.5:1 against #faf7ef.",
+    },
     sections: { type: "array", items: section, minItems: 3, maxItems: 8 },
-    callToAction: str,
+    callToAction: {
+      type: "string",
+      minLength: 1,
+      maxLength: 120,
+      description:
+        "Visitor-facing next step, e.g. Plan your gathering. No fabricated contact information.",
+    },
   }),
   design: object({
-    title: str,
-    palette: { type: "array", items: str, minItems: 3, maxItems: 5 },
-    principles: strings,
-    typography: str,
+    title: { type: "string", minLength: 1, maxLength: 150 },
+    palette: {
+      type: "array",
+      items: { type: "string", pattern: "^#[a-fA-F0-9]{6}$" },
+      minItems: 3,
+      maxItems: 5,
+      description: "Three to five actual hex color values, never color names.",
+    },
+    principles: { type: "array", items: str, minItems: 2, maxItems: 8 },
+    typography: {
+      type: "string",
+      minLength: 20,
+      maxLength: 500,
+      description:
+        "Concise font family, hierarchy and readability guidance; do not repeat text.",
+    },
   }),
   evidence: object({
     findings: {
       type: "array",
-      items: object({ heading: str, sourceId: str, quote: str }),
+      items: object({
+        heading: { type: "string", minLength: 1, maxLength: 100 },
+        sourceId: { type: "string", pattern: "^S[1-9][0-9]*$" },
+        quote: {
+          type: "string",
+          minLength: 20,
+          maxLength: 600,
+          description:
+            "An exact continuous substring copied from the identified source text. No paraphrase, unescaping, omitted words or ellipsis.",
+        },
+      }),
       minItems: 1,
       maxItems: 6,
     },
@@ -62,6 +98,18 @@ const bounded = (s, max = 5000) => {
   return s;
 };
 const hash = (s) => createHash("sha256").update(s).digest("hex");
+export function contrastRatio(a, b) {
+  const luminance = (hex) => {
+    if (!/^#[a-f0-9]{6}$/i.test(hex)) throw Error("Hex colors required");
+    const v = [1, 3, 5]
+      .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  };
+  const x = luminance(a),
+    y = luminance(b);
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
 export function prepareTool(serviceId, input) {
   const service = SERVICES[serviceId];
   if (
@@ -175,7 +223,20 @@ export function verifyAndRender(serviceId, input, value) {
     value.sections.forEach((s) => {
       bounded(s.heading, 150);
       bounded(s.body, 2500);
+      if (
+        /<!doctype|<html[\s>]|```(?:html|css|javascript)|MESSAGE_BEGIN/i.test(
+          s.body,
+        )
+      )
+        throw Error(
+          "Website requires final visitor-facing copy, not embedded source code or delivery transcripts",
+        );
     });
+    const contrast = contrastRatio(value.color, "#faf7ef");
+    if (contrast < 4.5)
+      throw Error(
+        "Website accent fails measured WCAG AA text contrast against the actual template background",
+      );
     const content = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>${escape(value.title)}</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#faf7ef;color:#243b32;font:18px/1.7 system-ui}header,main,footer{max-width:1080px;margin:auto;padding:48px 28px}header{padding-top:96px}h1{font:clamp(40px,8vw,88px)/1.1 Georgia}h2{font:32px Georgia}a{color:${value.color}}.cta{display:inline-block;border:2px solid ${value.color};padding:12px 24px;border-radius:30px}section{padding:32px 0;border-top:1px solid #ddd}p{max-width:70ch;white-space:pre-wrap}footer{font-size:14px}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}</style></head><body><header><p>INDEPENDENT BUSINESS</p><h1>${escape(value.title)}</h1><p>${escape(value.subtitle)}</p><a class="cta" href="#contact">${escape(value.callToAction)}</a></header><main>${value.sections.map((s) => `<section><h2>${escape(s.heading)}</h2><p>${escape(s.body)}</p></section>`).join("")}<section id="contact"><h2>Next steps</h2><p>This static website is ready for your review. Add verified contact details before publishing.</p></section></main><footer>Built by an Econia professional. Static deliverable; no order processing or physical fulfillment is enabled.</footer></body></html>`;
     files = [{ filename: "index.html", contentType: "text/html", content }];
     checks = [
@@ -183,6 +244,9 @@ export function verifyAndRender(serviceId, input, value) {
       "All model content escaped",
       "No executable model code or remote resources",
       "Responsive semantic page with keyboard navigation",
+      "Measured accent/background contrast ratio: " +
+        contrast.toFixed(2) +
+        ":1",
     ];
   } else if (service.type === "design") {
     bounded(value?.title, 150);

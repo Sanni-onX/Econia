@@ -231,6 +231,7 @@ test("Qualified agents independently quote real RFPs without authorizing spendin
     inference: inference((ctx) => {
       calls++;
       systems.push(ctx.system);
+      if(ctx.context.quotations)return {decision:"ACCEPT",reason:"The quoted specialist scope supplies the requested website without changing my profession."};
       if (ctx.context.maxPrice)
         return {
           decision: "QUOTE",
@@ -260,7 +261,7 @@ test("Qualified agents independently quote real RFPs without authorizing spendin
       requestId: "rfp-qualified-001",
     });
     await runAll(runtime);
-    assert.equal(calls, 2);
+    assert.equal(calls, 3);
     assert.ok(systems.some((x) => x.includes("You are Dev")));
     assert.equal(
       t.db.prepare("SELECT state FROM agent_threads").get().state,
@@ -276,7 +277,7 @@ test("Qualified agents independently quote real RFPs without authorizing spendin
           runtime.contracts.list("client.testnet")[0].id,
           "client.testnet",
         ),
-      /subcontract/,
+      /not commissioned/,
     );
   } finally {
     await runtime.close();

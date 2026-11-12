@@ -9,6 +9,8 @@ import {
   PROFESSIONS,
 } from "../../packages/agent-runtime/genesis.mjs";
 import { createServiceAuth } from "../../packages/agent-sdk/service-auth.mjs";
+import { createProfessionalTestnet } from "../../packages/near/professional-testnet.mjs";
+import { createVerifiedLedger } from "../../packages/agent-runtime/ledger.mjs";
 export async function createProfessionalApplication(options = {}) {
   const store =
     options.store ||
@@ -17,35 +19,131 @@ export async function createProfessionalApplication(options = {}) {
     });
   const provider =
     options.provider ||
-    new JsonRpcProvider({
-      url: process.env.NEAR_TESTNET_RPC_URL || "https://rpc.testnet.near.org",
-    });
-  const contract = process.env.ECONIA_2_TESTNET_CONTRACT;
+    new JsonRpcProvider(
+      {
+        url:
+          process.env.NEAR_TESTNET_RPC_URL || "https://test.rpc.fastnear.com",
+      },
+      { retries: 3, wait: 500, backoff: 1.5 },
+    );
+  const contract = options.contract || process.env.ECONIA_2_TESTNET_CONTRACT;
   if (contract && !contract.endsWith(".testnet"))
     throw Error("Econia 2.0 only accepts an explicit testnet contract");
-  const resolveOwnership =
-    options.resolveOwnership ||
+  const chain =
+    options.settlement ||
     (contract
-      ? async (agentId) => {
-          const result = await provider.callFunction({
-            contractId: contract,
-            method: "nft_token",
-            args: { token_id: agentId },
-          });
-          if (!result || result.token_id !== agentId) return null;
-          return {
-            ownerId: result.owner_id,
-            reference: `${contract}:${agentId}:${result.owner_id}`,
-            network: "testnet",
-          };
-        }
+      ? await createProfessionalTestnet({
+          contract,
+          provider,
+          operatorKey: process.env.ECONIA_2_OPERATOR_KEY,
+        })
       : undefined);
+  chain?.setOperationStore?.(store);
+  let historyIndexing = false,
+    historyIssue = null;
+  async function refreshPublicHistory() {
+    if (!chain?.readJobPage || historyIndexing) return;
+    historyIndexing = true;
+    try {
+      const from =
+        (store.db
+          .prepare(
+            "SELECT max(job_id) n FROM chain_job_observations WHERE contract_id=?",
+          )
+          .get(chain.contract).n ?? -1) + 1;
+      const rows = await chain.readJobPage(from);
+      const unsettled = store.db
+        .prepare(
+          "SELECT job_id FROM chain_job_observations WHERE contract_id=? AND state NOT IN ('SETTLED','REFUNDED') ORDER BY job_id LIMIT 8",
+        )
+        .all(chain.contract);
+      for (const old of unsettled) {
+        const page = await chain.readJobPage(old.job_id, 1);
+        rows.push(...page);
+      }
+      for (const row of rows) {
+        const j = row.job;
+        if (
+          !["FUNDED", "DELIVERED", "SETTLED", "REFUNDED"].includes(j.state) ||
+          !Array.isArray(j.allocations) ||
+          j.allocations.length > 8
+        )
+          throw Error("Unsupported onchain history record");
+        for (const a of j.allocations)
+          if (!store.professional(a.agent_id).services.includes(a.service_id))
+            throw Error("Onchain history capability mismatch");
+        store.transaction(() => {
+          const prior = store.db
+            .prepare(
+              "SELECT state FROM chain_job_observations WHERE contract_id=? AND job_id=?",
+            )
+            .get(chain.contract, row.id);
+          store.db
+            .prepare(
+              "INSERT INTO chain_job_observations VALUES(?,?,?,?,?,?) ON CONFLICT(contract_id,job_id) DO UPDATE SET state=excluded.state,public_json=excluded.public_json,block_hash=excluded.block_hash,observed_at=excluded.observed_at",
+            )
+            .run(
+              chain.contract,
+              row.id,
+              j.state,
+              JSON.stringify({
+                state: j.state,
+                buyerAgent: j.buyer_agent,
+                providers: j.allocations.map((a) => ({
+                  agentId: a.agent_id,
+                  serviceId: a.service_id,
+                  evidence: a.evidence,
+                })),
+              }),
+              row.blockHash,
+              store.now(),
+            );
+          if (j.state === "SETTLED" && prior?.state !== "SETTLED") {
+            for (const id of new Set([
+              ...j.allocations.map((a) => a.agent_id),
+              ...(j.buyer_agent ? [j.buyer_agent] : []),
+            ]))
+              store.event(
+                id,
+                "ONCHAIN_WORK_COMPLETED",
+                chain.contract + ":" + row.id,
+                "Completed professional work and settlement were observed on finalized NEAR testnet.",
+              );
+          }
+        });
+      }
+      historyIssue = null;
+    } catch {
+      historyIssue =
+        "Finalized work-history indexing is temporarily unavailable";
+    } finally {
+      historyIndexing = false;
+    }
+  }
+  let registry = null,
+    chainIssue = null;
+  async function refreshRegistry() {
+    if (!chain?.readRegistry) return;
+    try {
+      registry = await chain.readRegistry(store.agents());
+      chainIssue = null;
+    } catch (e) {
+      chainIssue = "Finalized testnet identity reconciliation is unavailable";
+    }
+  }
+  await refreshRegistry();
+  await refreshPublicHistory();
+  const ledger = createVerifiedLedger(store);
+  const resolveOwnership = options.resolveOwnership || chain?.resolveOwnership;
   const runtime =
     options.runtime ||
     createProfessionalRuntime({
       store,
       resolveOwnership,
-      settlement: options.settlement,
+      settlement: chain,
+      verifyAgent: chain?.view
+        ? (id) => chain.view("get_professional", { agent_id: id })
+        : undefined,
       inference: options.inference,
     });
   const auth =
@@ -78,27 +176,31 @@ export async function createProfessionalApplication(options = {}) {
   const peers = new Set(),
     limits = new Map();
   function publicWorld() {
-    const agents = store
-      .agents()
-      .map((a) => ({
-        ...a,
-        professionName: PROFESSIONS[a.profession].name,
-        serviceCatalog: a.services.map((id) => ({ id, ...SERVICES[id] })),
-        nft: contract
-          ? {
-              contract,
-              tokenId: a.id,
-              network: "testnet",
-              status: "OWNERSHIP_CHECK_REQUIRED",
-            }
-          : { status: "NOT_DEPLOYED" },
-        owner:
-          store.db
-            .prepare(
-              "SELECT owner_id,verified_at FROM ownership WHERE agent_id=?",
-            )
-            .get(a.id) || null,
-      }));
+    const agents = store.agents().map((a) => ({
+      ...a,
+      professionName: PROFESSIONS[a.profession].name,
+      publicHistory: store.db
+        .prepare(
+          "SELECT type,summary,created_at FROM world_events WHERE agent_id=? AND type IN ('PAYMENT_SETTLED','DELIVERABLE_SUBMITTED','PROJECT_COMPLETED','ONCHAIN_WORK_COMPLETED') ORDER BY sequence DESC LIMIT 6",
+        )
+        .all(a.id),
+      serviceCatalog: a.services.map((id) => ({ id, ...SERVICES[id] })),
+      nft: contract
+        ? {
+            contract,
+            tokenId: a.id,
+            network: "testnet",
+            status:
+              registry && !chainIssue ? "VERIFIED" : "OWNERSHIP_CHECK_REQUIRED",
+          }
+        : { status: "NOT_DEPLOYED" },
+      owner: registry?.identities.find((x) => x.id === a.id)
+        ? {
+            owner_id: registry.identities.find((x) => x.id === a.id).ownerId,
+            verified_at: registry.verifiedAt,
+          }
+        : null,
+    }));
     return {
       network: "testnet",
       generation: "genesis-2",
@@ -111,7 +213,9 @@ export async function createProfessionalApplication(options = {}) {
         profession: a.profession,
       })),
       inferenceReady: runtime.ready(),
-      settlementReady: Boolean(options.settlement),
+      settlementReady: Boolean(chain?.ready && !chainIssue),
+      chainIssue,
+      historyIssue,
       contract: contract || null,
       events: store.db
         .prepare(
@@ -126,11 +230,11 @@ export async function createProfessionalApplication(options = {}) {
       if (url.pathname === "/api/config")
         return json(res, 200, { mode: "professional", network: "testnet" });
       if (url.pathname === "/api/health")
-        return json(res, 200, {
+        return json(res, chainIssue ? 503 : 200, {
           mode: "econia-2",
           network: "testnet",
           inferenceReady: runtime.ready(),
-          settlementReady: Boolean(options.settlement),
+          settlementReady: Boolean(chain?.ready && !chainIssue),
         });
       if (url.pathname === "/api/society/world" && req.method === "GET")
         return json(res, 200, publicWorld());
@@ -181,6 +285,8 @@ export async function createProfessionalApplication(options = {}) {
         return;
       }
       if (url.pathname.startsWith("/api/society/")) {
+        if (chainIssue && req.method !== "GET")
+          return json(res, 503, { error: chainIssue });
         if (req.method !== "GET") {
           const origin = req.headers.origin;
           if (
@@ -205,6 +311,114 @@ export async function createProfessionalApplication(options = {}) {
         if (url.pathname === "/api/society/auth/login" && req.method === "POST")
           return json(res, 200, await auth.login(await body(req)));
         const customer = auth.require(req.headers.authorization);
+        const ownerRoute = url.pathname.match(
+          /^\/api\/society\/agents\/([a-zA-Z0-9_-]{1,64})\/(owner|capital|confirm-capital|budget|confirm-budget|transfer|confirm-transfer)$/,
+        );
+        if (ownerRoute) {
+          const id = ownerRoute[1],
+            action = ownerRoute[2];
+          if (!chain || chainIssue)
+            throw Object.assign(
+              Error("Verified testnet infrastructure is unavailable"),
+              { status: 503 },
+            );
+          if (action !== "confirm-transfer")
+            await runtime.ownership.requireOwner(id, customer);
+          if (action === "owner" && req.method === "GET")
+            return json(res, 200, {
+              professional: await chain.view("get_professional", {
+                agent_id: id,
+              }),
+              policy: await chain.view("get_policy", { agent_id: id }),
+              ledger: ledger.history("agent:" + id),
+              strategy: runtime.memory.strategy(id, customer),
+            });
+          if (req.method === "POST") {
+            const b = await body(req);
+            if (action === "capital")
+              return json(res, 200, chain.prepareCapital(id, b.amount));
+            if (action === "budget")
+              return json(res, 200, await chain.prepareBudget(id, b));
+            if (action === "transfer")
+              return json(
+                res,
+                200,
+                await chain.prepareTransfer(id, b.receiver),
+              );
+            if (action === "confirm-capital" || action === "confirm-budget") {
+              const receipt =
+                action === "confirm-capital"
+                  ? await chain.verifyCapital({
+                      agentId: id,
+                      customer,
+                      transactionHash: b.transactionHash,
+                    })
+                  : await chain.verifyBudget({
+                      agentId: id,
+                      customer,
+                      transactionHash: b.transactionHash,
+                    });
+              store.transaction(() => {
+                const prior = store.db
+                  .prepare("SELECT tx_hash FROM receipts WHERE tx_hash=?")
+                  .get(receipt.hash);
+                if (!prior) {
+                  store.db
+                    .prepare("INSERT INTO receipts VALUES(?,?,?,?,?,?,?)")
+                    .run(
+                      receipt.hash,
+                      "testnet",
+                      receipt.contract,
+                      receipt.method,
+                      receipt.signer,
+                      String(receipt.blockHeight),
+                      store.now(),
+                    );
+                  if (action === "confirm-capital")
+                    ledger.record({
+                      receiptHash: receipt.hash,
+                      debit: "wallet:" + customer,
+                      credit: "agent:" + id,
+                      amount: receipt.amount,
+                    });
+                  store.event(
+                    id,
+                    action === "confirm-capital"
+                      ? "AGENT_RECEIVED_FUNDING"
+                      : "OWNER_AUTHORIZED_BUDGET",
+                    receipt.hash,
+                    action === "confirm-capital"
+                      ? "Owner-provided testnet working capital was verified."
+                      : "The current owner approved an enforceable testnet operating budget.",
+                  );
+                }
+              });
+              if (action === "confirm-budget")
+                runtime.ownerBudgetEvent({
+                  agentId: id,
+                  ownerId: customer,
+                  receiptHash: receipt.hash,
+                });
+              await refreshRegistry();
+              return json(res, 200, {
+                verified: true,
+                transactionHash: receipt.hash,
+              });
+            }
+            if (action === "confirm-transfer") {
+              const receipt = await chain.receipt(
+                b.transactionHash,
+                customer,
+                "nft_transfer",
+              );
+              if (receipt.args.token_id !== id)
+                throw Error("Transfer receipt identity mismatch");
+              const current = await runtime.ownership.observe(id);
+              await refreshRegistry();
+              return json(res, 200, { verified: true, owner: current.ownerId });
+            }
+          }
+        }
         if (
           url.pathname === "/api/society/auth/logout" &&
           req.method === "POST"
@@ -260,6 +474,17 @@ export async function createProfessionalApplication(options = {}) {
         }
         if (url.pathname === "/api/society/proposals" && req.method === "GET")
           return json(res, 200, runtime.contracts.list(customer));
+        const peerClarification = url.pathname.match(
+          /^\/api\/society\/agent-threads\/([-a-f0-9]{36})\/clarify$/,
+        );
+        if (peerClarification && req.method === "POST")
+          return json(res, 202, {
+            id: runtime.collaboration.clarify(
+              peerClarification[1],
+              customer,
+              (await body(req)).content,
+            ),
+          });
         const proposal = url.pathname.match(
           /^\/api\/society\/proposals\/([-a-f0-9]{36})(\/funding|\/confirm-funding|\/collaboration)$/,
         );
@@ -293,7 +518,7 @@ export async function createProfessionalApplication(options = {}) {
             );
         }
         const contractRoute = url.pathname.match(
-          /^\/api\/society\/contracts\/([-a-f0-9]{36})(\/artifacts|\/acceptance|\/confirm-acceptance|\/feedback)?$/,
+          /^\/api\/society\/contracts\/([-a-f0-9]{36})(\/artifacts|\/acceptance|\/confirm-acceptance|\/feedback|\/revision)?$/,
         );
         if (contractRoute) {
           const c = runtime.contracts.requireContract(
@@ -321,6 +546,16 @@ export async function createProfessionalApplication(options = {}) {
                 c.id,
                 customer,
                 (await body(req)).transactionHash,
+              ),
+            );
+          if (contractRoute[2] === "/revision" && req.method === "POST")
+            return json(
+              res,
+              202,
+              await runtime.contracts.requestRevision(
+                c.id,
+                customer,
+                (await body(req)).feedback,
               ),
             );
           if (contractRoute[2] === "/feedback" && req.method === "POST")
@@ -380,12 +615,18 @@ export async function createProfessionalApplication(options = {}) {
     }
   });
   runtime.start();
+  const registryTimer = setInterval(async () => {
+    await refreshRegistry();
+    await refreshPublicHistory();
+  }, 30000);
+  registryTimer.unref();
   return {
     server,
     store,
     runtime,
     publicWorld,
     async close() {
+      clearInterval(registryTimer);
       for (const p of peers) p.end();
       await new Promise((r) => server.close(r));
       await runtime.close();

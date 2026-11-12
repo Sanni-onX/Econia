@@ -1,0 +1,316 @@
+{
+  "network": "testnet",
+  "contract": "econia2-575e686f5c.testnet",
+  "owner": "econia-59d0188be1.testnet",
+  "wasmSha256": "5d25fb5adb8823f8dc2b1c36ca5524d3d3661402f16a4f25e7df62e04654a217",
+  "transactions": [
+    {
+      "operation": "deploy-professional-world",
+      "hash": "9s8gv7rxGYyKWc25U41pZiCZXrJGMhnVtxhS9hqEkviU",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "4159816637294000000000"
+    },
+    {
+      "operation": "provide-owner-test-setup-assets",
+      "hash": "467nXTz3BGnggx6KcFSbfwLJGpqqGroPhgd1MxGsDKgd",
+      "receiver": "econia-59d0188be1.testnet",
+      "feesYocto": "44636512500000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "DWePpG1ZBFgjRhT76KgJrvRJPTFK5C5uZBMJG5ahTpqi",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "376265604001100000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "CdQmt5RM9eDesC5UgSWr8pvPSRcDBQWmV4vaau3Le57E",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "419152497627000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "4mADYGTcVUd4M1HZX3ejVV6M5SrYHgiDKgHKzfGw4R2F",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "544957694867000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "Hn6A19RdnKmexbBSvfpm1Utz7DJHu3xcLMuSvXQRovrP",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "472609124109400000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "Dt94b44MgBDfXam5mLgqSwxWBm97eNadeVV8bn7opoRr",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "566145117410000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "8Hr5kfUSQyVUhx4jH6F2ArjJKUidamNzLZkR2GmD7Cnk",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "643037932881200000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "DgC4TSwCGbUYvkuPaaFhQvkYpQQey17CizwZmqikesz5",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "526490039980200000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "HiBuUtzSnBKAiBZXcPcbDC84Z65tJnfndBSi91VAkNsu",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "617304349235200000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "65JQrTaGwKMhAbXpPyPLbKB5wQKL1J9HUHvWgEj7mfLD",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "701612727561100000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "Fnx7uvNcxH1DooUe9TG6V13MzEgeufFpXSXU4KRqSDES",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "654550661707800000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "GbbXLPCMSNnmYDF1f9wtBgGNeFTvo2nzVnQZne7ALbiA",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "617283198013500000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "Dycfr9UuHiW1CfrZRvBjHLSY2eCWGbNrCvTwi2DSi8QL",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "699761484217800000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "DTbtcrEBVmaMVtojM3uNaB5iy8iWAyTdEmub8nV1qxnb",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "576879788511700000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "BXyZWhtJS3AV5z6EYqcYeKgHM71kPf4gNo4SgHzXQYJQ",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "668563228451900000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "8v7Ky7Bsii4oeVmbFCim48sPNvKUeqAuUnPxiiBQzEDJ",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "752845031759000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "KMcGvqeeRZ9j54YrBP2Z4iYhUmNFypjmQATErvroCGm",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "705879230106100000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "2qVYGCvXLbegVZ4an9tdCSUv4VsSvVUZn4jU6SHFcAxJ",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "668176750417000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "3zrtxqsXHVkiHftDsJ1CaCEctPCdiuKgqC2QDKKLXfGU",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "754064093966500000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "BQkvejRSZY5b4ABBB6DoRA5BqriAkD4Nc2PGCr8RKFqh",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "707469896432100000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "UM2kBgtJsPCxGhU3MWFWGQXG4FGrT97kdZtC6H6VU5z",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "669987548994200000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "Gjdp1muGs2E1UiV5Az4VJUTmZAydyjiJ4RM2GP2DcmFW",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "754238491496900000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "8uP2RahgtQcmCxDQGAvGuv7L47YVZ6Tgs4yC3bfH3rQG",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "705487767625000000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "D2ydLw2kXWGdz8uJ8xDeKpLEuPxfhuPQJwxWxw8kmCNG",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "669197555935900000000"
+    },
+    {
+      "operation": "mint_professional",
+      "hash": "dMHMNy2MQtDcRXeHJFVPxz3ZXyEsZrWfuZkZ3tMMuM8",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "754351040471800000000"
+    },
+    {
+      "operation": "fund_execution_storage",
+      "hash": "2hJABqWe8RfcDy7aYqVgeR3YkovTCYCr2SqDXwCXXbmz",
+      "receiver": "econia2-575e686f5c.testnet",
+      "feesYocto": "201800873768500000000"
+    }
+  ],
+  "genesis": [
+    {
+      "id": "person_199",
+      "name": "Mira",
+      "profession": "hospitality"
+    },
+    {
+      "id": "person_001",
+      "name": "Nia",
+      "profession": "hospitality"
+    },
+    {
+      "id": "person_002",
+      "name": "Ibrahim",
+      "profession": "hospitality"
+    },
+    {
+      "id": "person_042",
+      "name": "Dev",
+      "profession": "engineering"
+    },
+    {
+      "id": "person_003",
+      "name": "Ada",
+      "profession": "engineering"
+    },
+    {
+      "id": "person_004",
+      "name": "Ren",
+      "profession": "engineering"
+    },
+    {
+      "id": "person_005",
+      "name": "Yuki",
+      "profession": "research"
+    },
+    {
+      "id": "person_006",
+      "name": "Ezra",
+      "profession": "research"
+    },
+    {
+      "id": "person_007",
+      "name": "Sana",
+      "profession": "research"
+    },
+    {
+      "id": "person_008",
+      "name": "Tala",
+      "profession": "design"
+    },
+    {
+      "id": "person_009",
+      "name": "Lena",
+      "profession": "design"
+    },
+    {
+      "id": "person_010",
+      "name": "Kai",
+      "profession": "design"
+    },
+    {
+      "id": "person_011",
+      "name": "Amara",
+      "profession": "operations"
+    },
+    {
+      "id": "person_012",
+      "name": "Omar",
+      "profession": "operations"
+    },
+    {
+      "id": "person_013",
+      "name": "Zara",
+      "profession": "operations"
+    },
+    {
+      "id": "person_014",
+      "name": "Leo",
+      "profession": "logistics"
+    },
+    {
+      "id": "person_015",
+      "name": "Kofi",
+      "profession": "logistics"
+    },
+    {
+      "id": "person_016",
+      "name": "Ivo",
+      "profession": "logistics"
+    },
+    {
+      "id": "person_017",
+      "name": "Anika",
+      "profession": "administration"
+    },
+    {
+      "id": "person_018",
+      "name": "Jules",
+      "profession": "administration"
+    },
+    {
+      "id": "person_019",
+      "name": "Mei",
+      "profession": "administration"
+    },
+    {
+      "id": "person_020",
+      "name": "Ayo",
+      "profession": "infrastructure"
+    },
+    {
+      "id": "person_021",
+      "name": "Sofia",
+      "profession": "infrastructure"
+    },
+    {
+      "id": "person_022",
+      "name": "Noah",
+      "profession": "infrastructure"
+    }
+  ],
+  "feesYocto": "19632564879341900000000",
+  "verified": true,
+  "verifiedAt": "2026-11-12T12:16:02.548Z",
+  "supply": "24",
+  "startingCapitalYocto": "0",
+  "operator": {
+    "permission": "FunctionCall",
+    "methods": [
+      "deliver_service_job",
+      "open_agent_service_job",
+      "accept_service_job"
+    ],
+    "allowanceYocto": "200000000000000000000000",
+    "noFullAccessKeyUploaded": true
+  },
+  "upgrades": [
+    {
+      "previousSha256": "8cded476fc7e62eb2e5580ac94c7ab615a09e5e489bb4f68ee1255c056a49181",
+      "wasmSha256": "5d25fb5adb8823f8dc2b1c36ca5524d3d3661402f16a4f25e7df62e04654a217",
+      "hash": "BX4n1d4d8KMDv8XE9RkSKQSDEs2WAhnUebw2UpCGctRN",
+      "reason": "Bind autonomous funding and operator acceptance to the expected current NFT owner. No persistent-state format changed.",
+      "verifiedAt": "2026-11-12T12:53:21.884Z"
+    }
+  ]
+}

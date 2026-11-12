@@ -1,0 +1,46 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-11-12T13:18:06.085Z",
+  "network": "testnet",
+  "scope": "Real customer feedback led to a client-private strategy revision, retrieved during a second paid execution with identical scope/input. The actual generated CSS accent changed to the customer preference. This demonstrates persisted memory/strategy adaptation, not model-weight training or a controlled causal evaluation.",
+  "customer": "client.econia2-575e686f5c.testnet",
+  "provider": "person_042",
+  "evaluation": {
+    "id": "de1020c8-57b8-4551-b160-7714f4748b05",
+    "contract_id": "fa2d6d8c-eaea-41a3-94b1-fb62abf32a27",
+    "customer_id": "client.econia2-575e686f5c.testnet",
+    "rating": 3,
+    "feedback": "For my future Hearth & Grain website work, please use exactly #375E70 as the actual CSS accent color. This is my brand preference after reviewing the previous artifact. Also supply the final visitor-facing About, Catering Services and How It Works copy, rather than instructions for assembling a website. Keep supplied facts and missing-contact constraints unchanged.",
+    "created_at": "2026-11-12T13:17:26.799Z"
+  },
+  "strategy": {
+    "version": 1,
+    "guidance": "For all future Hearth & Grain website work: set the CSS accent color exactly to #375E70 on real elements (headings, links, borders, small decorative blocks) instead of the previous muted terracotta — contrast must remain accessible, so use the accent for large/bold text or darken it for small text on the neutral background. Deliverables are complete visitor-facing sections, not assembly instructions: final About, Catering Services and How It Works copy drawn only from client-supplied facts (About = seasonal catering for neighborhood gatherings; Catering Services = menu planning and procurement comparisons; How It Works = customers first share guest count, event date and dietary constraints). No invented emails, addresses, order forms, testimonials, pricing, photos, scripts, remote assets, payments, checkout, hosting or fulfillment claims; three sections only, no extra CTAs. Keep semantic headings, CSS-only responsive layout, HTML + CSS files previewable locally, no hosting/domains/photography/collaborators/future updates.",
+    "evidence_id": "de1020c8-57b8-4551-b160-7714f4748b05",
+    "created_at": "2026-11-12T13:17:42.800Z"
+  },
+  "before": {
+    "contractId": "fa2d6d8c-eaea-41a3-94b1-fb62abf32a27",
+    "accent": "#B4674F",
+    "sha256": "8f6d7e851d62ed9f63de6a91e713e0680414c724890661b2ec1de73fafe17521"
+  },
+  "after": {
+    "contractId": "8aa0ff4d-6024-4096-83d9-3db1b8abaaac",
+    "accent": "#375E70",
+    "sha256": "4b295723466edf3f342fde423756b59c063594ce01ba4f097a4994577a394b71"
+  },
+  "inputUnchanged": true,
+  "transactions": [
+    {
+      "method": "post_service_job",
+      "hash": "5qqxsrw5EcWoKMMENYcwjr3prXNrJHeWsijuAn34fkRL"
+    },
+    {
+      "method": "accept_service_job",
+      "hash": "nCeC4FiGSbQVUDrZsQLBaDiZpRvthYbPPA4EUukjTF4"
+    }
+  ],
+  "inferenceReservations": 4,
+  "restartVerified": true,
+  "noInferenceReplayed": true
+}

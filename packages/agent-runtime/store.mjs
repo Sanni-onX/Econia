@@ -28,6 +28,21 @@ export function openAgentStore({
       db.prepare("INSERT OR IGNORE INTO runtime_migrations VALUES(1,?)").run(
         now(),
       );
+      const threadColumns = db
+        .prepare("PRAGMA table_info(agent_threads)")
+        .all()
+        .map((c) => c.name);
+      if (!threadColumns.includes("parent_thread"))
+        db.exec(
+          "ALTER TABLE agent_threads ADD COLUMN parent_thread TEXT REFERENCES agent_threads(id)",
+        );
+      if (!threadColumns.includes("is_prime"))
+        db.exec(
+          "ALTER TABLE agent_threads ADD COLUMN is_prime INTEGER NOT NULL DEFAULT 0",
+        );
+      db.prepare("INSERT OR IGNORE INTO runtime_migrations VALUES(2,?)").run(
+        now(),
+      );
       for (const a of agents) {
         const prior = db
           .prepare("SELECT profession FROM professionals WHERE id=?")
@@ -58,6 +73,10 @@ export function openAgentStore({
             "INSERT OR IGNORE INTO professional_services VALUES(?,?)",
           ).run(a.id, s);
       }
+      // Financial continuations reuse the persisted signed transaction, never a new nonce.
+      db.prepare(
+        "UPDATE runtime_jobs SET state='QUEUED' WHERE state='RUNNING' AND kind IN ('FUND_PROJECT','SETTLE_PROJECT')",
+      ).run();
       // A request may already have reached the provider. Recovery never repeats it.
       db.prepare(
         "UPDATE runtime_jobs SET state='INTERRUPTED',error='Process stopped after claim; review before requesting another inference',finished_at=? WHERE state='RUNNING'",

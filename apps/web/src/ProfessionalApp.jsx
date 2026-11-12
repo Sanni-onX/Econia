@@ -14,6 +14,8 @@ import {
   walletErrorMessage,
 } from "./wallets.mjs";
 import "./professional.css";
+import { ProfessionalOwnerTools } from "./ProfessionalOwnerTools.jsx";
+import { ProfessionalWorkCard } from "./ProfessionalWorkCard.jsx";
 import { formatNear } from "../../../packages/shared/native-state.mjs";
 const World = React.lazy(() => import("./World3D.jsx"));
 const industry = {
@@ -61,7 +63,6 @@ export default function ProfessionalApp() {
     [requestId, setRequestId] = useState(null),
     [conversations, setConversations] = useState([]),
     [proposals, setProposals] = useState([]),
-    [collaboration, setCollaboration] = useState([]),
     [reduced, setReduced] = useState(
       () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     );
@@ -293,55 +294,16 @@ export default function ProfessionalApp() {
       setBusy(false);
     }
   }
-  async function inspectCollaboration(p) {
-    try {
-      setCollaboration(await request("proposals/" + p.id + "/collaboration"));
-    } catch (e) {
-      setNotice(e.message);
-    }
+  async function workChanged() {
+    setProposals(await request("proposals"));
+    refresh();
   }
-  async function authorize(p) {
-    setBusy(true);
-    try {
-      const tx = await request("proposals/" + p.id + "/funding", {}),
-        wallet = await selector.wallet();
-      const result = await wallet.signAndSendTransaction({
-        ...tx,
-        signerId: connection.account,
-      });
-      const hash = result?.transaction?.hash || result?.transaction_outcome?.id;
-      if (!hash)
-        throw Error(
-          "No confirmed transaction hash; inspect your wallet before retrying",
-        );
-      await request("proposals/" + p.id + "/confirm-funding", {
-        transactionHash: hash,
-      });
-      setProposals(await request("proposals"));
-    } catch (e) {
-      setNotice(e.message);
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function download(p) {
-    try {
-      const files = await request("contracts/" + p.contract_id + "/artifacts");
-      for (const f of files) {
-        const r = await fetch("/api/society/artifacts/" + f.id, {
-          headers: { Authorization: "Bearer " + session.token },
-        });
-        if (!r.ok) throw Error("Artifact download unavailable");
-        const url = URL.createObjectURL(await r.blob()),
-          a = document.createElement("a");
-        a.href = url;
-        a.download = f.filename;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-      }
-    } catch (e) {
-      setNotice(e.message);
-    }
+  async function artifactContent(id) {
+    const r = await fetch("/api/society/artifacts/" + id, {
+      headers: { Authorization: "Bearer " + session.token },
+    });
+    if (!r.ok) throw Error("Private artifact is unavailable");
+    return { text: await r.text() };
   }
   if (!world)
     return (
@@ -558,9 +520,11 @@ export default function ProfessionalApp() {
                 <button onClick={() => talk(agent)}>
                   Talk to {agent.name}
                 </button>
-                <button onClick={() => talk(agent, "OWNER")}>
-                  Discuss strategy
-                </button>
+                {agent.owner?.owner_id === connection.account && (
+                  <button onClick={() => talk(agent, "OWNER")}>
+                    Discuss strategy
+                  </button>
+                )}
               </div>
               <h3>Professional services</h3>
               {agent.serviceCatalog.map((s) => (
@@ -582,6 +546,36 @@ export default function ProfessionalApp() {
                   </button>
                 </article>
               ))}
+              {signedIn && agent.owner?.owner_id === connection.account && (
+                <ProfessionalOwnerTools
+                  agent={agent}
+                  request={request}
+                  selector={selector}
+                  account={connection.account}
+                  onNotice={setNotice}
+                  onChanged={workChanged}
+                  catalog={[
+                    ...new Map(
+                      world.agents
+                        .flatMap((a) => a.serviceCatalog)
+                        .map((s) => [s.id, s]),
+                    ).values(),
+                  ]}
+                />
+              )}
+              {agent.publicHistory?.length > 0 && (
+                <section>
+                  <h3>Professional history</h3>
+                  {agent.publicHistory.map((e, i) => (
+                    <article className="pro-chronicle" key={i}>
+                      <p>{e.summary}</p>
+                      <small>
+                        {new Date(e.created_at).toLocaleDateString()}
+                      </small>
+                    </article>
+                  ))}
+                </section>
+              )}
               <details>
                 <summary>Identity & professional boundaries</summary>
                 <p>
@@ -772,51 +766,17 @@ export default function ProfessionalApp() {
                 <>
                   <h3>Your proposals & contracts</h3>
                   {proposals.map((p) => (
-                    <article className="pro-service" key={p.id}>
-                      <small>{p.contract_state || p.state}</small>
-                      <h4>
-                        {personName(p.provider_id)} ·{" "}
-                        {
-                          world.agents
-                            .find((a) => a.id === p.provider_id)
-                            ?.serviceCatalog.find((s) => s.id === p.service_id)
-                            ?.name
-                        }
-                      </h4>
-                      <p>{p.scope}</p>
-                      <p>
-                        {formatNear(p.price)} testnet NEAR · separate wallet
-                        approval required.
-                      </p>
-                      <button onClick={() => inspectCollaboration(p)}>
-                        Inspect collaborator quotations
-                      </button>
-                      {world.settlementReady && p.state === "PROPOSED" && (
-                        <button disabled={busy} onClick={() => authorize(p)}>
-                          Review testnet funding
-                        </button>
-                      )}
-                      {!world.settlementReady && (
-                        <p className="pro-small">
-                          Funding is unavailable until the new testnet escrow
-                          has been commissioned.
-                        </p>
-                      )}
-                      {p.contract_id && p.contract_state === "REVIEW_READY" && (
-                        <button onClick={() => download(p)}>
-                          Download checked deliverables
-                        </button>
-                      )}
-                    </article>
-                  ))}
-                  {collaboration.map((m, i) => (
-                    <article key={i} className="pro-message-event">
-                      <small>
-                        {personName(m.sender)} → {personName(m.recipient)} ·{" "}
-                        {m.type.replaceAll("_", " ")}
-                      </small>
-                      <p>{m.content}</p>
-                    </article>
+                    <ProfessionalWorkCard
+                      key={p.id}
+                      proposal={p}
+                      request={request}
+                      selector={selector}
+                      account={connection.account}
+                      world={world}
+                      onNotice={setNotice}
+                      onChanged={workChanged}
+                      artifactContent={artifactContent}
+                    />
                   ))}
                 </>
               )}

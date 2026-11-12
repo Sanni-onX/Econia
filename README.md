@@ -1,62 +1,56 @@
-# Econia
+# Econia 2.0
 
-NFT-owned agents collaborating on useful work, powered by NEAR AI.
+An immersive society of persistent AI professionals on NEAR testnet. Explore the city, talk to a professional, commission a digital deliverable, or give an owned agent a bounded operating budget so it can purchase qualified help.
 
-Econia has **64 NEAR mainnet agent NFTs**, **17 activated worker identities** and **seven public service capabilities**. A customer gives a team a goal; a live NEAR AI coordinator plans and commissions bounded specialist tasks, reviewers check outputs, and an assembler produces one traceable report. Related workers share larger documents and queued jobs. The other 47 identities stay idle without spending inference credits.
+This successor branch uses **valueless testnet assets only**. It has no ECO currency, mainnet payments, promised investment returns or physical fulfillment. The previous release is preserved on `codex/pre-econia-2`.
 
-![The Econia world](docs/screenshots/blender-world-overview.png)
+## What works
 
-**Live app: https://econia-production.up.railway.app**
+- 24 Genesis NFT professionals with fixed professions and independent reasoning contexts.
+- NEAR AI Cloud conversations, qualified directory discovery, peer quotations, bounded clarification, allocation contracts and dependency-first work.
+- Actual static websites, evidence briefs, SVG style boards, exact CSV analysis and digital planning documents.
+- Testnet treasury sponsorship, owner spending policies, escrow, checked delivery hashes and exact settlement.
+- Nightly, MyNearWallet, Sender, OKX and Intear wallet choices; NEP-413 authentication and private files.
+- Scoped memory, client-specific strategy reflection and transferable ownership with prior-owner revocation.
+- A full-screen Three.js city, floating navigation and a Chronicle backed by actual runtime events and finalized onchain work observations.
 
-## Try the current product
+The commissioning records include real failures and corrections; they do not represent a claim of flawless autonomous operation. See [implementation status](IMPLEMENTATION_STATUS.md) and [architecture](docs/REBUILD_ARCHITECTURE.md) for precise limits.
 
-Open the mainnet app, connect a NEAR wallet, then sign in with a free wallet message. Choose **Give a team a goal**, supply an account, contract, document or CSV, and approve an inference allowance. Or choose a single specialist. Customer inputs and outputs are private to the signed session; the world shows redacted collaboration events.
+## Run locally
 
-- **Web3:** NEAR account analysis, deployed-contract interface inspection, NFT ownership verification and exact fungible-token balances. Finalized public chain reads; these specialist tools require no inference.
-- **Documents/data:** evidence briefs with exact source quotations, decimal CSV statistics and checked copy editing.
-- **Coordination:** validated NEAR AI plans, capability-based delegation, one executing task per identity, independent reviewer identities, durable queues and combined Markdown artifacts with SHA-256 hashes.
-- **Bounded autonomy:** optional account-change monitoring every 30 minutes for 24 hours, at most three total missions, customer stop control, and daily limits. Unchanged checks use no inference.
-- **Ownership:** owner-defined purposes for dormant NFTs, with capability review before activation. Treasury belongs to the agent and stays with it when transferred. All starting capital is zero NEAR; ECO is retired.
-
-This release is a **project-funded trial**: customer tasks cost 0 NEAR. Mainnet settlement remains paused. Deliverable acceptance does not release payment. Owner earnings, commercial escrow integration and unrestricted agent tools are not live. The city visualizes persistent entities; historical simulations are separate fixtures.
-
-## Walkthrough and submission
-
-- [Current build and architecture](docs/COLLABORATIVE-WORKFORCE.md)
-- [Three-minute demo and submission draft](docs/DEMO.md)
-- [Railway deployment](docs/RAILWAY-DEPLOYMENT.md)
-- [Live team commissioning evidence](docs/team-mission-verification.json) and [combined report](docs/service-examples/team-mission.md)
-- [Live individual Web3 evidence](docs/web3-workforce-verification.json)
-- [Mainnet deployment evidence](docs/mainnet-deployment.json)
-
-## Run the mainnet app
-
-Use Node 24 and npm. No wallet signing key is needed by the server.
+Use Node 24, install dependencies with `npm ci`, and copy the relevant non-secret settings from `.env.econia2.example` into your private `.env`. Add your NEAR AI Cloud key there. Never put a recovery phrase or full-access wallet key in environment files intended for deployment.
 
 ```sh
-npm ci
 npm run build
-# Copy .env.example to .env and configure funded NEAR AI access for team planning.
-npm run start:mainnet
+npm run start:econia2
 ```
 
-The mainnet app defaults to port 3004; check the startup message. Public state reads work without AI access. Signed customer requests require a wallet supporting NEP-413. Nightly, MyNearWallet, Sender, OKX Wallet and Intear are integrated through Wallet Selector; message-signing support depends on the wallet.
+Open `http://127.0.0.1:3005`. Exploring needs no wallet. Choose NEAR Testnet inside your wallet; connect and sign the free login message to open private conversations. Service payments require a separate wallet transaction. Owners can fund a treasury, select permitted services, set total/per-job limits and decide whether accepted deliveries may settle automatically.
 
-Railway uses the root Dockerfile, one replica and a persistent volume at `/app/.data`. Configure health checks manually at `/api/health`; new Railway services no longer opt into legacy `railway.json`. Keep recovery files and project signing keys off the server.
+The deployed Genesis contract is `econia2-575e686f5c.testnet`. A locally configured, reviewed function-call credential is needed for the worker's attestations and authorized purchases. With no key, the server does not pretend settlement is ready.
+
+## Verify
 
 ```sh
 npm test
 npm run build
 npm run check:secrets
-npm run contracts:test
-# Optional live commissioning; consumes one funded coordinator request:
-node --env-file=.env scripts/verify-team-mission.mjs
+cargo test --manifest-path packages/contracts/Cargo.toml -p econia-professional-world --locked
 ```
 
-Tests cover mission coverage and budgets, duplicate protection, restart recovery, worker concurrency, private artifact routes, signatures, exact tool outputs, wallet behavior and contracts. GitHub CI also builds and boots the production Docker image.
+Live commissioning scripts require `--testnet`, local controlled test wallets and funded inference. They are intentionally separate from unit tests and refuse several unsafe repeat operations. Review existing evidence before rerunning them: their calls consume real API credits and their transactions move valueless test assets.
 
-## Repository map
+- [Ordinary client commissioning](docs/professional-service-verification.json)
+- [Mira → Dev → specialists → settlement](docs/professional-autonomy-verification.json)
+- [Feedback, changed output and restart](docs/professional-learning-verification.json)
+- [NFT transfer and privacy](docs/professional-transfer-verification.json)
+- [Generated work examples](docs/service-examples/)
+- [Audit](docs/REBUILD_AUDIT.md), [NEAR integration matrix](docs/NEAR_INTEGRATION_MATRIX.md), [full build brief](docs/ECONIA_2_BUILD_BRIEF.md)
 
-`apps/web` contains the React/Three.js interface. `apps/api/native-server.mjs` serves mainnet state and authenticated task APIs. `packages/agent-sdk` contains NEAR AI planning, service tools, review and mission queues. `packages/contracts` contains NEAR ownership, treasury and escrow primitives. `docs` contains deployment receipts, reproducible proofs and asset provenance.
+## Railway
 
-`npm run dev`, `npm start` and historical testnet scripts are retained for the earlier economic simulation. They are engineering fixtures, not the current mainnet product or evidence of service revenue.
+The Docker entry starts the testnet professional service. Use one replica, a persistent volume at `/app/.data`, `/api/health` checks and an always-running worker. Set `ECONIA_2_DATABASE_PATH=/app/.data/econia-2.sqlite`, the explicit testnet contract, the NEAR AI variables and only the restricted function-call operator key in private service variables. Do not upload `.private`, recovery files or the old mainnet signer.
+
+The successor has not yet replaced the public Railway release. Hosted wallet, persistence and acceptance checks remain necessary after private configuration.
+
+NEAR AI Cloud is active. IronClaw, external Agent Market and Intents have been evaluated but are not claimed as connected. See the integration matrix for sources and honest fallbacks.

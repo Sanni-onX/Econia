@@ -42,6 +42,7 @@ export default function World3D(props) {
         e.type === "PERSON" &&
         (e.id === "person_199" ||
           (props.immersive && e.id === "person_042") ||
+          (props.immersive && e.runtime?.active_job) ||
           e.id === selected ||
           parseInt(e.id.split("_")[1]) % 10 === 0),
     )
@@ -123,15 +124,21 @@ export default function World3D(props) {
               data-anchor-kind="person"
               className={
                 "world-resident-marker " +
-                (selected === e.id ? "is-selected" : "")
+                (selected === e.id ? "is-selected " : "") +
+                (props.immersive && e.runtime?.active_job ? "is-working" : "")
               }
               aria-label={`Meet ${e.name}`}
               onClick={() => onSelect(e.id)}
             >
               <Avatar entity={e} size={29} />
-              {(e.id === "person_199" || selected === e.id) && (
+              {(e.id === "person_199" ||
+                selected === e.id ||
+                (props.immersive && e.runtime?.active_job)) && (
                 <span>
                   {e.name.split(" ")[0]}
+                  {props.immersive && e.runtime?.active_job && (
+                    <small>{e.status.toLowerCase().replaceAll("_", " ")}</small>
+                  )}
                   <b>↗</b>
                 </span>
               )}

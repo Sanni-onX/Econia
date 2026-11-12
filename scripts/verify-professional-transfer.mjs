@@ -1,0 +1,33 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {Account,JsonRpcProvider,actions,teraToGas} from 'near-api-js';
+import {openAgentStore} from '../packages/agent-runtime/store.mjs';
+import {createProfessionalRuntime} from '../packages/agent-runtime/runtime.mjs';
+import {createProfessionalTestnet} from '../packages/near/professional-testnet.mjs';
+if(!process.argv.includes('--testnet'))throw Error('Explicit testnet verification required');
+const contractWallet=JSON.parse(readFileSync('.private/econia-2-testnet-wallet.json','utf8')),owner=JSON.parse(readFileSync('.private/near-testnet-wallet.json','utf8')),client=JSON.parse(readFileSync('.private/econia-2-demo-client.json','utf8'));
+if([contractWallet,owner,client].some(w=>w.network!=='testnet'||!w.accountId.endsWith('.testnet')))throw Error('Testnet identities required');
+const provider=new JsonRpcProvider({url:process.env.NEAR_TESTNET_RPC_URL||'https://test.rpc.fastnear.com'},{retries:3,wait:500,backoff:1.5});
+if(await provider.getNetworkId()!=='testnet')throw Error('RPC mismatch');
+const chain=await createProfessionalTestnet({contract:contractWallet.accountId,provider}),id='person_022',store=openAgentStore({path:'.data/professional-transfer-commissioning.sqlite'});
+const runtime=createProfessionalRuntime({store,resolveOwnership:chain.resolveOwnership,inference:{ready:false}}),transactions=[];
+const call=async(wallet,method,args,deposit)=>{const r=await new Account(wallet.accountId,provider,wallet.secretKey).signAndSendTransaction({receiverId:contractWallet.accountId,actions:[actions.functionCall(method,args,teraToGas('80'),deposit)],waitUntil:'FINAL'});if(!Object.hasOwn(r.status||{},'SuccessValue'))throw Error('Controlled testnet transfer step failed');transactions.push({method,hash:r.transaction.hash});return r.transaction.hash;};
+try{
+ const before=await chain.view('get_professional',{agent_id:id}),token=await chain.view('nft_token',{token_id:id});
+ if(token.owner_id!==owner.accountId)throw Error('Unexpected owner: review any interrupted transfer before proceeding');
+ const privateThread=await runtime.conversations.open(id,owner.accountId,'OWNER');
+ store.db.prepare('INSERT INTO messages VALUES(?,?,?,?,?,?,?,?,?,?)').run('transfer-private-owner-note',privateThread.id,owner.accountId,id,'CLIENT_MESSAGE','Controlled private owner strategy; this text must not transfer with the NFT.',null,'transfer-private-owner-note','DELIVERED',store.now());
+ await call(owner,'provide_capital',{agent_id:id},10n**21n);
+ await call(owner,'authorize_budget',{agent_id:id,remaining:'1000000000000000000000',per_job:'1000000000000000000000',allowed_services:['csv-audit'],auto_accept:false},1n);
+ const funded=await chain.view('get_professional',{agent_id:id});
+ await call(owner,'nft_transfer',{token_id:id,receiver_id:client.accountId},1n);
+ const moved=await chain.resolveOwnership(id),after=await chain.view('get_professional',{agent_id:id}),policy=await chain.view('get_policy',{agent_id:id});
+ if(moved.ownerId!==client.accountId||policy!==null||after.treasury!==funded.treasury||after.profession!==before.profession||JSON.stringify(after.services)!==JSON.stringify(before.services))throw Error('Transfer failed to preserve identity/capital or revoke policy');
+ let oldDenied=false;try{await runtime.conversations.messages(privateThread.id,owner.accountId);}catch(e){oldDenied=/owner only/.test(e.message);}if(!oldDenied)throw Error('Prior owner retains privileged conversation access');
+ const next=await runtime.conversations.open(id,client.accountId,'OWNER'),messages=await runtime.conversations.messages(next.id,client.accountId);
+ if(next.id===privateThread.id||messages.length!==0||runtime.memory.retrieve(id,{principal:client.accountId,owner:true}).length)throw Error('Private owner context leaked to the recipient');
+ const history=store.db.prepare('SELECT prior_owner,new_owner,epoch FROM ownership_history WHERE agent_id=?').all(id);
+ await call(client,'nft_transfer',{token_id:id,receiver_id:owner.accountId},1n);
+ const restored=await chain.resolveOwnership(id);if(restored.ownerId!==owner.accountId)throw Error('Controlled fixture transfer was not restored');
+ const report={verified:true,network:'testnet',verifiedAt:store.now(),agentId:id,scope:'Controlled project-owned Genesis NFT temporarily transferred to the synthetic commissioning client and returned; actual treasury preserved, prior budget revoked, previous owner access denied and no private owner context transferred. No paid inference used.',before,treasuryAtTransfer:funded.treasury,after,policyRevoked:policy===null,oldOwnerDenied:oldDenied,newOwnerPrivateMessages:messages.length,history,transactions,returnedTo:restored.ownerId};
+ writeFileSync('docs/professional-transfer-verification.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({verified:true,agent:id,treasuryPreserved:true,privateContextTransferred:false,returnedTo:restored.ownerId}));
+}finally{await runtime.close();store.close();}

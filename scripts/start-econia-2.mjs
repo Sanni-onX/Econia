@@ -1,4 +1,19 @@
 process.env.PORT ||= "3005";
+if (!process.env.RAILWAY_PROJECT_ID) {
+  const { existsSync, readFileSync } = await import("node:fs");
+  if (existsSync(".private/econia-2-operator.json")) {
+    const operator = JSON.parse(
+      readFileSync(".private/econia-2-operator.json", "utf8"),
+    );
+    if (
+      operator.network !== "testnet" ||
+      !operator.contract.endsWith(".testnet")
+    )
+      throw Error("Testnet-only local operator required");
+    process.env.ECONIA_2_TESTNET_CONTRACT ||= operator.contract;
+    process.env.ECONIA_2_OPERATOR_KEY ||= operator.secretKey;
+  }
+}
 if (process.env.ECONIA_2_NETWORK && process.env.ECONIA_2_NETWORK !== "testnet")
   throw Error(
     "The Econia 2.0 prototype only supports valueless testnet settlement",

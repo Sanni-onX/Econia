@@ -1,0 +1,60 @@
+{
+  "verified": true,
+  "network": "testnet",
+  "verifiedAt": "2026-11-12T13:15:36.550Z",
+  "agentId": "person_022",
+  "scope": "Controlled project-owned Genesis NFT temporarily transferred to the synthetic commissioning client and returned; actual treasury preserved, prior budget revoked, previous owner access denied and no private owner context transferred. No paid inference used.",
+  "before": {
+    "profession": "infrastructure",
+    "services": [
+      "maintenance-plan"
+    ],
+    "provenance": "econia:genesis-2:person_022",
+    "treasury": "0",
+    "paused": false
+  },
+  "treasuryAtTransfer": "1000000000000000000000",
+  "after": {
+    "profession": "infrastructure",
+    "services": [
+      "maintenance-plan"
+    ],
+    "provenance": "econia:genesis-2:person_022",
+    "treasury": "1000000000000000000000",
+    "paused": false
+  },
+  "policyRevoked": true,
+  "oldOwnerDenied": true,
+  "newOwnerPrivateMessages": 0,
+  "history": [
+    {
+      "prior_owner": null,
+      "new_owner": "econia-59d0188be1.testnet",
+      "epoch": 1
+    },
+    {
+      "prior_owner": "econia-59d0188be1.testnet",
+      "new_owner": "client.econia2-575e686f5c.testnet",
+      "epoch": 2
+    }
+  ],
+  "transactions": [
+    {
+      "method": "provide_capital",
+      "hash": "FV3GMtaremqy4T84wHcKuGMeYgqCDuQYkBUQ9precFsA"
+    },
+    {
+      "method": "authorize_budget",
+      "hash": "6BmLZbD44Ecfd3Cm1BrcP6WyBDYuqr3725qpB2c5QAqG"
+    },
+    {
+      "method": "nft_transfer",
+      "hash": "Gb5DzTodF7biJqXoi4Pf1iaRWcHmA3Q3w4JY78vmRxsx"
+    },
+    {
+      "method": "nft_transfer",
+      "hash": "Fac9ELGBwptveSjHAVA7D54iQ2qvHAg8hJhopGMV8p3k"
+    }
+  ],
+  "returnedTo": "econia-59d0188be1.testnet"
+}
