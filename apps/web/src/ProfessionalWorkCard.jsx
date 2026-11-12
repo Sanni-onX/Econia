@@ -138,6 +138,9 @@ export function ProfessionalWorkCard({
         }
       </h4>
       <p>{p.scope}</p>
+      {p.source && (
+        <small>Source: {p.source.filename} · original data preserved</small>
+      )}
       <p>
         {formatNear(p.total_price || p.price)} testnet NEAR · valueless test
         assets

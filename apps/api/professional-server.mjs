@@ -232,6 +232,7 @@ export async function createProfessionalApplication(options = {}) {
       if (url.pathname === "/api/health")
         return json(res, chainIssue ? 503 : 200, {
           mode: "econia-2",
+          revision: process.env.RAILWAY_GIT_COMMIT_SHA || null,
           network: "testnet",
           inferenceReady: runtime.ready(),
           settlementReady: Boolean(chain?.ready && !chainIssue),

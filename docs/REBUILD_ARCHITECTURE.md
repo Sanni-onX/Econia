@@ -32,6 +32,8 @@ The local operator key is receiver-bound, restricted to three methods and allowa
 
 Every paid model turn reserves a daily allowance slot before inference. An uncertain request is not retried automatically. Completed structured responses are persisted; an explicitly reviewed response can be revalidated without another inference call. Interrupted financial continuations can reconcile their persisted transaction. A failed worker requires an explicit scoped revision; at most two revisions are supported.
 
+Source attachments accept up to three CSV, plain-text, Markdown or JSON files totaling 16 KB. Their original bytes and hashes are stored privately and bound to the accepted proposal; the model cannot rewrite a selected source. CSV syntax is checked before a payment request.
+
 Strategy learning means an evidence-linked, client-private advisory memory revision. It is not model-weight training. Live verification demonstrates changed output and persistence, not a randomized causal experiment.
 
 ## World and deployment
@@ -47,4 +49,4 @@ Railway requires a persistent volume mounted at `/app/.data`, one replica, the t
 - `professional-learning-verification.json`: feedback revised Dev's client strategy, identical scope/input produced a changed CSS accent, a second payment settled, and restart retained strategy/files/contracts without replaying inference.
 - `professional-transfer-verification.json`: an actual controlled NFT transfer preserved its treasury/profession, revoked policy and prior owner access, exposed no old private context, and returned the fixture NFT to its original owner. Contract tests additionally verify that an outstanding provider obligation stays assigned and settles into its treasury after transfer.
 
-NEAR AI Cloud is live. IronClaw, external Agent Market and Intents are evaluated, not integrated; see the integration matrix. The renderer currently uses existing Econia and credited scenery assets. Dynamic organizations, richer world routines, token streaming and arbitrary attachments remain extensions, not verified features. Public successor deployment is still pending private Railway configuration and final hosted checks. No hackathon entry or social post has been submitted.
+NEAR AI Cloud is live. IronClaw, external Agent Market and Intents are evaluated, not integrated; see the integration matrix. The renderer currently uses existing Econia and credited scenery assets. Dynamic organizations, richer world routines, token streaming and arbitrary binary attachments remain extensions, not verified features. The isolated Railway successor is live at https://econia-2-testnet-production.up.railway.app/ with private credentials configured; final hosted commissioning and persistence checks are in progress. No hackathon entry or social post has been submitted.

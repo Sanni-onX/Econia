@@ -40,3 +40,5 @@ CREATE TABLE IF NOT EXISTS chain_operations(operation_id TEXT PRIMARY KEY,method
 CREATE TABLE IF NOT EXISTS inference_outputs(job_id TEXT PRIMARY KEY REFERENCES runtime_jobs(id),response_json TEXT NOT NULL,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS work_revisions(id TEXT PRIMARY KEY,contract_id TEXT NOT NULL REFERENCES contracts(id),customer_id TEXT NOT NULL,feedback TEXT NOT NULL,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS chain_job_observations(contract_id TEXT NOT NULL,job_id INTEGER NOT NULL,state TEXT NOT NULL,public_json TEXT NOT NULL,block_hash TEXT NOT NULL,observed_at TEXT NOT NULL,PRIMARY KEY(contract_id,job_id));
+CREATE TABLE IF NOT EXISTS source_attachments(id TEXT PRIMARY KEY,message_id TEXT NOT NULL REFERENCES messages(id),filename TEXT NOT NULL,content_type TEXT NOT NULL,content TEXT NOT NULL,sha256 TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS proposal_sources(proposal_id TEXT PRIMARY KEY REFERENCES proposals(id),attachment_id TEXT NOT NULL REFERENCES source_attachments(id));

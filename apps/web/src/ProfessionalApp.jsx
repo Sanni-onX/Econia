@@ -59,6 +59,7 @@ export default function ProfessionalApp() {
     [busy, setBusy] = useState(false),
     [conversation, setConversation] = useState(null),
     [thread, setThread] = useState(null),
+    [sourceFiles, setSourceFiles] = useState([]),
     [message, setMessage] = useState(""),
     [requestId, setRequestId] = useState(null),
     [conversations, setConversations] = useState([]),
@@ -66,6 +67,9 @@ export default function ProfessionalApp() {
     [reduced, setReduced] = useState(
       () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     );
+  useEffect(() => {
+    setSourceFiles([]);
+  }, [conversation?.id, connection.account]);
   const signedIn = Boolean(
     session &&
     session.accountId === connection.account &&
@@ -82,7 +86,16 @@ export default function ProfessionalApp() {
         ...(body ? { body: JSON.stringify(body) } : {}),
       });
       const value = await r.json();
-      if (!r.ok) throw Error(value.error || "Request failed");
+      if (!r.ok) {
+        if (r.status === 401 && signedIn) {
+          setSession(null);
+          setConversation(null);
+          setThread(null);
+          setProposals([]);
+          setConversations([]);
+        }
+        throw Error(value.error || "Request failed");
+      }
       return value;
     },
     [signedIn, session],
@@ -284,8 +297,10 @@ export default function ProfessionalApp() {
       await request("conversations/" + conversation.id + "/messages", {
         content: message,
         requestId: key,
+        attachments: sourceFiles,
       });
       setMessage("");
+      setSourceFiles([]);
       setRequestId(null);
       setThread(await request("conversations/" + conversation.id));
     } catch (e) {
@@ -701,6 +716,12 @@ export default function ProfessionalApp() {
                               · {m.type.replaceAll("_", " ").toLowerCase()}
                             </small>
                             <p>{m.content}</p>
+                            {m.attachments?.map((f) => (
+                              <small key={f.id}>
+                                Attached source: {f.filename} · preserved
+                                original
+                              </small>
+                            ))}
                             {m.delivery_status === "INTERRUPTED" && (
                               <small>
                                 Stopped before completion. Review the issue
@@ -742,6 +763,60 @@ export default function ProfessionalApp() {
                             placeholder="Describe your goal, constraints and source material…"
                           />
                         </label>
+                        <label>
+                          Attach source material
+                          <input
+                            type="file"
+                            accept=".csv,.txt,.md,.json"
+                            multiple
+                            onChange={async (e) => {
+                              const files = [...e.target.files];
+                              try {
+                                if (
+                                  files.length > 3 ||
+                                  files.reduce((n, f) => n + f.size, 0) > 16000
+                                )
+                                  throw Error(
+                                    "Choose up to three text files totaling at most 16 KB.",
+                                  );
+                                const values = await Promise.all(
+                                  files.map(async (f) => ({
+                                    filename: f.name,
+                                    contentType: f.name
+                                      .toLowerCase()
+                                      .endsWith(".csv")
+                                      ? "text/csv"
+                                      : f.name.toLowerCase().endsWith(".md")
+                                        ? "text/markdown"
+                                        : f.name.toLowerCase().endsWith(".json")
+                                          ? "application/json"
+                                          : "text/plain",
+                                    content: await f.text(),
+                                  })),
+                                );
+                                setSourceFiles(values);
+                                setRequestId(null);
+                              } catch (err) {
+                                setNotice(err.message);
+                              }
+                              e.target.value = "";
+                            }}
+                          />
+                        </label>
+                        {sourceFiles.map((f) => (
+                          <p className="pro-small" key={f.filename}>
+                            {f.filename}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSourceFiles((v) => v.filter((x) => x !== f));
+                                setRequestId(null);
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </p>
+                        ))}
                         <button disabled={busy || !message.trim()}>
                           Send message
                         </button>

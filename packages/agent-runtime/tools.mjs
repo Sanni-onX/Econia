@@ -115,10 +115,12 @@ export function prepareTool(serviceId, input) {
   if (
     !service ||
     typeof input !== "string" ||
-    input.length < 40 ||
+    input.length < (service?.type === "csv" ? 1 : 40) ||
     input.length > 16000
   )
-    throw Error("Supported service and 40–16000 input characters required");
+    throw Error(
+      "Supported bounded service input required; CSV must include a header and data row",
+    );
   if (service.type === "csv")
     return { service, context: { input }, requiresInference: false };
   return {

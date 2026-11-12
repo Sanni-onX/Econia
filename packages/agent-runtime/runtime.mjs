@@ -20,6 +20,12 @@ const actionSchema = object({
   message: { type: "string", maxLength: 2000 },
   serviceId: { type: "string", enum: ["", ...Object.keys(SERVICES)] },
   scope: { type: "string", maxLength: 3000 },
+  sourceAttachmentId: {
+    type: "string",
+    maxLength: 100,
+    description:
+      "Exact ID of the chosen supplied source attachment; empty if none. Source bytes are copied by the runtime and must never be rewritten.",
+  },
   input: { type: "string", minLength: 0, maxLength: 16000 },
   priceYocto: string,
   collaborators: {
@@ -217,6 +223,11 @@ export function createProfessionalRuntime({
       .all(c.id)
       .reverse();
     const context = {
+      sourceAttachments: db
+        .prepare(
+          "SELECT a.id,a.message_id,a.filename,a.content_type,a.content,a.sha256 FROM source_attachments a JOIN messages m ON m.id=a.message_id WHERE m.conversation_id=? ORDER BY a.rowid DESC LIMIT 3",
+        )
+        .all(c.id),
       conversationKind: c.kind,
       history,
       memory: memory.retrieve(a.id, {
@@ -266,15 +277,35 @@ export function createProfessionalRuntime({
     });
     transaction(() => {
       if (result.action === "PROPOSE") {
+        const currentSources = context.sourceAttachments.filter(
+          (f) => f.message_id === message.id,
+        );
+        const source =
+          currentSources.length === 1
+            ? currentSources[0]
+            : result.sourceAttachmentId
+              ? context.sourceAttachments.find(
+                  (f) => f.id === result.sourceAttachmentId,
+                )
+              : null;
+        if (result.sourceAttachmentId && !source)
+          throw Error(
+            "Source attachment does not belong to this private conversation",
+          );
         const p = contracts.propose({
           conversationId: c.id,
           customerId: c.customer_id,
           providerId: a.id,
           serviceId: result.serviceId,
           scope: result.scope,
-          input: result.input,
+          input: source ? source.content : result.input,
           price: result.priceYocto,
         });
+        if (source)
+          db.prepare("INSERT INTO proposal_sources VALUES(?,?)").run(
+            p.id,
+            source.id,
+          );
         if (qualified.length)
           db.prepare("UPDATE proposals SET state='NEGOTIATING' WHERE id=?").run(
             p.id,

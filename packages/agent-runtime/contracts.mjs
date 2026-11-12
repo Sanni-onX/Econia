@@ -1,4 +1,5 @@
 import { randomUUID, createHash } from "node:crypto";
+import { analyseCsv } from "../agent-sdk/service-tools.mjs";
 import { SERVICES } from "./genesis.mjs";
 import { createVerifiedLedger } from "./ledger.mjs";
 export function createContractService(store, { settlement, enqueue, memory }) {
@@ -65,6 +66,12 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         .reduce((n, a) => n + BigInt(a.price), 0n)
         .toString(),
       buyer_agent: project?.buyer_agent || null,
+      source:
+        db
+          .prepare(
+            "SELECT a.id,a.filename,a.content_type,a.sha256 FROM proposal_sources s JOIN source_attachments a ON a.id=s.attachment_id WHERE s.proposal_id=?",
+          )
+          .get(p.id) || null,
     };
   }
   function requireProposal(id, customer) {
@@ -139,7 +146,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         scope.length < 20 ||
         scope.length > 3000 ||
         typeof input !== "string" ||
-        input.length < 40 ||
+        input.length < (service.type === "csv" ? 1 : 40) ||
         input.length > 16000 ||
         !/^\d{1,30}$/.test(price) ||
         BigInt(price) < 1n ||
@@ -148,6 +155,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         throw Error(
           "Proposal violates professional scope or published price ceiling",
         );
+      if (service.type === "csv") analyseCsv(input);
       const id = randomUUID();
       db.prepare("INSERT INTO proposals VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)").run(
         id,
@@ -182,6 +190,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
     },
     fundingRequest(id, customer) {
       const p = requireProposal(id, customer);
+      if (SERVICES[p.service_id].type === "csv") analyseCsv(p.input_text);
       if (p.state !== "PROPOSED")
         throw Error("Proposal is not available for funding");
       if (p.buyer_agent)

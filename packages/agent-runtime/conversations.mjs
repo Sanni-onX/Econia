@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 export function createConversationService(store, { ownership, enqueue }) {
   const { db, now } = store;
   async function requireConversation(id, customer) {
@@ -59,9 +59,17 @@ export function createConversationService(store, { ownership, enqueue }) {
         .prepare(
           "SELECT id,sender,recipient,type,content,job_id,delivery_status,created_at FROM messages WHERE conversation_id=? ORDER BY rowid LIMIT 200",
         )
-        .all(id);
+        .all(id)
+        .map((m) => ({
+          ...m,
+          attachments: db
+            .prepare(
+              "SELECT id,filename,content_type,sha256 FROM source_attachments WHERE message_id=? ORDER BY rowid",
+            )
+            .all(m.id),
+        }));
     },
-    async send(id, customer, { content, requestId }) {
+    async send(id, customer, { content, requestId, attachments = [] }) {
       const c = await requireConversation(id, customer);
       if (
         typeof content !== "string" ||
@@ -71,13 +79,58 @@ export function createConversationService(store, { ownership, enqueue }) {
         !/^[-a-zA-Z0-9_]{8,100}$/.test(requestId)
       )
         throw Error("A bounded message and stable request ID are required");
+      if (!Array.isArray(attachments) || attachments.length > 3)
+        throw Error("At most three text source attachments are supported");
+      let total = 0;
+      const sources = attachments.map((f) => {
+        if (
+          typeof f.filename !== "string" ||
+          !/^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,79}$/.test(f.filename) ||
+          ![
+            "text/csv",
+            "text/plain",
+            "text/markdown",
+            "application/json",
+          ].includes(f.contentType) ||
+          typeof f.content !== "string" ||
+          !f.content.trim()
+        )
+          throw Error(
+            "A named CSV, plain-text, Markdown or JSON source is required",
+          );
+        total += Buffer.byteLength(f.content, "utf8");
+        if (total > 16000)
+          throw Error("Combined source attachments must be at most 16 KB");
+        return {
+          ...f,
+          sha256: createHash("sha256").update(f.content).digest("hex"),
+        };
+      });
       const old = db
         .prepare(
           "SELECT * FROM messages WHERE conversation_id=? AND sender=? AND request_id=?",
         )
         .get(id, customer, requestId);
       if (old) {
-        if (old.content !== content) throw Error("Message request ID reused");
+        const prior = db
+          .prepare(
+            "SELECT filename,sha256,content_type AS contentType FROM source_attachments WHERE message_id=? ORDER BY rowid",
+          )
+          .all(old.id);
+        if (
+          old.content !== content ||
+          JSON.stringify(prior) !==
+            JSON.stringify(
+              sources.map((f) => ({
+                filename: f.filename,
+                sha256: f.sha256,
+                contentType: f.contentType,
+              })),
+            )
+        )
+          throw Error(
+            "Message request ID reused with changed content or sources",
+          );
         return old;
       }
       return store.transaction(() => {
@@ -94,6 +147,18 @@ export function createConversationService(store, { ownership, enqueue }) {
           "QUEUED",
           now(),
         );
+        for (const f of sources)
+          db.prepare(
+            "INSERT INTO source_attachments VALUES(?,?,?,?,?,?,?)",
+          ).run(
+            randomUUID(),
+            messageId,
+            f.filename,
+            f.contentType,
+            f.content,
+            f.sha256,
+            now(),
+          );
         enqueue(c.agent_id, "CONVERSATION", messageId);
         return db.prepare("SELECT * FROM messages WHERE id=?").get(messageId);
       });
