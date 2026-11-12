@@ -10,6 +10,7 @@ export function ProfessionalWorkCard({
   onChanged,
   artifactContent,
 }) {
+  const currency = world.network === "mainnet" ? "NEAR" : "testnet NEAR";
   const [work, setWork] = useState(null),
     [revisionFeedback, setRevisionFeedback] = useState("");
   const [files, setFiles] = useState([]),
@@ -71,7 +72,7 @@ export function ProfessionalWorkCard({
       onNotice(
         action === "funding"
           ? "Testnet escrow confirmed; work is queued."
-          : "Delivery accepted and testnet settlement confirmed.",
+          : "Delivery accepted and NEAR settlement confirmed.",
       );
       onChanged();
     } catch (e) {
@@ -142,7 +143,8 @@ export function ProfessionalWorkCard({
         <small>Source: {p.source.filename} · original data preserved</small>
       )}
       <p>
-        {formatNear(p.total_price || p.price)} testnet NEAR · valueless test
+        {formatNear(p.total_price || p.price)} {currency} ·{" "}
+        {world.network === "mainnet" ? "real funds" : "valueless test"}
         assets
       </p>
       {issue && (
@@ -176,9 +178,7 @@ export function ProfessionalWorkCard({
                 return [
                   v.message,
                   v.scope,
-                  v.priceYocto
-                    ? formatNear(v.priceYocto) + " testnet NEAR"
-                    : "",
+                  v.priceYocto ? formatNear(v.priceYocto) + " " + currency : "",
                 ]
                   .filter(Boolean)
                   .join("\n\n");
@@ -241,14 +241,14 @@ export function ProfessionalWorkCard({
         <ul>
           {p.allocations.map((a) => (
             <li key={a.allocation_index}>
-              {name(a.agent_id)} · {formatNear(a.price)} testnet NEAR
+              {name(a.agent_id)} · {formatNear(a.price)} {currency}
             </li>
           ))}
         </ul>
       )}
       {p.state === "PROPOSED" && !p.buyer_agent && world.settlementReady && (
         <button disabled={busy} onClick={() => walletAction("funding")}>
-          Review scope & testnet funding
+          Review scope & funding
         </button>
       )}
       {!world.settlementReady && (
@@ -336,7 +336,7 @@ export function ProfessionalWorkCard({
         <>
           <p className="pro-small">
             Review the deliverables before accepting. Acceptance releases the
-            testnet escrow to the contracted professionals.
+            NEAR escrow to the contracted professionals.
           </p>
           <button disabled={busy} onClick={() => walletAction("acceptance")}>
             Accept checked work in wallet

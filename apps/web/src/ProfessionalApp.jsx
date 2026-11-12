@@ -67,6 +67,8 @@ export default function ProfessionalApp() {
     [reduced, setReduced] = useState(
       () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     );
+  const network = world?.network;
+  const currency = network === "mainnet" ? "NEAR" : "testnet NEAR";
   useEffect(() => {
     setSourceFiles([]);
   }, [conversation?.id, connection.account]);
@@ -123,7 +125,10 @@ export default function ProfessionalApp() {
   useEffect(() => {
     let subscription,
       alive = true;
-    getWalletSelector("testnet")
+    if (!network) return;
+    setSelector(null);
+    setConnection({ account: null, accounts: [] });
+    getWalletSelector(network)
       .then((s) => {
         if (!alive) return;
         setSelector(s);
@@ -137,7 +142,7 @@ export default function ProfessionalApp() {
       alive = false;
       subscription?.unsubscribe();
     };
-  }, []);
+  }, [network]);
   useEffect(() => {
     setSession(null);
     setConversation(null);
@@ -223,7 +228,7 @@ export default function ProfessionalApp() {
       const c = await connectWallet(selector, id);
       if (c) setConnection(c);
     } catch (e) {
-      setNotice(walletErrorMessage(e, id, "testnet"));
+      setNotice(walletErrorMessage(e, id, network));
     } finally {
       setConnecting(null);
     }
@@ -272,7 +277,7 @@ export default function ProfessionalApp() {
     setWelcome(false);
     if (!signedIn) {
       setNotice(
-        "Connect a testnet wallet and sign in to start a private conversation.",
+        "Connect a NEAR wallet and sign in to start a private conversation.",
       );
       return;
     }
@@ -362,7 +367,9 @@ export default function ProfessionalApp() {
           ◈ ECONIA<small>A SOCIETY OF PROFESSIONALS</small>
         </a>
         <div>
-          <span className="pro-network">TESTNET</span>
+          <span className="pro-network">
+            {network?.toUpperCase() || "CONNECTING"}
+          </span>
           <button onClick={() => setWalletOpen(true)}>
             {connection.account ? short(connection.account) : "Connect wallet"}
           </button>
@@ -547,7 +554,7 @@ export default function ProfessionalApp() {
                   <h4>{s.name}</h4>
                   <p>{s.deliverable}</p>
                   <small>
-                    Published ceiling: {formatNear(s.price)} testnet NEAR
+                    Published ceiling: {formatNear(s.price)} {currency}
                   </small>
                   <button
                     onClick={() => {
@@ -599,7 +606,7 @@ export default function ProfessionalApp() {
                 <p>
                   {agent.nft.status === "NOT_DEPLOYED"
                     ? "Genesis NFT deployment is pending verification. No ownership or sponsorship is claimed."
-                    : `NEAR testnet NFT: ${agent.nft.tokenId}`}
+                    : `NEAR ${network} NFT: ${agent.nft.tokenId}`}
                 </p>
                 <p>
                   A profession is fixed. Strategy can improve through evaluated
@@ -614,9 +621,7 @@ export default function ProfessionalApp() {
               <h2>My Agents</h2>
               {!signedIn ? (
                 <>
-                  <p>
-                    Connect a testnet wallet and sign in to verify ownership.
-                  </p>
+                  <p>Connect a NEAR wallet and sign in to verify ownership.</p>
                   <button disabled={busy} onClick={login}>
                     Sign in with wallet
                   </button>
@@ -625,9 +630,8 @@ export default function ProfessionalApp() {
                 <>
                   {!world.contract ? (
                     <p>
-                      The new Genesis testnet collection has not been
-                      commissioned yet. Existing mainnet NFTs are not relabeled
-                      as testnet identities.
+                      The professional NFT collection has not been verified on
+                      this network yet.
                     </p>
                   ) : (
                     <p>
@@ -895,7 +899,7 @@ export default function ProfessionalApp() {
             className="pro-wallet-modal"
             role="dialog"
             aria-modal="true"
-            aria-label="Connect NEAR testnet wallet"
+            aria-label={`Connect NEAR ${network} wallet`}
           >
             <button
               className="pro-close"
@@ -918,7 +922,7 @@ export default function ProfessionalApp() {
               }}
               onAccount={(account) => setConnection((c) => ({ ...c, account }))}
               error=""
-              network="testnet"
+              network={network}
             />
             {connection.account && (
               <button

@@ -9,30 +9,49 @@ import {
   PROFESSIONS,
 } from "../../packages/agent-runtime/genesis.mjs";
 import { createServiceAuth } from "../../packages/agent-sdk/service-auth.mjs";
-import { createProfessionalTestnet } from "../../packages/near/professional-testnet.mjs";
+import { createProfessionalChain } from "../../packages/near/professional-testnet.mjs";
+import { assertNetwork } from "../../packages/agent-runtime/network.mjs";
 import { createVerifiedLedger } from "../../packages/agent-runtime/ledger.mjs";
 export async function createProfessionalApplication(options = {}) {
+  const network = assertNetwork(
+    options.network || process.env.ECONIA_2_NETWORK || "testnet",
+  );
+  const contract =
+    options.contract ||
+    (network === "mainnet"
+      ? process.env.ECONIA_2_MAINNET_CONTRACT
+      : process.env.ECONIA_2_TESTNET_CONTRACT);
+  if (network === "mainnet" && !contract)
+    throw Error("Explicit mainnet contract required");
   const store =
     options.store ||
     openAgentStore({
-      path: process.env.ECONIA_2_DATABASE_PATH || ".data/econia-2.sqlite",
+      path:
+        process.env.ECONIA_2_DATABASE_PATH ||
+        `.data/econia-2-${network}.sqlite`,
+      network,
+      contract,
     });
+  if (store.network !== network)
+    throw Error("Runtime and database networks differ");
   const provider =
     options.provider ||
     new JsonRpcProvider(
       {
         url:
-          process.env.NEAR_TESTNET_RPC_URL || "https://test.rpc.fastnear.com",
+          network === "mainnet"
+            ? process.env.NEAR_MAINNET_RPC_URL ||
+              "https://rpc.mainnet.fastnear.com"
+            : process.env.NEAR_TESTNET_RPC_URL ||
+              "https://test.rpc.fastnear.com",
       },
       { retries: 3, wait: 500, backoff: 1.5 },
     );
-  const contract = options.contract || process.env.ECONIA_2_TESTNET_CONTRACT;
-  if (contract && !contract.endsWith(".testnet"))
-    throw Error("Econia 2.0 only accepts an explicit testnet contract");
   const chain =
     options.settlement ||
     (contract
-      ? await createProfessionalTestnet({
+      ? await createProfessionalChain({
+          network,
           contract,
           provider,
           operatorKey: process.env.ECONIA_2_OPERATOR_KEY,
@@ -107,7 +126,7 @@ export async function createProfessionalApplication(options = {}) {
                 id,
                 "ONCHAIN_WORK_COMPLETED",
                 chain.contract + ":" + row.id,
-                "Completed professional work and settlement were observed on finalized NEAR testnet.",
+                "Completed professional work and settlement were observed on finalized NEAR.",
               );
           }
         });
@@ -128,7 +147,7 @@ export async function createProfessionalApplication(options = {}) {
       registry = await chain.readRegistry(store.agents());
       chainIssue = null;
     } catch (e) {
-      chainIssue = "Finalized testnet identity reconciliation is unavailable";
+      chainIssue = "Finalized identity reconciliation is unavailable";
     }
   }
   await refreshRegistry();
@@ -146,8 +165,7 @@ export async function createProfessionalApplication(options = {}) {
         : undefined,
       inference: options.inference,
     });
-  const auth =
-    options.auth || createServiceAuth({ network: "testnet", provider });
+  const auth = options.auth || createServiceAuth({ network, provider });
   const allowedOrigins = new Set(
     [
       ...(process.env.ALLOWED_ORIGINS || "").split(",").filter(Boolean),
@@ -189,7 +207,7 @@ export async function createProfessionalApplication(options = {}) {
         ? {
             contract,
             tokenId: a.id,
-            network: "testnet",
+            network,
             status:
               registry && !chainIssue ? "VERIFIED" : "OWNERSHIP_CHECK_REQUIRED",
           }
@@ -202,7 +220,7 @@ export async function createProfessionalApplication(options = {}) {
         : null,
     }));
     return {
-      network: "testnet",
+      network,
       generation: "genesis-2",
       agents,
       places: agents.map((a) => ({
@@ -228,12 +246,12 @@ export async function createProfessionalApplication(options = {}) {
     try {
       const url = new URL(req.url, "http://localhost");
       if (url.pathname === "/api/config")
-        return json(res, 200, { mode: "professional", network: "testnet" });
+        return json(res, 200, { mode: "professional", network });
       if (url.pathname === "/api/health")
         return json(res, chainIssue ? 503 : 200, {
           mode: "econia-2",
           revision: process.env.RAILWAY_GIT_COMMIT_SHA || null,
-          network: "testnet",
+          network,
           inferenceReady: runtime.ready(),
           settlementReady: Boolean(chain?.ready && !chainIssue),
         });
@@ -320,7 +338,7 @@ export async function createProfessionalApplication(options = {}) {
             action = ownerRoute[2];
           if (!chain || chainIssue)
             throw Object.assign(
-              Error("Verified testnet infrastructure is unavailable"),
+              Error("Verified infrastructure is unavailable"),
               { status: 503 },
             );
           if (action !== "confirm-transfer")
@@ -368,7 +386,7 @@ export async function createProfessionalApplication(options = {}) {
                     .prepare("INSERT INTO receipts VALUES(?,?,?,?,?,?,?)")
                     .run(
                       receipt.hash,
-                      "testnet",
+                      network,
                       receipt.contract,
                       receipt.method,
                       receipt.signer,
@@ -389,8 +407,8 @@ export async function createProfessionalApplication(options = {}) {
                       : "OWNER_AUTHORIZED_BUDGET",
                     receipt.hash,
                     action === "confirm-capital"
-                      ? "Owner-provided testnet working capital was verified."
-                      : "The current owner approved an enforceable testnet operating budget.",
+                      ? "Owner-provided working capital was verified."
+                      : "The current owner approved an enforceable operating budget.",
                   );
                 }
               });

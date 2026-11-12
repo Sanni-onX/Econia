@@ -1,4 +1,4 @@
-//! Testnet-only professional identities and protected, explicitly authorized service escrow.
+//! Professional NFT identities and protected, explicitly authorized native NEAR escrow.
 use near_contract_standards::non_fungible_token::{
     approval::NonFungibleTokenApproval,
     core::{NonFungibleTokenCore, NonFungibleTokenResolver},
@@ -52,6 +52,58 @@ pub struct ServiceJob {
     pub total: U128,
     pub deadline: u64,
     pub state: String,
+}
+// Exact Borsh layout of the deployed native-world v1. Never use the new layout
+// to decode an old state, or reuse its agent-value prefix for Professionals.
+#[near(serializers=[borsh])]
+#[cfg(feature = "native-migration")]
+pub struct LegacyAgent {
+    treasury: U128,
+    capital_received: U128,
+    paused: bool,
+    provenance: String,
+}
+#[near(serializers=[borsh])]
+#[cfg(feature = "native-migration")]
+pub struct LegacyJob {
+    customer: AccountId,
+    agent_id: String,
+    payment: U128,
+    deadline: u64,
+    delivered: bool,
+    evidence: Option<String>,
+}
+#[near(serializers=[borsh])]
+#[cfg(feature = "native-migration")]
+pub struct LegacyWorld {
+    owner: AccountId,
+    operator: AccountId,
+    tokens: NonFungibleToken,
+    agents: LookupMap<String, LegacyAgent>,
+    jobs: LookupMap<u64, LegacyJob>,
+    refunds: LookupMap<AccountId, u128>,
+    next_job: u64,
+    treasury_total: u128,
+    job_total: u128,
+    refund_total: u128,
+    last_batch: u64,
+    paused: bool,
+}
+#[near(serializers=[json])]
+#[cfg(feature = "native-migration")]
+pub struct GenesisProfile {
+    pub agent_id: String,
+    pub name: String,
+    pub profession: String,
+    pub services: Vec<String>,
+    pub provenance: String,
+}
+fn network() -> &'static str {
+    if env::current_account_id().as_str().ends_with(".testnet") {
+        "testnet"
+    } else {
+        "mainnet"
+    }
 }
 #[ext_contract(ext_self)]
 pub trait RefundCallback {
@@ -228,10 +280,6 @@ impl ProfessionalWorld {
 impl ProfessionalWorld {
     #[init]
     pub fn new(owner_id: AccountId, operator_id: AccountId) -> Self {
-        require!(
-            env::current_account_id().as_str().ends_with(".testnet"),
-            "Testnet-only prototype"
-        );
         Self {
             owner: owner_id.clone(),
             operator: operator_id,
@@ -247,6 +295,129 @@ impl ProfessionalWorld {
             refund_total: 0,
             execution_storage: 0,
         }
+    }
+    /// Atomic upgrade only for the paused, unused native-world release. All
+    /// NFT ownership, metadata and approvals survive. Old virtual identities
+    /// remain transferable but cannot sell services or consume inference.
+    #[private]
+    #[init(ignore_state)]
+    #[cfg(feature = "native-migration")]
+    pub fn migrate_native(profiles: Vec<GenesisProfile>, expected_supply: u64) -> Self {
+        require!(
+            env::predecessor_account_id() == env::current_account_id(),
+            "Private migration only"
+        );
+        let mut old: LegacyWorld = env::state_read().expect("Legacy native state required");
+        require!(
+            old.owner == env::current_account_id(),
+            "Self-owned legacy release required"
+        );
+        require!(
+            old.paused
+                && old.next_job == 0
+                && old.treasury_total == 0
+                && old.job_total == 0
+                && old.refund_total == 0,
+            "Paused legacy release with no financial obligations required"
+        );
+        require!(
+            old.tokens.owner_by_id.len() == expected_supply && expected_supply <= 100,
+            "Legacy supply mismatch"
+        );
+        require!(
+            !profiles.is_empty() && profiles.len() <= 32,
+            "Bounded Genesis profiles required"
+        );
+        let ids: Vec<String> = old.tokens.owner_by_id.iter().map(|(id, _)| id).collect();
+        let mut agents: LookupMap<String, Professional> = LookupMap::new(b"g");
+        for id in ids {
+            let prior = old.agents.remove(&id).expect("Legacy agent missing");
+            require!(
+                prior.treasury.0 == 0,
+                "Legacy treasury must not be discarded"
+            );
+            // Release obsolete, unfunded virtual-role records. Their NFTs and
+            // approval/metadata collections are kept verbatim, and the release
+            // tooling preserves the old records in the hashed backup. An NFT
+            // without a Professional record cannot receive capital or sell work.
+        }
+        let mut seen = std::collections::HashSet::new();
+        for p in profiles {
+            require!(
+                seen.insert(p.agent_id.clone())
+                    && !p.agent_id.is_empty()
+                    && p.agent_id.len() <= 64
+                    && !p.name.is_empty()
+                    && p.name.len() <= 100
+                    && !p.profession.is_empty()
+                    && p.profession.len() <= 100
+                    && p.provenance.len() <= 256
+                    && !p.services.is_empty()
+                    && p.services.len() <= 8
+                    && p.services.iter().all(|s| !s.is_empty() && s.len() <= 64),
+                "Unique bounded profile required"
+            );
+            // Existing NFTs cannot be reassigned to other people by migration.
+            if let Some(metadata) = old
+                .tokens
+                .token_metadata_by_id
+                .as_ref()
+                .and_then(|m| m.get(&p.agent_id))
+            {
+                let legacy_title = format!(
+                    "{} #{}",
+                    p.name,
+                    p.agent_id.strip_prefix("person_").unwrap_or(&p.agent_id)
+                );
+                require!(
+                    metadata.title.as_deref() == Some(p.name.as_str())
+                        || metadata.title.as_deref() == Some(legacy_title.as_str()),
+                    "Existing identity name mismatch"
+                );
+            } else {
+                old.tokens.internal_mint_with_refund(p.agent_id.clone(), old.owner.clone(), Some(TokenMetadata { title: Some(p.name), description: Some(format!("{} professional. Treasury follows the NFT; returns are not guaranteed.",p.profession)), reference: Some(p.provenance.clone()), ..Default::default() }), None);
+                near_contract_standards::non_fungible_token::events::NftMint {
+                    owner_id: &old.owner,
+                    token_ids: &[&p.agent_id],
+                    memo: Some("Econia professional Genesis; zero starting capital"),
+                }
+                .emit();
+            }
+            agents.insert(
+                &p.agent_id,
+                &Professional {
+                    profession: p.profession,
+                    services: p.services,
+                    provenance: p.provenance,
+                    treasury: U128(0),
+                    paused: false,
+                },
+            );
+        }
+        let world = Self {
+            owner: old.owner,
+            operator: env::current_account_id(),
+            tokens: old.tokens,
+            agents,
+            policies: LookupMap::new(b"p"),
+            jobs: LookupMap::new(b"j"),
+            proposal_ids: LookupMap::new(b"q"),
+            refunds: old.refunds,
+            next_job: 0,
+            treasury_total: 0,
+            escrow_total: 0,
+            refund_total: 0,
+            execution_storage: 0,
+        };
+        // All financial liabilities are zero. Protocol storage backing is
+        // enforced on this atomic receipt, after the final smaller code is
+        // deployed. Do not require both temporary upgrader code and final code
+        // storage at once. The batch ends with assert_custody_backed().
+        world.event("native_release_migrated", near_sdk::serde_json::json!({"legacy_nfts_preserved":expected_supply,"professionals":seen.len(),"network":network(),"starting_capital":"0"}));
+        world
+    }
+    pub fn assert_custody_backed(&self) {
+        self.backed();
     }
     #[payable]
     pub fn mint_professional(
@@ -280,7 +451,7 @@ impl ProfessionalWorld {
             Some(TokenMetadata {
                 title: Some(name),
                 description: Some(format!(
-                    "{} professional. Fixed Genesis identity; testnet assets have no real value.",
+                    "{} professional. Fixed Genesis identity; treasury follows the NFT. Returns are not guaranteed.",
                     profession
                 )),
                 reference: Some(provenance.clone()),
@@ -328,7 +499,7 @@ impl ProfessionalWorld {
             .filter(|p| p.owner == self.owner_of(&agent_id))
     }
     pub fn custody(&self) -> near_sdk::serde_json::Value {
-        near_sdk::serde_json::json!({"network":"testnet","asset":"NEAR","decimals":24,"treasuries":self.treasury_total.to_string(),"escrow":self.escrow_total.to_string(),"refunds":self.refund_total.to_string(),"execution_storage":self.execution_storage.to_string()})
+        near_sdk::serde_json::json!({"network":network(),"asset":"NEAR","decimals":24,"treasuries":self.treasury_total.to_string(),"escrow":self.escrow_total.to_string(),"refunds":self.refund_total.to_string(),"execution_storage":self.execution_storage.to_string()})
     }
     #[payable]
     pub fn fund_execution_storage(&mut self) {
@@ -426,7 +597,10 @@ impl ProfessionalWorld {
         let mut policy = self
             .get_policy(buyer_agent.clone())
             .expect("Current owner budget required");
-        require!(policy.owner == expected_owner, "Purchase authority changed after owner transfer");
+        require!(
+            policy.owner == expected_owner,
+            "Purchase authority changed after owner transfer"
+        );
         require!(
             total <= policy.per_job.0 && total <= policy.remaining.0,
             "Authorized spending cap exceeded"
@@ -499,7 +673,10 @@ impl ProfessionalWorld {
                 "Current buyer owner or approved acceptance operator only"
             );
             if operator_allowed {
-                require!(expected_owner.as_ref() == Some(&owner), "Acceptance authority changed after owner transfer");
+                require!(
+                    expected_owner.as_ref() == Some(&owner),
+                    "Acceptance authority changed after owner transfer"
+                );
                 require!(
                     env::attached_deposit().as_yoctonear() == 0,
                     "Restricted operator attaches no funds"
@@ -903,12 +1080,18 @@ mod tests {
         assert_eq!(pending.state, "FUNDED");
         assert_eq!(pending.allocations[1].agent_id, "dev");
         assert_eq!(pending.allocations[1].amount.0, 30);
-        assert_eq!(w.get_professional("dev".into()).unwrap().profession, "engineering");
+        assert_eq!(
+            w.get_professional("dev".into()).unwrap().profession,
+            "engineering"
+        );
         context("operator.testnet", 0, 2);
         w.deliver_service_job(id, vec!["a".repeat(64), "b".repeat(64), "c".repeat(64)]);
         context("client.testnet", 1, 3);
         w.accept_service_job(id, None);
-        assert_eq!(w.owner_of(&"dev".into()), "bob.testnet".parse::<AccountId>().unwrap());
+        assert_eq!(
+            w.owner_of(&"dev".into()),
+            "bob.testnet".parse::<AccountId>().unwrap()
+        );
         assert_eq!(w.get_professional("dev".into()).unwrap().treasury.0, 30);
         assert_eq!(w.escrow_total, 0);
     }
@@ -921,9 +1104,22 @@ mod tests {
         context("alice.testnet", 1, 0);
         w.nft_transfer("bob.testnet".parse().unwrap(), "mira".into(), None, None);
         context("bob.testnet", 1, 0);
-        w.authorize_budget("mira".into(), U128(100), U128(50), vec!["website-build".into()], true);
+        w.authorize_budget(
+            "mira".into(),
+            U128(100),
+            U128(50),
+            vec!["website-build".into()],
+            true,
+        );
         context("operator.testnet", 0, 0);
-        w.open_agent_service_job("mira".into(), "alice.testnet".parse().unwrap(), "stale-purchase".into(), "a".repeat(64), vec![allocation("dev", "website-build", 30, None)], 100);
+        w.open_agent_service_job(
+            "mira".into(),
+            "alice.testnet".parse().unwrap(),
+            "stale-purchase".into(),
+            "a".repeat(64),
+            vec![allocation("dev", "website-build", 30, None)],
+            100,
+        );
     }
     #[test]
     fn expired_work_refunds_and_failed_withdrawal_restores_credit() {
@@ -964,14 +1160,144 @@ mod tests {
         );
     }
     #[test]
-    #[should_panic(expected = "Testnet-only prototype")]
-    fn mainnet_initialization_is_not_a_configuration_toggle() {
+    fn mainnet_initialization_reports_native_network_and_zero_liabilities() {
         let mut b = VMContextBuilder::new();
         b.current_account_id("econia.near".parse().unwrap());
         testing_env!(b.build());
-        ProfessionalWorld::new(
+        let world = ProfessionalWorld::new(
             "owner.near".parse().unwrap(),
             "operator.near".parse().unwrap(),
         );
+        assert_eq!(world.custody()["network"], "mainnet");
+        assert_eq!(world.custody()["treasuries"], "0");
+    }
+}
+
+#[cfg(all(test, feature = "native-migration"))]
+mod migration_tests {
+    use super::*;
+    use econia_native_world::EconiaNativeWorld;
+    use near_sdk::{test_utils::VMContextBuilder, testing_env};
+    fn context(caller: &str, deposit: u128) {
+        let mut b = VMContextBuilder::new();
+        b.current_account_id("release.near".parse().unwrap())
+            .predecessor_account_id(caller.parse().unwrap())
+            .signer_account_id(caller.parse().unwrap())
+            .account_balance(NearToken::from_near(1000))
+            .prepaid_gas(near_sdk::Gas::from_tgas(300))
+            .attached_deposit(NearToken::from_yoctonear(deposit));
+        testing_env!(b.build());
+    }
+    fn legacy(capital: bool, paused: bool) {
+        context("release.near", 0);
+        // Serialize the actual previous crate, not a hand-built approximation.
+        let mut w = EconiaNativeWorld::new(
+            "release.near".parse().unwrap(),
+            "release.near".parse().unwrap(),
+        );
+        for id in (101..=163).chain(std::iter::once(199)) {
+            context("release.near", 10u128.pow(24));
+            w.mint_agent(
+                format!("person_{id}"),
+                "owner.near".parse().unwrap(),
+                if id == 199 {
+                    "Mira #199".into()
+                } else {
+                    format!("Legacy #{id}")
+                },
+                "native-genesis".into(),
+            );
+        }
+        context("owner.near", 10u128.pow(24));
+        w.nft_approve("person_199".into(), "market.near".parse().unwrap(), None);
+        if capital {
+            context("release.near", 100);
+            w.provide_capital("person_199".into());
+        }
+        context("release.near", 1);
+        w.set_world_paused(paused);
+        context("release.near", 0);
+        env::state_write(&w);
+    }
+    fn profiles() -> Vec<GenesisProfile> {
+        vec![
+            GenesisProfile {
+                agent_id: "person_199".into(),
+                name: "Mira".into(),
+                profession: "hospitality".into(),
+                services: vec!["menu-plan".into()],
+                provenance: "genesis-2".into(),
+            },
+            GenesisProfile {
+                agent_id: "person_042".into(),
+                name: "Dev".into(),
+                profession: "engineering".into(),
+                services: vec!["website-build".into()],
+                provenance: "genesis-2".into(),
+            },
+        ]
+    }
+    #[test]
+    fn migrate_actual_native_layout_preserves_all_64_nfts_metadata_approvals_and_owners() {
+        legacy(false, true);
+        let old: LegacyWorld = env::state_read().unwrap();
+        let previous = old.tokens.nft_tokens(None, Some(100));
+        let w = ProfessionalWorld::migrate_native(profiles(), 64);
+        assert_eq!(w.nft_total_supply().0, 65);
+        for token in previous {
+            let current = w.nft_token(token.token_id.clone()).unwrap();
+            assert_eq!(
+                near_sdk::serde_json::to_value(&token).unwrap(),
+                near_sdk::serde_json::to_value(&current).unwrap()
+            );
+            if token.token_id != "person_199" {
+                assert!(w.get_professional(token.token_id.clone()).is_none());
+            } else {
+                assert_eq!(
+                    w.get_professional(token.token_id.clone())
+                        .unwrap()
+                        .treasury
+                        .0,
+                    0
+                );
+            }
+        }
+        assert_eq!(
+            w.nft_token("person_042".into()).unwrap().owner_id.as_str(),
+            "release.near"
+        );
+        assert_eq!(
+            w.get_professional("person_199".into()).unwrap().profession,
+            "hospitality"
+        );
+        assert_eq!(w.execution_storage, 0);
+        assert_eq!(w.custody()["network"], "mainnet");
+    }
+    #[test]
+    #[should_panic(expected = "no financial obligations")]
+    fn refuses_to_discard_any_existing_capital() {
+        legacy(true, true);
+        ProfessionalWorld::migrate_native(profiles(), 64);
+    }
+    #[test]
+    #[should_panic(expected = "no financial obligations")]
+    fn refuses_active_legacy_world() {
+        legacy(false, false);
+        ProfessionalWorld::migrate_native(profiles(), 64);
+    }
+    #[test]
+    #[should_panic(expected = "Private migration only")]
+    fn refuses_external_migration() {
+        legacy(false, true);
+        context("attacker.near", 0);
+        ProfessionalWorld::migrate_native(profiles(), 64);
+    }
+    #[test]
+    #[should_panic(expected = "identity name mismatch")]
+    fn refuses_relabeling_an_existing_identity() {
+        legacy(false, true);
+        let mut p = profiles();
+        p[0].name = "Someone Else".into();
+        ProfessionalWorld::migrate_native(p, 64);
     }
 }

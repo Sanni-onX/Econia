@@ -1,29 +1,35 @@
 process.env.PORT ||= "3005";
+const network = process.env.ECONIA_2_NETWORK || "testnet";
+if (!["testnet", "mainnet"].includes(network))
+  throw Error("Explicit NEAR network required");
 if (!process.env.RAILWAY_PROJECT_ID) {
   const { existsSync, readFileSync } = await import("node:fs");
-  if (existsSync(".private/econia-2-operator.json")) {
-    const operator = JSON.parse(
-      readFileSync(".private/econia-2-operator.json", "utf8"),
-    );
+  const path =
+    network === "mainnet"
+      ? ".private/econia-2-mainnet-operator.json"
+      : ".private/econia-2-operator.json";
+  if (existsSync(path)) {
+    const operator = JSON.parse(readFileSync(path, "utf8"));
     if (
-      operator.network !== "testnet" ||
-      !operator.contract.endsWith(".testnet")
+      operator.network !== network ||
+      (network === "mainnet" && operator.contract.endsWith(".testnet"))
     )
-      throw Error("Testnet-only local operator required");
-    process.env.ECONIA_2_TESTNET_CONTRACT ||= operator.contract;
+      throw Error("Local operator network mismatch");
+    process.env[
+      network === "mainnet"
+        ? "ECONIA_2_MAINNET_CONTRACT"
+        : "ECONIA_2_TESTNET_CONTRACT"
+    ] ||= operator.contract;
     process.env.ECONIA_2_OPERATOR_KEY ||= operator.secretKey;
   }
 }
-if (process.env.ECONIA_2_NETWORK && process.env.ECONIA_2_NETWORK !== "testnet")
-  throw Error(
-    "The Econia 2.0 prototype only supports valueless testnet settlement",
-  );
 if (process.env.RAILWAY_PROJECT_ID) {
   const { resolve, sep } = await import("node:path");
   if (!process.env.RAILWAY_VOLUME_MOUNT_PATH)
     throw Error("Persistent Railway volume required");
   const path =
-    process.env.ECONIA_2_DATABASE_PATH || "/app/.data/econia-2.sqlite";
+    process.env.ECONIA_2_DATABASE_PATH ||
+    `/app/.data/econia-2-${network}.sqlite`;
   if (
     !resolve(path).startsWith(
       resolve(process.env.RAILWAY_VOLUME_MOUNT_PATH) + sep,

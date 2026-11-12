@@ -13,12 +13,12 @@ export function createVerifiedLedger(store) {
       const receipt = store.db
         .prepare("SELECT * FROM receipts WHERE tx_hash=?")
         .get(receiptHash);
-      if (!receipt || receipt.network_id !== "testnet")
-        throw Error("Ledger entries require a verified testnet receipt");
+      if (!receipt || receipt.network_id !== store.network)
+        throw Error(`Ledger entries require a verified ${store.network} receipt`);
       for (const id of [debit, credit])
         store.db
           .prepare("INSERT OR IGNORE INTO accounts VALUES(?,?,?)")
-          .run(id, "testnet", "near:testnet:NEAR");
+          .run(id, store.network, `near:${store.network}:NEAR`);
       const old = store.db
         .prepare(
           "SELECT amount FROM ledger_transfers WHERE receipt_hash=? AND debit=? AND credit=?",

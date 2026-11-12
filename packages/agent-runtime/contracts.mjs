@@ -8,9 +8,9 @@ export function createContractService(store, { settlement, enqueue, memory }) {
   function reconcileProfessionalHistory() {
     const settled = db
       .prepare(
-        "SELECT a.*,p.provider_id,p.service_id,j.buyer_agent,r.tx_hash FROM contract_allocations a JOIN contracts c ON c.id=a.contract_id JOIN proposals p ON p.id=c.proposal_id JOIN contracts root ON root.id=a.root_contract JOIN receipts r ON r.tx_hash=root.settlement_tx AND r.network_id='testnet' LEFT JOIN agent_projects j ON j.proposal_id=root.proposal_id WHERE c.state='SETTLED'",
+        "SELECT a.*,p.provider_id,p.service_id,j.buyer_agent,r.tx_hash FROM contract_allocations a JOIN contracts c ON c.id=a.contract_id JOIN proposals p ON p.id=c.proposal_id JOIN contracts root ON root.id=a.root_contract JOIN receipts r ON r.tx_hash=root.settlement_tx AND r.network_id=? LEFT JOIN agent_projects j ON j.proposal_id=root.proposal_id WHERE c.state='SETTLED'",
       )
-      .all();
+      .all(store.network);
     db.prepare("UPDATE relationships SET completed=0").run();
     for (const row of settled) {
       const buyer = row.parent_contract
@@ -30,7 +30,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         content:
           "Checked " +
           row.service_id +
-          " work was accepted and settled on NEAR testnet. Private brief and client records remain separately scoped.",
+          " work was accepted and settled on NEAR. Private brief and client records remain separately scoped.",
         sourceType: "verified-settlement",
         sourceId: row.contract_id,
       });
@@ -166,8 +166,8 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         scope,
         input,
         price,
-        "near:testnet:NEAR",
-        "testnet",
+        `near:${store.network}:NEAR`,
+        store.network,
         "PROPOSED",
         parentId,
         now(),
@@ -176,7 +176,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         providerId,
         "AGENT_SENT_PROPOSAL",
         id,
-        "A professional submitted a scoped testnet service proposal.",
+        "A professional submitted a scoped service proposal.",
       );
       return requireProposal(id, customerId);
     },
@@ -210,9 +210,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         throw Error("Collaborator quotations must be reviewed before funding");
       if (!settlement?.ready || !settlement?.prepareFunding)
         throw Object.assign(
-          Error(
-            "Testnet escrow is not commissioned; no payment has been requested",
-          ),
+          Error("escrow is not commissioned; no payment has been requested"),
           { status: 503 },
         );
       return settlement.prepareFunding(p);
@@ -243,7 +241,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
           ? settlement?.verifyAgentFunding
           : settlement?.verifyFunding)
       )
-        throw Error("Testnet funding verifier unavailable");
+        throw Error("funding verifier unavailable");
       const receipt = await (
         p.buyer_agent ? settlement.verifyAgentFunding : settlement.verifyFunding
       )({
@@ -252,7 +250,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         customer,
       });
       if (
-        receipt.network !== "testnet" ||
+        receipt.network !== store.network ||
         receipt.signer !== (p.buyer_agent ? settlement.contract : customer) ||
         receipt.proposalId !== p.id ||
         receipt.agentId !== p.provider_id ||
@@ -265,7 +263,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         const id = randomUUID();
         db.prepare("INSERT INTO receipts VALUES(?,?,?,?,?,?,?)").run(
           receipt.hash,
-          "testnet",
+          store.network,
           receipt.contract,
           p.buyer_agent ? "open_agent_service_job" : "post_service_job",
           receipt.signer,
@@ -340,7 +338,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
           p.provider_id,
           "CONTRACT_FUNDED",
           id,
-          "Testnet escrow funding verified; professional execution queued.",
+          "escrow funding verified; professional execution queued.",
         );
         return requireContract(id, customer);
       });
@@ -511,7 +509,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
       )
         throw Error("All checked project deliveries required");
       if (!settlement?.prepareAcceptance)
-        throw Error("Testnet acceptance adapter unavailable");
+        throw Error("acceptance adapter unavailable");
       return settlement.prepareAcceptance(c);
     },
     async confirmAcceptance(id, customer, transactionHash, operator = false) {
@@ -526,16 +524,14 @@ export function createContractService(store, { settlement, enqueue, memory }) {
         c.root_contract !== c.id ||
         !settlement?.verifyAcceptance
       )
-        throw Error(
-          "Checked delivery and verified testnet settlement required",
-        );
+        throw Error("Checked delivery and verified settlement required");
       const receipt = await settlement.verifyAcceptance({
         contract: c,
         customer: c.buyer_agent && operator ? settlement.contract : customer,
         transactionHash,
       });
       if (
-        receipt.network !== "testnet" ||
+        receipt.network !== store.network ||
         ![customer, ...(c.buyer_agent ? [settlement.contract] : [])].includes(
           receipt.signer,
         ) ||
@@ -546,7 +542,7 @@ export function createContractService(store, { settlement, enqueue, memory }) {
       return store.transaction(() => {
         db.prepare("INSERT INTO receipts VALUES(?,?,?,?,?,?,?)").run(
           receipt.hash,
-          "testnet",
+          store.network,
           receipt.contract,
           "accept_service_job",
           receipt.signer,
@@ -586,13 +582,13 @@ export function createContractService(store, { settlement, enqueue, memory }) {
               a.agent_id,
               "PAYMENT_SETTLED",
               c.id,
-              "Checked specialist work was accepted and settled in valueless testnet assets.",
+              "Checked specialist work was accepted and settled in NEAR.",
             );
         store.event(
           c.provider_id,
           "PAYMENT_SETTLED",
           c.id,
-          "Accepted work settled in valueless NEAR testnet assets.",
+          "Accepted work settled in NEAR.",
         );
         return requireContract(id, customer);
       });

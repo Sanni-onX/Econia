@@ -137,8 +137,8 @@ export function createCollaborationService({ store, enqueue }) {
           scope,
           input,
           SERVICES[service].price,
-          "near:testnet:NEAR",
-          "testnet",
+          `near:${store.network}:NEAR`,
+          store.network,
           "NEGOTIATING",
           null,
           now(),
@@ -380,7 +380,7 @@ export function createCollaborationService({ store, enqueue }) {
           reviewer,
           "CONTRACT_AGREED",
           id,
-          "Professional scope, dependency work and testnet prices were reviewed. Funding is a separate verified step.",
+          "Professional scope, dependency work and prices were reviewed. Funding is a separate verified step.",
         );
       });
     },

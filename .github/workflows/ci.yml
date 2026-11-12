@@ -43,4 +43,5 @@ jobs:
           toolchain: 1.93.1
           targets: wasm32-unknown-unknown
       - run: cargo test --manifest-path packages/contracts/Cargo.toml --locked
+      - run: cargo test --manifest-path packages/contracts/Cargo.toml -p econia-professional-world --features native-migration --locked
       - run: cargo build --manifest-path packages/contracts/Cargo.toml --release --target wasm32-unknown-unknown --locked

@@ -13,7 +13,9 @@ const hash = (value) =>
   createHash("sha256")
     .update(typeof value === "string" ? value : JSON.stringify(value))
     .digest("hex");
-export function proposalCommitment(p) {
+export function proposalCommitment(p, network = "testnet") {
+  if (!["testnet", "mainnet"].includes(network))
+    throw Error("Explicit network required");
   return hash({
     ...(p.buyer_agent ? { buyer: p.buyer_agent, owner: p.customer_id } : {}),
     ...(p.allocations?.length > 1
@@ -34,7 +36,7 @@ export function proposalCommitment(p) {
     scope: p.scope,
     inputHash: hash(p.input_text),
     price: p.price,
-    network: "testnet",
+    network,
     asset: "NEAR",
   });
 }
@@ -61,29 +63,37 @@ const methods = [
   "open_agent_service_job",
   "accept_service_job",
 ];
-export async function createProfessionalTestnet({
+export async function createProfessionalChain({
+  network = "testnet",
   contract,
   operatorKey,
   store,
   provider = new JsonRpcProvider(
     {
-      url: process.env.NEAR_TESTNET_RPC_URL || "https://test.rpc.fastnear.com",
+      url:
+        network === "mainnet"
+          ? process.env.NEAR_MAINNET_RPC_URL ||
+            "https://rpc.mainnet.fastnear.com"
+          : process.env.NEAR_TESTNET_RPC_URL || "https://test.rpc.fastnear.com",
     },
     { retries: 3, wait: 500, backoff: 1.5 },
   ),
 } = {}) {
   if (
     typeof contract !== "string" ||
-    !contract.endsWith(".testnet") ||
+    !["testnet", "mainnet"].includes(network) ||
+    !/^[a-z0-9._-]{2,64}$/.test(contract) ||
+    (network === "testnet" && !contract.endsWith(".testnet")) ||
+    (network === "mainnet" && contract.endsWith(".testnet")) ||
     contract.length > 64 ||
-    (await provider.getNetworkId()) !== "testnet"
+    (await provider.getNetworkId()) !== network
   )
-    throw Error("Explicit NEAR testnet contract and RPC required");
+    throw Error("Explicit matching NEAR contract, network and RPC required");
   const view = (method, args = {}, blockQuery = { finality: "final" }) =>
     provider.callFunction({ contractId: contract, method, args, blockQuery });
   async function operator() {
     if (!operatorKey)
-      throw Error("Restricted testnet operator credential is not configured");
+      throw Error("Restricted operator credential is not configured");
     const publicKey = KeyPair.fromString(operatorKey).getPublicKey();
     const access = await provider.viewAccessKey({
       accountId: contract,
@@ -98,7 +108,8 @@ export async function createProfessionalTestnet({
       p.method_names.length !== methods.length ||
       methods.some((m) => !p.method_names.includes(m)) ||
       p.allowance === null ||
-      BigInt(p.allowance) > 2n * 10n ** 23n
+      BigInt(p.allowance) >
+        (network === "mainnet" ? 2n * 10n ** 22n : 2n * 10n ** 23n)
     )
       throw Error(
         "Operator must use the reviewed receiver-bound, method-restricted, allowance-capped function key",
@@ -140,7 +151,7 @@ export async function createProfessionalTestnet({
       blockId: r.transaction_outcome.block_hash,
     });
     return {
-      network: "testnet",
+      network,
       contract,
       hash: transactionHash,
       signer,
@@ -165,6 +176,8 @@ export async function createProfessionalTestnet({
   return {
     contract,
     setOperationStore(s) {
+      if (s.network !== network || (s.contract && s.contract !== contract))
+        throw Error("Operator journal belongs to another network or contract");
       journal = createDurableOperator({
         store: s,
         provider,
@@ -172,23 +185,31 @@ export async function createProfessionalTestnet({
         receiver: contract,
       });
     },
-    network: "testnet",
+    network,
     ready: Boolean(operatorKey),
     view,
     receipt,
     async readRegistry(agents) {
       const block = await provider.viewBlock({ finality: "final" }),
         query = { blockId: block.header.hash };
-      const [tokens, records, custody] = await Promise.all([
+      const [tokens, custody] = await Promise.all([
         view("nft_tokens", { from_index: "0", limit: 100 }, query),
-        view(
-          "get_professionals",
-          { agent_ids: agents.map((a) => a.id) },
-          query,
-        ),
         view("custody", {}, query),
       ]);
-      let total = 0n;
+      // Include preserved inactive NFTs in custody reconciliation, even though
+      // only the commissioned professional roster runs inference.
+      const records = await view(
+        "get_professionals",
+        { agent_ids: tokens.map((t) => t.token_id) },
+        query,
+      );
+      // Uncommissioned legacy NFTs have no professional treasury and cannot
+      // receive capital. Reconcile every stored professional, including any
+      // commissioned identities outside the active inference roster.
+      const total = Object.values(records).reduce(
+        (sum, r) => sum + BigInt(r.treasury),
+        0n,
+      );
       const identities = agents.map((a) => {
         const token = tokens.find((t) => t.token_id === a.id),
           record = records[a.id];
@@ -199,7 +220,6 @@ export async function createProfessionalTestnet({
           JSON.stringify(record.services) !== JSON.stringify(a.services)
         )
           throw Error("Genesis professional/NFT reconciliation failed");
-        total += BigInt(record.treasury);
         return {
           id: a.id,
           ownerId: token.owner_id,
@@ -207,8 +227,8 @@ export async function createProfessionalTestnet({
           paused: record.paused,
         };
       });
-      if (custody.network !== "testnet" || total !== BigInt(custody.treasuries))
-        throw Error("Testnet treasury reconciliation failed");
+      if (custody.network !== network || total !== BigInt(custody.treasuries))
+        throw Error("Treasury reconciliation failed");
       return {
         identities,
         custody,
@@ -250,19 +270,19 @@ export async function createProfessionalTestnet({
         ? {
             ownerId: token.owner_id,
             reference: block.header.hash,
-            network: "testnet",
+            network,
           }
         : null;
     },
     prepareFunding(p) {
       const allocations = allocationArgs(p);
       return nativeTransaction({
-        network: "testnet",
+        network,
         contract,
         method: "post_service_job",
         args: {
           proposal_id: p.id,
-          scope_hash: proposalCommitment(p),
+          scope_hash: proposalCommitment(p, network),
           allocations,
           deadline: Number(BigInt(Date.now() + 86400000) * 1000000n),
         },
@@ -275,7 +295,7 @@ export async function createProfessionalTestnet({
       const r = await receipt(transactionHash, customer, "post_service_job");
       if (
         r.args.proposal_id !== p.id ||
-        r.args.scope_hash !== proposalCommitment(p) ||
+        r.args.scope_hash !== proposalCommitment(p, network) ||
         JSON.stringify(r.args.allocations) !== JSON.stringify(allocationArgs(p))
       )
         throw Error("Funding scope or allocation mismatch");
@@ -287,7 +307,7 @@ export async function createProfessionalTestnet({
         job.customer !== customer ||
         job.buyer_agent !== null ||
         job.total !== (p.total_price || p.price) ||
-        job.scope_hash !== proposalCommitment(p)
+        job.scope_hash !== proposalCommitment(p, network)
       )
         throw Error("Funded onchain job mismatch");
       return {
@@ -337,7 +357,7 @@ export async function createProfessionalTestnet({
         buyer_agent: p.buyer_agent,
         expected_owner: p.customer_id,
         proposal_id: p.id,
-        scope_hash: proposalCommitment(p),
+        scope_hash: proposalCommitment(p, network),
         allocations: allocationArgs(p),
         deadline: Number(
           BigInt(Date.parse(p.created_at) + 86400000) * 1000000n,
@@ -368,7 +388,7 @@ export async function createProfessionalTestnet({
         r.args.buyer_agent !== p.buyer_agent ||
         r.args.expected_owner !== p.customer_id ||
         r.args.proposal_id !== p.id ||
-        r.args.scope_hash !== proposalCommitment(p) ||
+        r.args.scope_hash !== proposalCommitment(p, network) ||
         JSON.stringify(r.args.allocations) !== JSON.stringify(allocationArgs(p))
       )
         throw Error("Autonomous funding does not match approved manifest");
@@ -378,7 +398,7 @@ export async function createProfessionalTestnet({
         job?.buyer_agent !== p.buyer_agent ||
         job.total !== p.total_price ||
         job.proposal_id !== p.id ||
-        job.scope_hash !== proposalCommitment(p)
+        job.scope_hash !== proposalCommitment(p, network)
       )
         throw Error("Agent escrow reconciliation failed");
       return {
@@ -456,7 +476,7 @@ export async function createProfessionalTestnet({
     async prepareAcceptance(c) {
       await this.publishDelivery(c, c.evidence || [c.delivery_hash]);
       return nativeTransaction({
-        network: "testnet",
+        network,
         contract,
         method: "accept_service_job",
         args: { job_id: Number(c.chain_job_id) },
@@ -484,9 +504,9 @@ export async function createProfessionalTestnet({
     },
     prepareCapital(agentId, amount) {
       if (BigInt(parseNear(amount)) <= 0n)
-        throw Error("Positive testnet capital required");
+        throw Error("Positive capital required");
       return nativeTransaction({
-        network: "testnet",
+        network,
         contract,
         method: "provide_capital",
         args: { agent_id: agentId },
@@ -519,7 +539,7 @@ export async function createProfessionalTestnet({
           "Budget exceeds verified available capital or policy bounds",
         );
       return nativeTransaction({
-        network: "testnet",
+        network,
         contract,
         method: "authorize_budget",
         args: {
@@ -540,16 +560,20 @@ export async function createProfessionalTestnet({
     async prepareTransfer(agentId, receiver) {
       if (
         typeof receiver !== "string" ||
-        !/^([a-f0-9]{64}|[a-z0-9._-]+\.testnet)$/.test(receiver) ||
+        !(
+          network === "testnet"
+            ? /^([a-f0-9]{64}|[a-z0-9._-]+\.testnet)$/
+            : /^([a-f0-9]{64}|[a-z0-9._-]+\.near)$/
+        ).test(receiver) ||
         receiver.length > 64
       )
-        throw Error("Existing testnet account required");
+        throw Error("Existing account on the configured network required");
       await provider.viewAccount({
         accountId: receiver,
         blockQuery: { finality: "final" },
       });
       return nativeTransaction({
-        network: "testnet",
+        network,
         contract,
         method: "nft_transfer",
         args: {
@@ -564,4 +588,8 @@ export async function createProfessionalTestnet({
       return operator();
     },
   };
+}
+
+export function createProfessionalTestnet(options = {}) {
+  return createProfessionalChain({ ...options, network: "testnet" });
 }

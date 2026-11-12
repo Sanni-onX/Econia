@@ -3,11 +3,15 @@ import { readFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { randomUUID } from "node:crypto";
 import { GENESIS_AGENTS, validateGenesis } from "./genesis.mjs";
+import { assertNetwork } from "./network.mjs";
 export function openAgentStore({
   path = ".data/econia-2.sqlite",
   agents = GENESIS_AGENTS,
   now = () => new Date().toISOString(),
+  network = "testnet",
+  contract = "",
 } = {}) {
+  assertNetwork(network);
   validateGenesis(agents);
   if (path !== ":memory:") mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
@@ -25,6 +29,34 @@ export function openAgentStore({
   };
   try {
     transaction(() => {
+      db.exec(
+        "CREATE TABLE IF NOT EXISTS chain_binding(id INTEGER PRIMARY KEY CHECK(id=1),network TEXT NOT NULL,contract_id TEXT NOT NULL)",
+      );
+      const binding = db
+        .prepare("SELECT * FROM chain_binding WHERE id=1")
+        .get();
+      if (
+        binding &&
+        (binding.network !== network || binding.contract_id !== contract)
+      )
+        throw Error(
+          "Database belongs to another network or contract; use a separate database",
+        );
+      if (!binding) {
+        const networks = db
+          .prepare(
+            "SELECT network_id FROM receipts UNION SELECT network_id FROM proposals",
+          )
+          .all();
+        if (networks.some((r) => r.network_id !== network))
+          throw Error(
+            "Existing records belong to another network; use a separate database",
+          );
+        db.prepare("INSERT INTO chain_binding VALUES(1,?,?)").run(
+          network,
+          contract,
+        );
+      }
       db.prepare("INSERT OR IGNORE INTO runtime_migrations VALUES(1,?)").run(
         now(),
       );
@@ -114,6 +146,8 @@ export function openAgentStore({
     };
   };
   return {
+    network,
+    contract,
     db,
     transaction,
     now,

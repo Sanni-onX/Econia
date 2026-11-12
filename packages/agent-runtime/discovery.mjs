@@ -27,8 +27,8 @@ export function createDiscoveryService(store) {
             offers: a.services.map((id) => ({
               id,
               ...SERVICES[id],
-              asset: "near:testnet:NEAR",
-              network: "testnet",
+              asset: `near:${store.network}:NEAR`,
+              network: store.network,
             })),
             history: history || {
               completed: 0,

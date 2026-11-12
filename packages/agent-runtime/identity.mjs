@@ -4,7 +4,7 @@ export function createOwnershipService(store, { resolveOwnership } = {}) {
       store.professional(agentId);
       if (!resolveOwnership)
         throw Object.assign(
-          Error("Genesis testnet NFT deployment has not been verified"),
+          Error("Genesis NFT deployment has not been verified"),
           { status: 503 },
         );
       const result = await resolveOwnership(agentId);
@@ -12,9 +12,9 @@ export function createOwnershipService(store, { resolveOwnership } = {}) {
         !result ||
         typeof result.ownerId !== "string" ||
         !result.reference ||
-        result.network !== "testnet"
+        result.network !== store.network
       )
-        throw Error("Fresh testnet NFT ownership proof required");
+        throw Error("Fresh NFT ownership proof required");
       return store.transaction(() => {
         const previous = store.db
           .prepare("SELECT * FROM ownership WHERE agent_id=?")
@@ -44,7 +44,7 @@ export function createOwnershipService(store, { resolveOwnership } = {}) {
             agentId,
             "OWNERSHIP_OBSERVED",
             result.reference,
-            "Current testnet NFT ownership verified. Professional history is retained; private owner conversations remain restricted.",
+            "Current NFT ownership verified. Professional history is retained; private owner conversations remain restricted.",
           );
         }
         return { ownerId: result.ownerId, epoch, reference: result.reference };

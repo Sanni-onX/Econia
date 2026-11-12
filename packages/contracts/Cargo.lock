@@ -502,6 +502,7 @@ dependencies = [
 name = "econia-professional-world"
 version = "0.2.0"
 dependencies = [
+ "econia-native-world",
  "near-contract-standards",
  "near-sdk",
 ]

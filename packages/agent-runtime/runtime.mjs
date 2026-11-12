@@ -246,7 +246,7 @@ export function createProfessionalRuntime({
         history: x.history,
       })),
       financialStatus:
-        "No spending authority is conferred by this conversation. Proposals need separate testnet wallet approval and verified funding.",
+        "No spending authority is conferred by this conversation. Proposals need separate wallet approval and verified funding.",
     };
     const result = await infer(
       job,
@@ -808,9 +808,9 @@ export function createProfessionalRuntime({
     ownerBudgetEvent({ agentId, ownerId, receiptHash }) {
       const receipt = db
         .prepare(
-          "SELECT * FROM receipts WHERE tx_hash=? AND network_id='testnet' AND method='authorize_budget' AND signer=?",
+          "SELECT * FROM receipts WHERE tx_hash=? AND network_id=? AND method='authorize_budget' AND signer=?",
         )
-        .get(receiptHash, ownerId);
+        .get(receiptHash, store.network, ownerId);
       if (!receipt) throw Error("Verified owner budget receipt required");
       const old = db
         .prepare("SELECT id FROM opportunities WHERE receipt_hash=?")

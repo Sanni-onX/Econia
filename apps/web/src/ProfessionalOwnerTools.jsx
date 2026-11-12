@@ -9,6 +9,8 @@ export function ProfessionalOwnerTools({
   onChanged,
   catalog,
 }) {
+  const network = agent.nft.network;
+  const currency = network === "mainnet" ? "NEAR" : "testnet NEAR";
   const [details, setDetails] = useState(null),
     [issue, setIssue] = useState(""),
     [busy, setBusy] = useState(false),
@@ -58,7 +60,7 @@ export function ProfessionalOwnerTools({
         kind === "capital"
           ? "Testnet working capital confirmed."
           : kind === "budget"
-            ? "Operating authority confirmed on testnet."
+            ? "Operating authority confirmed on NEAR."
             : "NFT transfer confirmed; prior owner authority is revoked.",
       );
       if (kind !== "transfer") await load();
@@ -86,7 +88,7 @@ export function ProfessionalOwnerTools({
           <p>
             Working capital:{" "}
             <strong>
-              {formatNear(details.professional.treasury)} testnet NEAR
+              {formatNear(details.professional.treasury)} {currency}
             </strong>
           </p>
           <details>
@@ -112,8 +114,8 @@ export function ProfessionalOwnerTools({
           <details>
             <summary>Set an operating budget</summary>
             <p className="pro-small">
-              This permits only capped testnet service purchases. An ownership
-              transfer invalidates this grant.
+              This permits only capped service purchases. An ownership transfer
+              invalidates this grant.
             </p>
             <form
               onSubmit={(e) => {
@@ -176,7 +178,7 @@ export function ProfessionalOwnerTools({
             {details.policy && (
               <p className="pro-small">
                 Current remaining grant: {formatNear(details.policy.remaining)}{" "}
-                testnet NEAR.
+                {currency}.
               </p>
             )}
           </details>
@@ -186,7 +188,7 @@ export function ProfessionalOwnerTools({
               details.ledger.map((row) => (
                 <p className="pro-small" key={row.id}>
                   {row.debit.startsWith("agent:") ? "Expense" : "Receipt"} ·{" "}
-                  {formatNear(row.amount)} testnet NEAR · verified receipt
+                  {formatNear(row.amount)} {currency} · verified receipt
                 </p>
               ))
             ) : (
@@ -209,12 +211,16 @@ export function ProfessionalOwnerTools({
               }}
             >
               <label>
-                Existing testnet account
+                Existing {network} account
                 <input
                   required
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
-                  placeholder="recipient.testnet"
+                  placeholder={
+                    network === "mainnet"
+                      ? "recipient.near"
+                      : "recipient.testnet"
+                  }
                 />
               </label>
               <button disabled={busy || !receiver}>

@@ -36,7 +36,7 @@ export function createServiceAuth({
         message:
           network === "testnet"
             ? `Sign in to Econia 2.0 as ${accountId}. This authorizes private professional conversations and bounded inference requests. Owner actions require fresh NFT ownership checks. This does not transfer funds or change any agent's profession.`
-            : `Sign in to the Econia service workspace as ${accountId}. This authorizes task requests within the displayed trial allowance and owner brief changes. It does not transfer funds.`,
+            : `Sign in to Econia on NEAR Mainnet as ${accountId}. This authorizes private professional conversations and bounded inference requests. Owner actions require fresh NFT ownership checks. This does not transfer funds, approve spending or change any agent's profession.`,
         expires: now() + 300000,
       };
       challenges.set(c.id, c);
